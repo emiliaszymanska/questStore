@@ -1,22 +1,22 @@
 package com.company.model.user;
 
-import com.company.model.LearningModule;
+import com.company.model.ModuleType;
 
 public class Student extends User {
 
-    private LearningModule learningModule;
+    private ModuleType moduleType;
     private int experienceLevel;
 
-    public LearningModule getLearningModule() {
-        return learningModule;
+    public ModuleType getModuleType() {
+        return moduleType;
     }
 
     public int getExperienceLevel() {
         return experienceLevel;
     }
 
-    public void setLearningModule(LearningModule learningModule) {
-        this.learningModule = learningModule;
+    public void setModuleType(ModuleType moduleType) {
+        this.moduleType = moduleType;
     }
 
     public void setExperienceLevel(int experienceLevel) {
@@ -29,27 +29,27 @@ public class Student extends User {
 
     private Student(Builder builder) {
         super(builder);
-        this.learningModule = builder.learningModule;
+        this.moduleType = builder.moduleType;
         this.experienceLevel = builder.experienceLevel;
     }
 
     public static class Builder extends User.Builder<Builder> {
-        private LearningModule learningModule;
+        private ModuleType moduleType;
         private int experienceLevel;
 
         public Builder() {
         }
 
-        public LearningModule getLearningModule() {
-            return learningModule;
+        public ModuleType getModuleType() {
+            return moduleType;
         }
 
         public int getExperienceLevel() {
             return experienceLevel;
         }
 
-        public Builder withLearningModule(LearningModule learningModule) {
-            this.learningModule = learningModule;
+        public Builder withModuleType(ModuleType moduleType) {
+            this.moduleType = moduleType;
             return this;
         }
 
@@ -81,7 +81,7 @@ public class Student extends User {
                 ", password='" + password + '\'' +
                 ", isActive=" + isActive +
                 ", experienceLevel=" + experienceLevel +
-                ", learningModule=" + learningModule +
+                ", moduleType=" + moduleType +
                 '}';
     }
 }

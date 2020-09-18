@@ -3,7 +3,7 @@ package com.company.model;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum LearningModule {
+public enum ModuleType {
 
     PROGRAMMING_BASICS(1),
     JAVA_OOP(2),
@@ -12,7 +12,7 @@ public enum LearningModule {
 
     private int id;
 
-    LearningModule(int id) {
+    ModuleType(int id) {
         this.id = id;
     }
 
@@ -20,15 +20,15 @@ public enum LearningModule {
         return id;
     }
 
-    private static final Map<Integer, LearningModule> lookup = new HashMap<>();
+    private static final Map<Integer, ModuleType> lookup = new HashMap<>();
 
     static {
-        for(LearningModule env : LearningModule.values()) {
+        for(ModuleType env : ModuleType.values()) {
             lookup.put(env.getId(), env);
         }
     }
 
-    public static LearningModule get(int id) {
+    public static ModuleType get(int id) {
         return lookup.get(id);
     }
 }
