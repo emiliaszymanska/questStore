@@ -13,9 +13,10 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class QuestController implements HttpHandler {
+
     private QuestDao questDao;
 
-    public QuestController (){
+    public QuestController() {
         this.questDao = new QuestDao();
     }
 
@@ -28,14 +29,13 @@ public class QuestController implements HttpHandler {
             switch (method){
                 case "GET":
                     response = get(exchange);
-                    System.out.println(response);
+//                    System.out.println(response);
                     sendResponse(exchange, response, 200);
                     break;
-
                 case "POST":
                     break;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             response = e.getMessage();
             sendResponse(exchange, response, 404);
@@ -45,16 +45,16 @@ public class QuestController implements HttpHandler {
     private String get(HttpExchange exchange) throws ObjectNotFoundException, JsonProcessingException {
         String url = exchange.getRequestURI().getRawPath();
         String[] actions = url.split("/");
-        System.out.println("URL: " + url + " | actions: " + Arrays.toString(actions));
-        ObjectMapper objectMapper = new ObjectMapper();
+//        System.out.println("URL: " + url + " | actions: " + Arrays.toString(actions));
+        ObjectMapper mapper = new ObjectMapper();
 
         if (actions.length == 3) {
             int id = Integer.parseInt(actions[2]);
             System.out.println(id);
-            return objectMapper.writeValueAsString(questDao.getById(id));
+            return mapper.writeValueAsString(questDao.getById(id));
         }
 
-        return objectMapper.writeValueAsString(questDao.getAll());
+        return mapper.writeValueAsString(questDao.getAll());
     }
 
     private void sendResponse(HttpExchange exchange, String response, int status) throws IOException {
@@ -63,8 +63,9 @@ public class QuestController implements HttpHandler {
             exchange.getResponseHeaders().put("Access-Control-Allow-Origin", Collections.singletonList("*"));
         }
         exchange.sendResponseHeaders(status, response.getBytes().length);
-        OutputStream outputStream = exchange.getResponseBody();
-        outputStream.write(response.getBytes());
-        outputStream.close();
+
+        OutputStream os = exchange.getResponseBody();
+        os.write(response.getBytes());
+        os.close();
     }
 }
