@@ -10,7 +10,7 @@ public class Student extends User {
     private ModuleType moduleType;
     private Wallet wallet;
     private int experienceLevel;
-    private List<Quest> questList;
+    private List<Quest> quests;
 
     public ModuleType getModuleType() {
         return moduleType;
@@ -24,8 +24,8 @@ public class Student extends User {
         return wallet;
     }
 
-    public List<Quest> getQuestList() {
-        return questList;
+    public List<Quest> getQuests() {
+        return quests;
     }
 
     public void setModuleType(ModuleType moduleType) {
