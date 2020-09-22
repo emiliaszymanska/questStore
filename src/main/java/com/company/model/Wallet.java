@@ -8,10 +8,10 @@ public class Wallet {
     private int balance;
     private List<Transaction> transactionList;
 
-    public Wallet(int studentId, int balance, List<Transaction> transactionList) {
+    public Wallet(int studentId, int balance, List<Transaction> transactions) {
         this.studentId = studentId;
         this.balance = balance;
-        this.transactionList = transactionList;
+        this.transactions = transactions;
     }
 
     public Wallet() {
@@ -25,8 +25,8 @@ public class Wallet {
         return balance;
     }
 
-    public List<Transaction> getArtifactList() {
-        return transactionList;
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 
     public Wallet setStudentId(int studentId) {
