@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TransactionDao {
 
-//    public List<Transaction> getTransactionByUserId(int userId) {
+//    public List<Transaction> getTransactionByStudentId(int studentId) {
 //
 //    }
 //
