@@ -8,10 +8,10 @@ public class Wallet {
     private int balance;
     private List<Transaction> transactions;
 
-    public Wallet(int studentId, int balance, List<Transaction> transactions) {
+    public Wallet(int studentId, int balance) {
         this.studentId = studentId;
         this.balance = balance;
-        this.transactions = transactions;
+        this.transactions = new ArrayList<>;
     }
 
     public Wallet() {
@@ -36,11 +36,6 @@ public class Wallet {
 
     public Wallet setBalance(int balance) {
         this.balance = balance;
-        return this;
-    }
-
-    public Wallet setArtifactList(List<Transaction> transactionList) {
-        this.transactionList = transactionList;
         return this;
     }
 }
