@@ -1,10 +1,10 @@
 package com.company.model;
 
-import java.util.Date;
+import java.util.LocalDate;
 
 public abstract class Transaction {
 
     private int id;
     private Artifact artifact;
-    private Date purchaseDate;
+    private LocalDate purchaseDate;
 }
