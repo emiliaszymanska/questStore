@@ -6,12 +6,12 @@ public class Wallet {
 
     private int studentId;
     private int balance;
-    private List<Artifact> artifactList;
+    private List<Transaction> transactionList;
 
-    public Wallet(int studentId, int balance, List<Artifact> artifactList) {
+    public Wallet(int studentId, int balance, List<Transaction> transactionList) {
         this.studentId = studentId;
         this.balance = balance;
-        this.artifactList = artifactList;
+        this.transactionList = transactionList;
     }
 
     public Wallet() {
@@ -25,8 +25,8 @@ public class Wallet {
         return balance;
     }
 
-    public List<Artifact> getArtifactList() {
-        return artifactList;
+    public List<Transaction> getArtifactList() {
+        return transactionList;
     }
 
     public Wallet setStudentId(int studentId) {
@@ -39,8 +39,8 @@ public class Wallet {
         return this;
     }
 
-    public Wallet setArtifactList(List<Artifact> artifactList) {
-        this.artifactList = artifactList;
+    public Wallet setArtifactList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
         return this;
     }
 }

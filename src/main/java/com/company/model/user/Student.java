@@ -1,11 +1,16 @@
 package com.company.model.user;
 
 import com.company.model.ModuleType;
+import com.company.model.Quest;
+import com.company.model.Wallet;
+import java.util.List;
 
 public class Student extends User {
 
     private ModuleType moduleType;
+    private Wallet wallet;
     private int experienceLevel;
+    private List<Quest> questList;
 
     public ModuleType getModuleType() {
         return moduleType;
@@ -13,6 +18,14 @@ public class Student extends User {
 
     public int getExperienceLevel() {
         return experienceLevel;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public List<Quest> getQuestList() {
+        return questList;
     }
 
     public void setModuleType(ModuleType moduleType) {
