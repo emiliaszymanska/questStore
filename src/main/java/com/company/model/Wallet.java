@@ -6,7 +6,7 @@ public class Wallet {
 
     private int studentId;
     private int balance;
-    private List<Transaction> transactionList;
+    private List<Transaction> transactions;
 
     public Wallet(int studentId, int balance, List<Transaction> transactions) {
         this.studentId = studentId;
