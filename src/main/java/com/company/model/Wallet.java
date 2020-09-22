@@ -8,10 +8,10 @@ public class Wallet {
     private int balance;
     private List<Transaction> transactions;
 
-    public Wallet(int studentId, int balance) {
+    public Wallet(int studentId, int balance, List<Transaction> transactions) {
         this.studentId = studentId;
         this.balance = balance;
-        this.transactions = new ArrayList<>;
+        this.transactions = transactions;
     }
 
     public Wallet() {
