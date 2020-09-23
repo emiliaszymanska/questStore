@@ -1,0 +1,97 @@
+:root {
+    --fontFamily: 'Montserrat', sans-serif;
+    --flexColumn: column;
+    --flexRow: row;
+    --flex: flex;
+    --justifyContent: center;
+    --alignItems: center;
+    --fontWeight: bold;
+}
+
+* {
+    font-family: var(--fontFamily);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-image: url('../images/background.jpg');
+    background-size: cover;
+}
+
+.header > img {
+    margin-top: 2em;
+    margin-bottom: 0;
+    width: 15em;
+    height: 15em;
+}
+
+header {
+    height: 50px;
+}
+
+.mainContent {
+    margin-top: 5em;
+}
+
+.userData {
+    width: 25em;
+    box-shadow: 0.4em 0.4em 1em 0.01em rgba(0,0,0,0.30);
+    border-radius: 0.5em;
+    padding: 1.5em;
+}
+
+#profileImage {
+    margin-right: 5em;
+    width: 15em;
+    height: 15em;
+    border: none;
+    border-radius: 0.5em;
+}
+
+.field {
+    width: 15em;
+    border-radius: 0.5em;
+    padding: 1em;
+    margin-top: 0.01em;
+    margin-bottom: 0.5em;
+    margin-left: 1em;
+    box-shadow: 1em 1em 1em 0.01em rgba(0,0,0,0.30);
+    border: 0.1em none;
+    outline: none;
+}
+
+.fieldPlusDescription {
+    justify-content: space-between;
+    border: none;
+}
+
+footer {
+    height: 50px;
+    margin-top: auto;
+}
+
+.field, .fieldDescription {
+    font-weight: var(--fontWeight);
+}
+
+footer, .fieldPlusDescription, .userData, .mainContent, body {
+    display: var(--flex);
+}
+
+body, .mainContent, footer {
+    justify-content: var(--justifyContent);
+}
+
+body, .userData {
+    flex-direction: var(--flexColumn);
+}
+
+body, .mainContent {
+    align-items: var(--alignItems);
+}
+
+.mainContent, .fieldPlusDescription {
+    flex-direction: var(--flexRow);
+}

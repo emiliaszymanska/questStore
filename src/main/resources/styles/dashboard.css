@@ -1,0 +1,109 @@
+:root {
+    --whiteColor: rgb(18, 23, 48);
+    --fontFamily: 'Montserrat', sans-serif;
+    --flexColumn: column;
+    --flexRow: row;
+    --flex: flex;
+    --justifyContent: center;
+    --alignItems: center;
+    --fontWeight: bold;
+}
+
+* {
+    font-family: var(--fontFamily);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-image: url("../images/background.jpg");
+    background-size: cover;
+}
+
+img {
+    height: 9em;
+    width: 9em;
+}
+
+.row {
+    margin-left: 5em;
+    margin-right: 5em;
+    margin-top: 2em;
+    flex-direction: var(--flexRow);
+}
+
+.single-card > a {
+    text-decoration: none;
+    text-align: center;
+}
+
+.card {
+    width: 15em;
+    height: 15em;
+    border-radius: 0.5em;
+    transition: 0.5s;
+    cursor: pointer;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-shadow: 10px 10px 15px rgba(173, 173, 173, 0.3);
+}
+
+.card-title-1 {
+    font-size: 18px;
+    font-weight: var(--fontWeight);
+    text-decoration: none;
+    font-style: normal;
+    color: rgb(56, 67, 82);
+}
+
+.card-text {
+    height: 40%;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.3);
+}
+  
+.card::before, .card::after {
+    border-radius: 0.5em;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: scale3d(0, 0, 1);
+    transition: transform .3s ease-out 0s;
+    background: rgba(255, 255, 255, 0.1);
+    content: '';
+    pointer-events: none;
+}
+
+.card::before {
+    transform-origin: left top;
+}
+
+.card::after {
+    transform-origin: right bottom;
+}
+
+.card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+    transform: scale3d(1, 1, 1);
+}
+
+body, .row, .card {
+    display: var(--flex);
+}
+
+body, .card {
+    flex-direction: var(--flexColumn);
+}
+
+body, .row, .card {
+    align-items: var(--alignItems);
+}
+
+body, .row {
+    justify-content: var(--justifyContent);
+}

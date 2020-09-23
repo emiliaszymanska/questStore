@@ -1,0 +1,70 @@
+:root {
+    --fontColor: rgb(29, 29, 61);
+    --fontFamily: 'Montserrat', sans-serif;
+    --flexColumn: column;
+    --flexRow: row;
+    --flex: flex;
+    --justifyContent: center;
+    --alignItems: center;
+    --fontWeight: bold;
+}
+
+* {
+    font-family: var(--fontFamily);
+}
+
+#header > img {
+    margin-top: 2em;
+    margin-bottom: 0;
+    width: 12em;
+    height: 12em;
+}
+
+.headerPlusMenu {
+    margin-left: 5em;
+    margin-right: 5em;
+    width: 65vw;
+    height: 20vh;
+    justify-content: space-between;
+    border-bottom: solid;
+    border-width: 0.3em;
+    border-color: rgb(37, 44, 68);
+}
+
+.button {
+    justify-content: right;
+    background-color: rgba(245, 245, 245, 0.473);
+    box-shadow: 0.6em 0.6em 0.6em #a7a5a5;
+    padding: 1em 3em;
+    border-radius: 0.5em;
+    text-transform: uppercase;
+    font-weight: var(--fontWeight);
+    border: none;
+    outline: none;
+}
+
+.button:hover {
+    background-color: #cecbcb;
+}
+
+footer {
+    height: 50px;
+    margin-top: auto;
+    justify-content: var(--justifyContent);
+}
+
+.headerPlusMenu, .button {
+    align-items: var(--alignItems);
+}
+
+footer, .headerPlusMenu {
+    display: var(--flex);
+}
+
+.button:hover, .button {
+    color: var(--fontColor);
+}
+
+.headerPlusMenu, .button {
+    flex-direction: var(--flexRow);
+}
