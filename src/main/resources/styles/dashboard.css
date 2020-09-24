@@ -1,5 +1,5 @@
 :root {
-    --whiteColor: rgb(18, 23, 48);
+    --fontColor: rgba(18, 23, 48, 0.7);
     --fontFamily: 'Montserrat', sans-serif;
     --flexColumn: column;
     --flexRow: row;
@@ -9,28 +9,34 @@
     --fontWeight: bold;
 }
 
-* {
-    font-family: var(--fontFamily);
-}
-
-body {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    background-image: url("../images/background.jpg");
+html {
+    height: 100%;
+    box-sizing: border-box;
+    background: url("../images/background.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-size: cover;
 }
 
-img {
-    height: 9em;
-    width: 9em;
+* {
+    font-family: var(--fontFamily);
+    color: var(--fontColor);
+    box-sizing: inherit;
+}
+
+body {
+    position: relative;
+    margin: 0;
+    padding-bottom: 6rem;
+    min-height: 100%;
 }
 
 .row {
-    margin-left: 5em;
-    margin-right: 5em;
-    margin-top: 2em;
+    min-height: 100%;
+    margin: 3em 15em 1em;
     flex-direction: var(--flexRow);
+    flex-wrap: wrap;
 }
 
 .single-card > a {
@@ -38,18 +44,30 @@ img {
     text-align: center;
 }
 
-.card {
+.dashboard-card {
     width: 15em;
     height: 15em;
     border-radius: 0.5em;
     transition: 0.5s;
     cursor: pointer;
-    padding-left: 15px;
-    padding-right: 15px;
+    margin: 0.5em 0.5em;
+    padding: 0 15px;
     box-shadow: 10px 10px 15px rgba(173, 173, 173, 0.3);
 }
 
-.card-title-1 {
+.card-set {
+    width: 17em;
+    height: 17em;
+    line-height: 0.5em;
+    border-radius: 0.5em;
+    transition: 0.5s;
+    cursor: pointer;
+    margin: 0.5em 0.5em;
+    padding: 0 15px;
+    box-shadow: 10px 10px 15px rgba(173, 173, 173, 0.3);
+}
+
+.dashboard-card-title {
     font-size: 18px;
     font-weight: var(--fontWeight);
     text-decoration: none;
@@ -57,16 +75,30 @@ img {
     color: rgb(56, 67, 82);
 }
 
+.card-set-title {
+    font-size: 16px;
+}
+
 .card-text {
     height: 40%;
 }
 
-.card:hover {
+img {
+    height: 9em;
+    width: 9em;
+}
+
+.set-of-images {
+    height: 6em;
+    width: 6em;
+}
+
+.dashboard-card:hover, .card-set:hover {
     transform: scale(1.05);
     box-shadow: 10px 10px 15px rgba(0,0,0,0.3);
 }
   
-.card::before, .card::after {
+.dashboard-card::before, .dashboard-card::after, .card-set::before, .card-set::after {
     border-radius: 0.5em;
     position: absolute;
     top: 0;
@@ -80,30 +112,37 @@ img {
     pointer-events: none;
 }
 
-.card::before {
+.dashboard-card::before, .card-set::before {
     transform-origin: left top;
 }
 
-.card::after {
+.dashboard-card::after, .card-set::after {
     transform-origin: right bottom;
 }
 
-.card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+.dashboard-card:hover::before, .dashboard-card:hover::after, .dashboard-card:focus::before, .dashboard-card:focus::after,
+.card-set:hover::before, .card-set:hover::after, .card-set:focus::before, .card-set:focus::after {
     transform: scale3d(1, 1, 1);
 }
 
-body, .row, .card {
+footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0.5rem;
+    font-size: 85%;
+}
+
+body, .row, .dashboard-card, .card-set {
     display: var(--flex);
 }
 
-body, .card {
+body, .dashboard-card, .card-set {
     flex-direction: var(--flexColumn);
-}
-
-body, .row, .card {
     align-items: var(--alignItems);
 }
 
-body, .row {
+.row, .card-set{
     justify-content: var(--justifyContent);
 }
