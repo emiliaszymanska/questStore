@@ -58,7 +58,6 @@ body {
 .card-set {
     width: 17em;
     height: 17em;
-    line-height: 0.5em;
     border-radius: 0.5em;
     transition: 0.5s;
     cursor: pointer;
@@ -83,12 +82,12 @@ body {
     height: 40%;
 }
 
-img {
+.dashboard-card-image {
     height: 9em;
     width: 9em;
 }
 
-.set-of-images {
+.card-set-image {
     height: 6em;
     width: 6em;
 }
