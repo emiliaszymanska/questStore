@@ -9,11 +9,8 @@ import java.util.List;
 
 public class MentorDao extends Dao<Mentor> {
 
-    private List<Mentor> allMentors;
-
     public MentorDao() {
         super("users");
-        this.allMentors = new ArrayList<>();
 
         selectStatement = "SELECT * FROM users WHERE id = ?";
         selectAllStatement = "SELECT * FROM users WHERE user_type_id = 2";
@@ -31,10 +28,12 @@ public class MentorDao extends Dao<Mentor> {
 
     @Override
     List<Mentor> getAllObjects(ResultSet resultSet) throws SQLException {
+        List<Mentor> mentors = new ArrayList<>();
+
         while (resultSet.next()) {
-            allMentors.add(getMentor(resultSet));
+            mentors.add(getMentor(resultSet));
         }
-        return allMentors;
+        return mentors;
     }
 
     @Override

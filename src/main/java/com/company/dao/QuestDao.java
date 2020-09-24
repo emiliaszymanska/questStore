@@ -10,12 +10,10 @@ import java.util.List;
 public class QuestDao extends Dao<Quest> {
 
     private QuestTypeDao questTypeDao;
-    private List<Quest> allQuests;
 
     public QuestDao() {
         super("quests");
         this.questTypeDao = new QuestTypeDao();
-        this.allQuests = new ArrayList<>();
 
         selectStatement = "SELECT * FROM quests WHERE id = ?";
         selectAllStatement = "SELECT * FROM quests";
@@ -33,10 +31,12 @@ public class QuestDao extends Dao<Quest> {
 
     @Override
     List<Quest> getAllObjects(ResultSet resultSet) throws SQLException {
+        List<Quest> quests = new ArrayList<>();
+
         while (resultSet.next()) {
-            allQuests.add(getQuest(resultSet));
+            quests.add(getQuest(resultSet));
         }
-        return allQuests;
+        return quests;
     }
 
     @Override

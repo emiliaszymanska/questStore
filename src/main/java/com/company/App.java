@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.controller.ArtifactController;
 import com.company.controller.QuestController;
 import com.sun.net.httpserver.HttpServer;
 
@@ -13,6 +14,7 @@ public class App {
         HttpServer server = HttpServer.create(new InetSocketAddress(8001), 0);
 
         server.createContext("/quest", new QuestController());
+        server.createContext("/artifact", new ArtifactController());
         server.setExecutor(null);
         server.start();
 

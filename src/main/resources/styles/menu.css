@@ -1,5 +1,5 @@
 :root {
-    --fontColor: rgb(29, 29, 61);
+    --fontColor: rgba(18, 23, 48, 0.8);
     --fontFamily: 'Montserrat', sans-serif;
     --flexColumn: column;
     --flexRow: row;
@@ -21,50 +21,45 @@
 }
 
 .headerPlusMenu {
-    margin-left: 5em;
-    margin-right: 5em;
     width: 65vw;
     height: 20vh;
-    justify-content: space-between;
     border-bottom: solid;
     border-width: 0.3em;
     border-color: rgb(37, 44, 68);
 }
 
 .button {
+    box-shadow: 0 1.5em 1.5em rgba(0, 0, 0, 0.3);
+    background-color: rgba(245, 245, 245, 0.4);
     justify-content: right;
-    background-color: rgba(245, 245, 245, 0.473);
-    box-shadow: 0.6em 0.6em 0.6em #a7a5a5;
     padding: 1em 3em;
     border-radius: 0.5em;
     text-transform: uppercase;
     font-weight: var(--fontWeight);
+    cursor: pointer;
     border: none;
     outline: none;
 }
 
 .button:hover {
-    background-color: #cecbcb;
+    background-color: rgba(245, 245, 245, 0.7);
 }
 
 footer {
-    height: 50px;
-    margin-top: auto;
+    text-align: center;
     justify-content: var(--justifyContent);
 }
 
 .headerPlusMenu, .button {
+    flex-direction: var(--flexRow);
+    justify-content: space-between;
     align-items: var(--alignItems);
 }
 
-footer, .headerPlusMenu {
+.headerPlusMenu, footer {
     display: var(--flex);
 }
 
-.button:hover, .button {
-    color: var(--fontColor);
-}
-
-.headerPlusMenu, .button {
-    flex-direction: var(--flexRow);
-}
+/*.headerPlusMenu, .button {*/
+/*    flex-direction: var(--flexRow);*/
+/*}*/
