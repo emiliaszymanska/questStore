@@ -10,12 +10,10 @@ import java.util.List;
 public class ArtifactDao extends Dao<Artifact> {
 
     private ArtifactTypeDao artifactTypeDao;
-    private List<Artifact> allArtifacts;
 
     public ArtifactDao() {
         super("artifacts");
         this.artifactTypeDao = new ArtifactTypeDao();
-        this.allArtifacts = new ArrayList<>();
 
         selectStatement = "SELECT * FROM artifacts WHERE id = ?";
         selectAllStatement = "SELECT * FROM artifacts";
@@ -33,10 +31,12 @@ public class ArtifactDao extends Dao<Artifact> {
 
     @Override
     List<Artifact> getAllObjects(ResultSet resultSet) throws SQLException {
+        List<Artifact> artifacts = new ArrayList<>();
+
         while (resultSet.next()) {
-            allArtifacts.add(getArtifact(resultSet));
+            artifacts.add(getArtifact(resultSet));
         }
-        return allArtifacts;
+        return artifacts;
     }
 
     @Override

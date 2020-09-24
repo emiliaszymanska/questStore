@@ -11,12 +11,10 @@ import java.util.List;
 public class StudentDao extends Dao<Student> {
 
     private ModuleTypeDao moduleTypeDao;
-    private List<Student> allStudents;
 
     public StudentDao() {
         super("users");
         this.moduleTypeDao = new ModuleTypeDao();
-        this.allStudents = new ArrayList<>();
 
         selectStatement = "SELECT * FROM users INNER JOIN students ON users.id = students.user_id WHERE id = ?";
         selectAllStatement = "SELECT * FROM users INNER JOIN students ON users.id = students.user_id WHERE user_type_id = 3";
@@ -38,10 +36,12 @@ public class StudentDao extends Dao<Student> {
 
     @Override
     List<Student> getAllObjects(ResultSet resultSet) throws SQLException {
+        List<Student> students = new ArrayList<>();
+
         while (resultSet.next()) {
-            allStudents.add(getStudent(resultSet));
+            students.add(getStudent(resultSet));
         }
-        return allStudents;
+        return students;
     }
 
     @Override
