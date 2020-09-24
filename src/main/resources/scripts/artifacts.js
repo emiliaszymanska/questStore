@@ -20,7 +20,7 @@ function displayArtifacts(artifacts) {
                 <img src="https://static.pexels.com/photos/7096/people-woman-coffee-meeting.jpg" alt="Photo" class="card-set-image">
                 <h5 class="card-set-text-1">${artifact.description}</h5>
                 <h5 class="card-set-text-2">Price: ${artifact.price}</h5>
-                <h5 class="card-set-text-3">Type: ${artifact.isGroup}</h5>
+                <h5 class="card-set-text-3">Is group: ${artifact.group}</h5>
             </div>
         </div>
         `;
