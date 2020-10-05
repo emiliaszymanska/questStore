@@ -2,7 +2,7 @@ package com.company.model.user;
 
 public class Mentor extends User {
 
-    private Mentor(Builder builder) {
+    public Mentor(Builder builder) {
         super(builder);
     }
 
