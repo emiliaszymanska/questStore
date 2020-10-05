@@ -5,15 +5,13 @@ import com.company.model.user.Student;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class StudentDao extends Dao<Student> {
+public class StudentDao extends UserDao {
 
     private ModuleTypeDao moduleTypeDao;
 
     public StudentDao() {
-        super("users");
+        super();
         this.moduleTypeDao = new ModuleTypeDao();
 
         selectStatement = "SELECT * FROM users INNER JOIN students ON users.id = students.user_id WHERE id = ?";
@@ -25,47 +23,11 @@ public class StudentDao extends Dao<Student> {
         deleteStatement = "DELETE FROM users WHERE id = ?";
     }
 
-    @Override
-    Student parseResultSet(ResultSet resultSet) throws SQLException {
-        return getStudent(resultSet);
+    Student parseResultSetWithAdditionalData(ResultSet resultSet) throws SQLException {
+        return getStudentWithAdditionalData(resultSet);
     }
 
-    Student parseResultSetWithoutAdditionalData(ResultSet resultSet) throws SQLException {
-        return getStudentWithoutAdditionalData(resultSet);
-    }
-
-    @Override
-    List<Student> getAllObjects(ResultSet resultSet) throws SQLException {
-        List<Student> students = new ArrayList<>();
-
-        while (resultSet.next()) {
-            students.add(getStudent(resultSet));
-        }
-        return students;
-    }
-
-    @Override
-    public void specifyPreparedStatement(Student student) throws SQLException {
-        preparedStatement.setString(1, student.getFirstName());
-        preparedStatement.setString(2, student.getLastName());
-        preparedStatement.setInt(3, student.getTypeId());
-        preparedStatement.setString(4, student.getPhoneNumber());
-        preparedStatement.setString(5, student.getEmail());
-        preparedStatement.setString(6, student.getPassword());
-        preparedStatement.setBoolean(7, student.isActive());
-    }
-
-    @Override
-    void addIdToUpdateStatement(Student student) throws SQLException {
-        preparedStatement.setInt(8, student.getId());
-    }
-
-    @Override
-    void specifyDeleteStatement(Student student) throws SQLException {
-        preparedStatement.setInt(1, student.getId());
-    }
-
-    public Student getStudentByEmailWithoutAdditionalData(String email) throws ObjectNotFoundException {
+    public Student getStudentByEmailWithAdditionalData(String email) throws ObjectNotFoundException {
         String statement = "SELECT * FROM users WHERE email = ?";
 
         try {
@@ -74,7 +36,8 @@ public class StudentDao extends Dao<Student> {
             preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            Student student = parseResultSetWithoutAdditionalData(resultSet);
+
+            Student student = parseResultSetWithAdditionalData(resultSet);
 
             resultSet.close();
             preparedStatement.close();
@@ -84,20 +47,19 @@ public class StudentDao extends Dao<Student> {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new ObjectNotFoundException("Object not found in users");
+            throw new ObjectNotFoundException("Object not found");
         }
     }
 
-    public Student getStudentByIdWithoutAdditionalData(int id) throws ObjectNotFoundException {
-        String statement = "SELECT * FROM users WHERE id = ?";
-
+    public Student getStudentByIdWithAdditionalData(int id) throws ObjectNotFoundException {
         try {
             CONNECTOR.connect();
-            preparedStatement = CONNECTOR.connection.prepareStatement(statement);
+            preparedStatement = CONNECTOR.connection.prepareStatement(selectStatement);
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            Student student = parseResultSetWithoutAdditionalData(resultSet);
+
+            Student student = parseResultSetWithAdditionalData(resultSet);
 
             resultSet.close();
             preparedStatement.close();
@@ -107,7 +69,7 @@ public class StudentDao extends Dao<Student> {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new ObjectNotFoundException("Object not found in users");
+            throw new ObjectNotFoundException("Object not found");
         }
     }
 
@@ -169,7 +131,7 @@ public class StudentDao extends Dao<Student> {
         }
     }
 
-    private Student getStudent(ResultSet resultSet) throws SQLException {
+    private Student getStudentWithAdditionalData(ResultSet resultSet) throws SQLException {
         return new Student.Builder()
                 .withId(resultSet.getInt("id"))
                 .withFirstName(resultSet.getString("first_name"))
@@ -181,19 +143,6 @@ public class StudentDao extends Dao<Student> {
                 .withIsActive(resultSet.getBoolean("is_active"))
                 .withModuleType(moduleTypeDao.getTypeById(resultSet.getInt("module_id")))
                 .withExperienceLevel(resultSet.getInt("experience_level"))
-                .build();
-    }
-
-    private Student getStudentWithoutAdditionalData(ResultSet resultSet) throws SQLException {
-        return new Student.Builder()
-                .withId(resultSet.getInt("id"))
-                .withFirstName(resultSet.getString("first_name"))
-                .withLastName(resultSet.getString("last_name"))
-                .withTypeId(resultSet.getInt("user_type_id"))
-                .withPhoneNumber(resultSet.getString("phone_number"))
-                .withEmail(resultSet.getString("email"))
-                .withPassword(resultSet.getString("password"))
-                .withIsActive(resultSet.getBoolean("is_active"))
                 .build();
     }
 }
