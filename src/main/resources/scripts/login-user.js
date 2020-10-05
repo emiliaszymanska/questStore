@@ -30,11 +30,6 @@ function login(data) {
             window.location.href = "admin.html";
 
             document.cookie = `user=${JSON.stringify(user)}`;
-
-            let div = document.createElement("div")
-
-            div.innerHTML = `<div class="text">${user.firstName}</div>`;
-
         })
         .catch(function(error) {
             alert(error)
