@@ -1,71 +1,111 @@
 :root {
-    --fontColor: rgb(47, 27, 70);
+    --fontColor: rgba(18, 23, 48, 0.9);
     --fontFamily: 'Montserrat', sans-serif;
-    --backgroundColor: rgb(250, 244, 244);
+    --fontWeight: bold;
     --flex: flex;
     --justifyContent: center;
     --alignItems: center;
-    --fontWeight: bold;
 }
 
-* {
-    font-family: var(--fontFamily);
-}
-
-img {
-    margin-top: 1em;
-    width: 20em;
-    height: 20em;
-}
-
-body {
-    position: absolute;
-    width: 50em;
-    height: 35em;
-    left: 15em;
-    right: 15em;
-    top: 2em;
-    box-shadow: 0.4em 0.4em 0.4em #cacaca;
-    background-image: url("../images/background.jpg");
+html {
+    height: 100%;
+    box-sizing: border-box;
+    background: url("../images/background.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-size: cover;
 }
 
+* {
+    color: var(--fontColor);
+    font-family: var(--fontFamily);
+    font-size: 16px;
+}
+
+body {
+    margin: 0;
+    align-content: center;
+    flex-direction: column;
+    min-height: 100%;
+}
+
 .container {
-    width: 100%;
-    flex-wrap: wrap;
+    background-color: rgba(154, 153, 153, 0.3);
     border-radius: 1em;
-    background-color: white;
-    box-shadow: 0.4em 0.4em 0.4em #cecccc;
+    box-shadow: 0 1.5em 1.5em 0.5em rgba(0, 0, 0, 0.3);
+    width: 40em;
+    height: 25em;
+}
+
+#logo-img {
+    width: 20em;
+    height: 20em;
+    margin-top: 4em;
+}
+
+#inner-container {
+    flex-direction: column;
+    margin: 3em 5em 3em 1em;
+}
+
+p {
+    margin: 0 0 1em;
+    font-size: 2.5em;
+    font-weight: var(--fontWeight);
+}
+
+#login-form {
+    flex-direction: column;
+    font-weight: var(--fontWeight);
+    /*margin: 1em 0 1em;*/
 }
 
 input {
-    font-size: 1em;
-    text-align: center;
-    border-radius: 1em;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 1.5em 1.5em rgba(0, 0, 0, 0.3);
+    padding: 0.2em 0.6em;
+    margin: 0.3em 0;
+    border-radius: 0.4em;
     outline: none;
-	border: none;
-    width: 100%;
-    height: 4em;
-    box-shadow: 0.4em 0.4em 0.4em #dadada;
+    border: none;
+    width: 12em;
+    height: 1.5em;
 }
 
-form > p {
+input::placeholder {
+    color: rgba(154, 153, 153, 0.7);
+}
+
+#login-button {
+    background-color: rgba(245, 245, 245, 0.4);
+    box-shadow: 0 1.5em 1.5em rgba(0, 0, 0, 0.3);
+    padding: 0.7em 1.5em 0.6em;
+    margin-top: 1.2em;
+    border-radius: 0.5em;
+    text-transform: uppercase;
     font-weight: var(--fontWeight);
-    font-size: 3em;
+    cursor: pointer;
+    border: none;
+    outline: none;
 }
 
-input, form > p {
-    color:var(--fontColor);
+#login-button:hover {
+    background-color: rgba(245, 245, 245, 0.6);
 }
 
-body, .container, input, form > p {
+input, #login-form {
+    color: var(--fontColor);
+}
+
+body, .container, #login-form {
     display: var(--flex);
 }
 
-.container, form > p {
+body, .container, #login-form {
     align-items: var(--alignItems);
 }
 
-.container, form > p {
+body, .container, #login-form {
     justify-content: var(--justifyContent);
 }
