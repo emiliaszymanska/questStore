@@ -45,6 +45,15 @@
     background-color: rgba(245, 245, 245, 0.7);
 }
 
+#back-button {
+    margin-right: 1em;
+    background-color: rgba(154, 153, 153, 0.4);
+}
+
+#back-button:hover {
+    background-color: rgba(245, 245, 245, 0.6);
+}
+
 footer {
     text-align: center;
     justify-content: var(--justifyContent);
@@ -58,13 +67,4 @@ footer {
 
 .headerPlusMenu, footer {
     display: var(--flex);
-}
-
-#back-button {
-    margin-right: 1em;
-    background-color: rgba(154, 153, 153, 0.4);
-}
-
-#back-button:hover {
-    background-color: rgba(245, 245, 245, 0.7);
 }

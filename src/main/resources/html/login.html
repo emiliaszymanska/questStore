@@ -1,36 +1,28 @@
 <!DOCTYPE html>
-<html>
-    <p><img src="../images/logoTransparent.png" alt="logo"/></p>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>SIGN IN</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+
+    <script src="../scripts/login-user.js" defer></script>
 
     <link rel="stylesheet" href="../styles/login.css">
-
-    <link rel="stylesheet" href="../styles/login-button.css">
 </head>
 
 <body>
     <div class="container">
-        <div class="login">
+        <img id="logo-img" src="../images/logoTransparent.png" alt="logo"/>
+        <div id="inner-container">
             <form id="login-form">
                 <p>Sign in</p>
                 <label for="login"></label><input id="login" placeholder="email" name="email">
-                <br><br>
                 <label for="password"></label><input id="password" placeholder="password" name="password">
-                <br><br><br><br>
-                <button class="Button js-button">
-                    Sign in
-                </button>
+                <button id="login-button">Sign in</button>
             </form>
         </div>
     </div>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js'></script>
-<!--    <script src="../scripts/login.js"></script>-->
-    <script src="../scripts/login-user.js"></script>
 </body>
 
 </html>
