@@ -24,12 +24,28 @@ function login(data) {
         })
         .then(function(user) {
             console.log(user);
-            if(user.typeId === 2) {
-                window.location.href = "mentor.html";
+            switch (user.typeId){
+                case 1:
+                    window.location.href = "admin.html";
+                    break;
+                case 2:
+                    window.location.href = "mentor.html";
+                    break;
+                case 3:
+                    window.location.href = "student.html";
+                    break
+                default:
+                    alert("Can't log in. Wrong email or password");
+                    window.location.href = "login.html";
+                    break;
             }
-            window.location.href = "admin.html";
 
             document.cookie = `user=${JSON.stringify(user)}`;
+
+            let div = document.createElement("div")
+
+            div.innerHTML = `<div class="text">${user.firstName}</div>`;
+
         })
         .catch(function(error) {
             alert(error)
