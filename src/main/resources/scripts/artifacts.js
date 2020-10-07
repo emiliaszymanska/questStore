@@ -28,4 +28,16 @@ function displayArtifacts(artifacts) {
     })
 }
 
+function getBoughtArtifact() {
+    fetch('http://localhost:8001/student-wallet')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(artifacts) {
+            // console.log(artifacts);
+            displayArtifacts(artifacts);
+        });
+}
+
 getArtifacts();
+getBoughtArtifact();

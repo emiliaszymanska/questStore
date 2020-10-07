@@ -12,7 +12,7 @@ form.addEventListener('submit', function(event) {
 function login(data) {
     fetch("http://localhost:8001/login",
         {
-            credentials: 'same-origin',
+            credentials: 'include',
             method: "POST",
             body: data
         })
@@ -24,27 +24,21 @@ function login(data) {
         })
         .then(function(user) {
             console.log(user);
-            switch (user.typeId){
+            switch (user.typeId) {
                 case 1:
-                    window.location.href = "admin.html";
+                    window.location.href = "../html/admin/admin.html";
                     break;
                 case 2:
-                    window.location.href = "mentor.html";
+                    window.location.href = "../html/mentor/mentor.html";
                     break;
                 case 3:
-                    window.location.href = "student.html";
+                    window.location.href = "../html/student/student.html";
                     break
                 default:
                     alert("Can't log in. Wrong email or password");
                     window.location.href = "login.html";
                     break;
             }
-
-            document.cookie = `user=${JSON.stringify(user)}`;
-
-            let div = document.createElement("div")
-
-            div.innerHTML = `<div class="text">${user.firstName}</div>`;
 
         })
         .catch(function(error) {
