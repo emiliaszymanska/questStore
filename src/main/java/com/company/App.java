@@ -15,13 +15,9 @@ public class App {
         server.createContext("/login", new LoginController(new SessionController()));
         server.createContext("/student", new StudentController(new SessionController()));
         server.createContext("/quest", new QuestController());
-
-        server.createContext("/student-wallet", new ArtifactController());
         server.createContext("/artifact", new ArtifactController());
         server.createContext("/profile", new ProfileController());
-
         server.setExecutor(null);
-
         server.start();
 
         System.out.println("Server started at " + server.getAddress().getPort());

@@ -45,6 +45,7 @@ public class LoginController implements HttpHandler {
             UUID uuid = UUID.randomUUID();
 
             sessionController.sessions.put(uuid, user);
+            System.out.println(uuid + ": " + user);
 
             userDao.updateSessionId(uuid, email, password);
 
