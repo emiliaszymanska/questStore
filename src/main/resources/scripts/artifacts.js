@@ -27,5 +27,4 @@ function displayArtifacts(artifacts) {
         container.innerHTML += node;
     })
 }
-
 getArtifacts();

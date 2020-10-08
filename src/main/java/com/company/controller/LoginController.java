@@ -16,13 +16,16 @@ import java.io.OutputStream;
 import java.net.HttpCookie;
 import java.util.Collections;
 import java.util.Map;
+import java.util.UUID;
 
 public class LoginController implements HttpHandler {
 
     private ObjectMapper mapper;
+    private SessionController sessionController;
 
-    public LoginController() {
+    public LoginController(SessionController sessionController) {
         this.mapper = new ObjectMapper();
+        this.sessionController = sessionController;
     }
 
     @Override
@@ -36,19 +39,27 @@ public class LoginController implements HttpHandler {
             String password = data.get("password");
 
             UserDao userDao = new UserDao();
+
             User user = userDao.getByEmailPassword(email, password);
+
+            UUID uuid = UUID.randomUUID();
+
+            sessionController.sessions.put(uuid, user);
+            System.out.println(uuid + ": " + user);
+
+            userDao.updateSessionId(uuid, email, password);
 
             if (user instanceof Student) {
                 StudentDao studentDao = new StudentDao();
                 user = studentDao.getStudentByIdWithAdditionalData(user.getId());
-//                ((Student) user).setModuleType();
             }
+
             String response = mapper.writeValueAsString(user);
 
             //  In cookie we should set json with user token and role instead of email
-            HttpCookie cookie = new HttpCookie("user", response);
+            HttpCookie cookie = new HttpCookie("sessionId", uuid.toString());
             exchange.getResponseHeaders().add("Set-Cookie", cookie.toString());
-            exchange.getResponseHeaders().put("Access-Control-Allow-Credentials", Collections.singletonList("true"));
+            exchange.getResponseHeaders().add("Access-Control-Allow-Credentials", "true");
 
             sendResponse(response, exchange, 200);
         } catch (Exception e) {
@@ -61,7 +72,7 @@ public class LoginController implements HttpHandler {
         if (status == 200) {
             exchange.getResponseHeaders().put("Content-type", Collections.singletonList("application/json"));
         }
-        exchange.getResponseHeaders().put("Access-Control-Allow-Origin", Collections.singletonList("*"));
+        exchange.getResponseHeaders().put("Access-Control-Allow-Origin", Collections.singletonList("http://localhost:63342"));
         exchange.sendResponseHeaders(status, response.length());
 
         OutputStream os = exchange.getResponseBody();
