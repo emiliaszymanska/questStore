@@ -8,14 +8,13 @@ public abstract class Transaction {
     private Artifact artifact;
     private LocalDate purchaseDate;
 
-    public Transaction() {
-
-    }
-
     public Transaction(int id, Artifact artifact, LocalDate purchaseDate) {
         this.id = id;
         this.artifact = artifact;
         this.purchaseDate = purchaseDate;
+    }
+
+    public Transaction() {
     }
 
     public int getId() {

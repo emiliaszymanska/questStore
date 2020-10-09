@@ -11,7 +11,6 @@ public class Payment {
     private Student student;
 
     public Payment() {
-
     }
 
     public Payment(LocalDate paymentDate, int amount, Student student) {

@@ -13,32 +13,32 @@ import java.util.List;
 
 public class TransactionDao {
 
-    private static final String selectTransactions = "SELECT ba.purchase_date, ba.id AS bought_artifact_id,"
+    private final String selectTransactions = "SELECT ba.purchase_date, ba.id AS bought_artifact_id,"
             + " ba.artifact_id AS bought_artifact_artifact_id, ba.student_id AS student_id, a.id AS artifact_id, a.name,"
             + " a.description, a.price, a.artifact_type_id, a.is_group"
             + " FROM bought_artifacts AS ba"
             + " INNER JOIN artifacts AS a ON ba.artifact_id = a.id ";
-    private static final String byStudentId = "WHERE student_id = ?;";
-    private static final String byArtifactId = "WHERE artifact_id = ?;";
+    private final String insertTransaction = "";
+    private final String byStudentId = "WHERE student_id = ?;";
+    private final String byArtifactId = "WHERE artifact_id = ?;";
     private final Connector CONNECTOR;
     private ArtifactTypeDao artifactTypeDao;
     private UserDao userDao;
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
-    private final String selectFromGroupBuyingsByBoughtArtifactId;
-    private final String insertTransaction;
 
     public TransactionDao() {
         this.CONNECTOR = new Connector();
         this.artifactTypeDao = new ArtifactTypeDao();
         this.userDao = new UserDao();
-        this.selectFromGroupBuyingsByBoughtArtifactId = "SELECT * FROM group_buying WHERE bought_artifact_id = ?;";
-        this.insertTransaction = "";
     }
-
 
     public List<Transaction> getTransactionsByStudentId(int studentId) throws ObjectNotFoundException {
         return getTransactionsById(selectTransactions + byStudentId, studentId);
+    }
+
+    public List<Transaction> getTransactionByArtifactId(int artifactId) throws ObjectNotFoundException {
+        return getTransactionsById(selectTransactions + byArtifactId, artifactId);
     }
 
     private void createTransaction(ResultSet resultSet, List<Transaction> transactions) throws SQLException {
@@ -52,7 +52,7 @@ public class TransactionDao {
 
         LocalDate purchaseDate = LocalDate.parse(resultSet.getString("purchase_date"));
 
-        if (artifact.isGroup()){
+        if (artifact.isGroup()) {
             List<Payment> paymentList = createPaymentsList(resultSet.getInt("bought_artifact_id"));
             Transaction groupTransaction = new GroupTransaction(resultSet.getInt("bought_artifact_id"),
                     artifact,
@@ -73,28 +73,28 @@ public class TransactionDao {
 
             transactions.add(singleTransaction);
         }
-
     }
 
     private List<Payment> createPaymentsList(int bought_artifact_id) throws ObjectNotFoundException {
         List<Payment> paymentList = new ArrayList<>();
+        String selectStatement = "SELECT * FROM group_buying WHERE bought_artifact_id = ?;";
 
         try {
             CONNECTOR.connect();
-            preparedStatement = CONNECTOR.connection.prepareStatement(selectFromGroupBuyingsByBoughtArtifactId);
+            preparedStatement = CONNECTOR.connection.prepareStatement(selectStatement);
             preparedStatement.setInt(1, bought_artifact_id);
-            ResultSet resultSetForPayments = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            while (resultSetForPayments.next()) {
-                LocalDate paymentDate = LocalDate.parse(resultSetForPayments.getString("payment_date"));
+            while (resultSet.next()) {
+                LocalDate paymentDate = LocalDate.parse(resultSet.getString("payment_date"));
                 Payment payment = new Payment();
-                payment.setStudent((Student) userDao.getById(resultSetForPayments.getInt("student_id")))
-                        .setAmount(resultSetForPayments.getInt("student_payment"))
+                payment.setStudent((Student) userDao.getById(resultSet.getInt("student_id")))
+                        .setAmount(resultSet.getInt("student_payment"))
                         .setPaymentDate(paymentDate);
 
                 paymentList.add(payment);
             }
-            resultSetForPayments.close();
+            resultSet.close();
             preparedStatement.close();
             CONNECTOR.connection.close();
 
@@ -130,11 +130,6 @@ public class TransactionDao {
 
         return transactions;
     }
-
-    public List<Transaction> getTransactionByArtifactId(int artifactId) throws ObjectNotFoundException {
-        return getTransactionsById(selectTransactions + byArtifactId, artifactId);
-    }
-
 
     public void addTransaction(Transaction transaction) throws ObjectNotFoundException {
         try {

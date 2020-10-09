@@ -6,13 +6,12 @@ public class SingleTransaction extends Transaction {
 
     private Payment payment;
 
-    public SingleTransaction() {
-
-    }
-
     public SingleTransaction(int id, Artifact artifact, LocalDate purchaseDate, Payment payment) {
         super(id, artifact, purchaseDate);
         this.payment = payment;
+    }
+
+    public SingleTransaction() {
     }
 
     public SingleTransaction setPayment(Payment payment) {
