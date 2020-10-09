@@ -1,10 +1,13 @@
 package com.company.controller;
 
 import com.company.dao.StudentDao;
+import com.company.dao.TransactionDao;
+import com.company.exceptions.ObjectNotFoundException;
 import com.company.model.Artifact;
 import com.company.model.Quest;
+import com.company.model.Transaction;
 import com.company.model.Wallet;
-import com.company.model.user.Student;
+import com.company.model.user.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
@@ -13,6 +16,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class StudentController implements HttpHandler {
 
@@ -21,6 +25,10 @@ public class StudentController implements HttpHandler {
     private Artifact artifact;
     private Wallet wallet;
     private Quest quest;
+    private String[] actions;
+    private String response = "";
+    private ObjectMapper mapper;
+
 
     public StudentController(SessionController sessionController) {
         this.sessionController = sessionController;
@@ -28,46 +36,19 @@ public class StudentController implements HttpHandler {
         artifact = new Artifact();
         wallet = new Wallet();
         quest = new Quest();
+        mapper = new ObjectMapper();
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
         String url = exchange.getRequestURI().getRawPath();
-        String[] actions = url.split("/");
-        for (int i = 0; i < actions.length; i++) {
-            System.out.println(actions[i]);
-        }
-
-//        String action = actions.length == 2 ? "" : actions[2].matches("\\d+") ? "details" : actions[2];
-        ObjectMapper mapper = new ObjectMapper();
-        String response = "";
+        actions = url.split("/");
 
         try {
             switch (method) {
                 case "GET":
-                    switch (actions[2]) {
-                        case "student-wallet":
-
-                            break;
-                        case "artifact":
-
-                            break;
-                        case "quest":
-                            break;
-                        case "profile":
-                            break;
-                    }
-                    switch (actions[3]) {
-
-                    }
-                    /*
-                    zalogowany student chce uzyskac informacje
-                    -wallet -> balance, level, bought artifacts -> WalletController
-                    -allQuests -> zawsze beda wszystkie dostepne z bazy danych -> QuestController
-                    -allArtifacts -> wszystkie mozliwe artefakty do kupienia -> ArtifactController
-                    -profile -> imie, nazwisko, mail, numer telefonu, moduł -> ProfileController
-                     */
+                    get(exchange);
                     break;
                 case "POST":
                     break;
@@ -75,6 +56,53 @@ public class StudentController implements HttpHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void get(HttpExchange exchange) throws IOException, ObjectNotFoundException {
+        UUID uuid = actions.length == 4 ? UUID.fromString(actions[3]) : null;
+
+        switch (actions[2]) {
+            case "wallet":
+                response = getStudentWallet(uuid);
+                break;
+            case "quests":
+                response = getStudentQuests(uuid);
+
+                break;
+            case "store":
+                response = getStudentStore(uuid);
+                break;
+            default:
+
+                break;
+        }
+
+        sendResponse(response, exchange, 200);
+    }
+
+    private void post(HttpExchange exchange) {
+
+    }
+
+
+    private String getStudentStore(UUID uuid) throws ObjectNotFoundException {
+        User student = studentDao.getBySessionId(uuid);
+
+        return "store";
+    }
+
+    private String getStudentQuests(UUID uuid) throws ObjectNotFoundException {
+        User student = studentDao.getBySessionId(uuid);
+
+        return "quest";
+    }
+
+    private String getStudentWallet(UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
+        TransactionDao transactionDao = new TransactionDao();
+
+        User student = studentDao.getBySessionId(uuid);
+        List<Transaction> transactions = transactionDao.getTransactionsByStudentId(student.getId());
+        return mapper.writeValueAsString(transactions);
     }
 
     private void sendResponse(String response, HttpExchange exchange, int status) throws IOException {
