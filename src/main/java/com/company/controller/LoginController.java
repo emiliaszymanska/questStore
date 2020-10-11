@@ -61,22 +61,10 @@ public class LoginController implements HttpHandler {
             exchange.getResponseHeaders().add("Set-Cookie", cookie.toString());
             exchange.getResponseHeaders().add("Access-Control-Allow-Credentials", "true");
 
-            sendResponse(response, exchange, 200);
+            ResponseController.sendLoginResponse(response, exchange, 200);
         } catch (Exception e) {
             e.printStackTrace();
-            sendResponse(e.getMessage(), exchange, 500);
+            ResponseController.sendLoginResponse(e.getMessage(), exchange, 500);
         }
-    }
-
-    private void sendResponse(String response, HttpExchange exchange, int status) throws IOException {
-        if (status == 200) {
-            exchange.getResponseHeaders().put("Content-type", Collections.singletonList("application/json"));
-        }
-        exchange.getResponseHeaders().put("Access-Control-Allow-Origin", Collections.singletonList("http://localhost:63342"));
-        exchange.sendResponseHeaders(status, response.length());
-
-        OutputStream os = exchange.getResponseBody();
-        os.write(response.getBytes());
-        os.close();
     }
 }
