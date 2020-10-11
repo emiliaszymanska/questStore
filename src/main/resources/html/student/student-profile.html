@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <title>Quest Store</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mentor page - Manage quests</title>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script src="../scripts/quests.js" defer></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script src="../../scripts/profile.js" defer></script>
 
+    <link rel="stylesheet" href="../../styles/profile.css">
     <link rel="stylesheet" href="../../styles/dashboard.css">
     <link rel="stylesheet" href="../../styles/menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -20,15 +21,11 @@
             <img src="../../images/logoTransparent.png" alt="logo">
         </div>
         <div id="menu">
-            <button onclick="location.href='mentor.html'" type="submit" class="button" id="back-button">
-                <i class="fas fa-arrow-left"></i>
-                Back
-            </button>
-            <button onclick="location.href='mentor.html'" type="submit" class="button">
+            <button onclick="location.href='student.html'" type="submit" class="button">
                 <i class='fas fa-list'></i>
                 Dashboard
             </button>
-            <button onclick="location.href='../student/student-profile.html'" type="submit" class="button">
+            <button onclick="location.href='student-profile.html'" type="submit" class="button">
                 <i class='fas fa-address-card'></i>
                 Profile
             </button>
@@ -39,8 +36,12 @@
         </div>
     </div>
 
-    <p>Manage quests</p>
-    <div class="quests"></div>
+    <div class="mainContent">
+        <img id="profileImage" src="../../images/profilePicture.jpg" alt="example-profile-image">
+        <div class="userData">
+            <div class="profile"></div>
+        </div>
+    </div>
 
     <footer>
         <p>Copyright &#169 Dominika Jarek, Emilia Szymańska, Mateusz Przystał 2020</p>

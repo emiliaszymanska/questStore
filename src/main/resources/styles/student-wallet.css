@@ -1,4 +1,4 @@
-.walletMain{
+.walletMain {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -10,17 +10,17 @@
     margin-top: 2em;
 }
 
-.balanceField{
+.balanceField {
     width: fit-content;
 
 }
 
-.boughtArtifactsField{
+.boughtArtifactsField {
     display: flex;
     flex-wrap: wrap;
 }
 
-.artifactList{
+.artifactList {
     flex-grow: 1;
     min-width: 33%;
     margin-top: 0.5em;
