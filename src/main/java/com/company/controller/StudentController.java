@@ -3,6 +3,7 @@ package com.company.controller;
 import com.company.dao.StudentDao;
 import com.company.dao.TransactionDao;
 import com.company.exceptions.ObjectNotFoundException;
+import com.company.helpers.HttpHelper;
 import com.company.model.Artifact;
 import com.company.model.Quest;
 import com.company.model.Transaction;
@@ -13,8 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,11 +31,11 @@ public class StudentController implements HttpHandler {
 
     public StudentController(SessionController sessionController) {
         this.sessionController = sessionController;
-        studentDao = new StudentDao();
-        artifact = new Artifact();
-        wallet = new Wallet();
-        quest = new Quest();
-        mapper = new ObjectMapper();
+        this.studentDao = new StudentDao();
+        this.artifact = new Artifact();
+        this.wallet = new Wallet();
+        this.quest = new Quest();
+        this.mapper = new ObjectMapper();
     }
 
     @Override
@@ -78,8 +77,7 @@ public class StudentController implements HttpHandler {
 
                 break;
         }
-
-        ResponseController.sendResponse(exchange, response, 200);
+        HttpHelper.sendResponse(exchange, response, 200);
     }
 
     private void post(HttpExchange exchange) {
@@ -88,6 +86,7 @@ public class StudentController implements HttpHandler {
 
     private String getStudentProfile(UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
         User student = studentDao.getBySessionId(uuid);
+
         return mapper.writeValueAsString(student);
     }
 
@@ -105,10 +104,9 @@ public class StudentController implements HttpHandler {
 
     private String getStudentWallet(UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
         TransactionDao transactionDao = new TransactionDao();
-
         User student = studentDao.getBySessionId(uuid);
         List<Transaction> transactions = transactionDao.getTransactionsByStudentId(student.getId());
+
         return mapper.writeValueAsString(transactions);
     }
 }
-

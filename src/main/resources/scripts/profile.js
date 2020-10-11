@@ -5,7 +5,7 @@ function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
@@ -21,10 +21,10 @@ function getProfile() {
     const sessionId = getCookie("sessionId");
 
     fetch(`http://localhost:8001/student/profile/${sessionId.slice(1, -1)}`)
-        .then(function(response) {
+        .then(function (response) {
             return response.json();
         })
-        .then(function(student) {
+        .then(function (student) {
             displayProfile(student);
         });
 }
@@ -49,4 +49,5 @@ function displayProfile(student) {
     container.innerHTML += node;
     console.log(student);
 }
+
 getProfile();

@@ -2,15 +2,13 @@ package com.company.controller;
 
 import com.company.dao.QuestDao;
 import com.company.exceptions.ObjectNotFoundException;
+import com.company.helpers.HttpHelper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class QuestController implements HttpHandler {
 
@@ -29,7 +27,7 @@ public class QuestController implements HttpHandler {
             switch (method){
                 case "GET":
                     response = get(exchange);
-                    ResponseController.sendResponse(exchange, response, 200);
+                    HttpHelper.sendResponse(exchange, response, 200);
                     break;
                 case "POST":
                     break;
@@ -37,7 +35,7 @@ public class QuestController implements HttpHandler {
         } catch (Exception e) {
             e.printStackTrace();
             response = e.getMessage();
-            ResponseController.sendResponse(exchange, response, 404);
+            HttpHelper.sendResponse(exchange, response, 404);
         }
     }
 
