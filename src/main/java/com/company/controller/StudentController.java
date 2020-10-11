@@ -67,10 +67,12 @@ public class StudentController implements HttpHandler {
                 break;
             case "quests":
                 response = getStudentQuests(uuid);
-
                 break;
             case "store":
                 response = getStudentStore(uuid);
+                break;
+            case "profile":
+                response = getStudentProfile(uuid);
                 break;
             default:
 
@@ -84,6 +86,10 @@ public class StudentController implements HttpHandler {
 
     }
 
+    private String getStudentProfile(UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
+        User student = studentDao.getBySessionId(uuid);
+        return mapper.writeValueAsString(student);
+    }
 
     private String getStudentStore(UUID uuid) throws ObjectNotFoundException {
         User student = studentDao.getBySessionId(uuid);
