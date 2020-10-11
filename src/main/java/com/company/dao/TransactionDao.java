@@ -53,7 +53,7 @@ public class TransactionDao {
         LocalDate purchaseDate = LocalDate.parse(resultSet.getString("purchase_date"));
 
         if (artifact.isGroup()) {
-            List<Payment> paymentList = createPaymentsList(resultSet.getInt("bought_artifact_id"));
+            List<Payment> paymentList = createPaymentList(resultSet.getInt("bought_artifact_id"));
             Transaction groupTransaction = new GroupTransaction(resultSet.getInt("bought_artifact_id"),
                     artifact,
                     purchaseDate,
@@ -75,7 +75,7 @@ public class TransactionDao {
         }
     }
 
-    private List<Payment> createPaymentsList(int bought_artifact_id) throws ObjectNotFoundException {
+    private List<Payment> createPaymentList(int bought_artifact_id) throws ObjectNotFoundException {
         List<Payment> paymentList = new ArrayList<>();
         String selectStatement = "SELECT * FROM group_buying WHERE bought_artifact_id = ?;";
 
@@ -83,18 +83,18 @@ public class TransactionDao {
             CONNECTOR.connect();
             preparedStatement = CONNECTOR.connection.prepareStatement(selectStatement);
             preparedStatement.setInt(1, bought_artifact_id);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSetForGroupBuying = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                LocalDate paymentDate = LocalDate.parse(resultSet.getString("payment_date"));
+            while (resultSetForGroupBuying.next()) {
+                LocalDate paymentDate = LocalDate.parse(resultSetForGroupBuying.getString("payment_date"));
                 Payment payment = new Payment();
-                payment.setStudent((Student) userDao.getById(resultSet.getInt("student_id")))
-                        .setAmount(resultSet.getInt("student_payment"))
+                payment.setStudent((Student) userDao.getById(resultSetForGroupBuying.getInt("student_id")))
+                        .setAmount(resultSetForGroupBuying.getInt("student_payment"))
                         .setPaymentDate(paymentDate);
 
                 paymentList.add(payment);
             }
-            resultSet.close();
+            resultSetForGroupBuying.close();
             preparedStatement.close();
             CONNECTOR.connection.close();
 
