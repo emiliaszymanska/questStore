@@ -79,7 +79,7 @@ public class StudentController implements HttpHandler {
                 break;
         }
 
-        sendResponse(response, exchange, 200);
+        ResponseController.sendResponse(exchange, response, 200);
     }
 
     private void post(HttpExchange exchange) {
@@ -109,19 +109,6 @@ public class StudentController implements HttpHandler {
         User student = studentDao.getBySessionId(uuid);
         List<Transaction> transactions = transactionDao.getTransactionsByStudentId(student.getId());
         return mapper.writeValueAsString(transactions);
-    }
-
-    private void sendResponse(String response, HttpExchange exchange, int status) throws IOException {
-        if (status == 200) {
-            exchange.getResponseHeaders().put("Content-type", Collections.singletonList("application/json"));
-            exchange.getResponseHeaders().put("Access-Control-Allow-Origin", Collections.singletonList("*"));
-        }
-
-        exchange.sendResponseHeaders(status, response.length());
-
-        OutputStream os = exchange.getResponseBody();
-        os.write(response.getBytes());
-        os.close();
     }
 }
 
