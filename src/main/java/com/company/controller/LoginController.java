@@ -39,6 +39,7 @@ public class LoginController implements HttpHandler {
 
             UserDao userDao = new UserDao();
             User user = userDao.getByEmailPassword(email, password);
+
             UUID uuid = UUID.randomUUID();
 
             sessionController.sessions.put(uuid, user);
@@ -46,7 +47,7 @@ public class LoginController implements HttpHandler {
 
             userDao.updateSessionId(uuid, email, password);
 
-            if (user instanceof Student) {
+            if (user.getTypeId() == 3) {
                 StudentDao studentDao = new StudentDao();
                 user = studentDao.getStudentByIdWithAdditionalData(user.getId());
             }

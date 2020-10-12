@@ -25,8 +25,10 @@ function getTransactions() {
             return response.json();
         })
         .then(function(transactions) {
+            console.log(transactions);
             transactions.forEach(transaction => {
                 displayArtifact(transaction.artifact);
+                //displayStudentMoneyAndExperience(transaction);
             });
         });
 }
@@ -44,6 +46,10 @@ function displayArtifact(artifact) {
         </div>
         `;
     container.innerHTML += node;
+}
+
+function displayStudentMoneyAndExperience(payment){
+    //console.log(payment);
 }
 
 getTransactions();
