@@ -143,6 +143,7 @@ public class StudentDao extends UserDao {
                 .withIsActive(resultSet.getBoolean("is_active"))
                 .withModuleType(moduleTypeDao.getTypeById(resultSet.getInt("module_id")))
                 .withExperienceLevel(resultSet.getInt("experience_level"))
+                .withBalance(resultSet.getInt("balance"))
                 .build();
     }
 }

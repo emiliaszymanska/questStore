@@ -40,6 +40,11 @@ public class LoginController implements HttpHandler {
             UserDao userDao = new UserDao();
             User user = userDao.getByEmailPassword(email, password);
 
+            if (user instanceof Student) {
+                StudentDao studentDao = new StudentDao();
+                user = studentDao.getStudentByIdWithAdditionalData(user.getId());
+            }
+
             UUID uuid = UUID.randomUUID();
 
             sessionController.sessions.put(uuid, user);
@@ -47,10 +52,6 @@ public class LoginController implements HttpHandler {
 
             userDao.updateSessionId(uuid, email, password);
 
-            if (user.getTypeId() == 3) {
-                StudentDao studentDao = new StudentDao();
-                user = studentDao.getStudentByIdWithAdditionalData(user.getId());
-            }
             String response = mapper.writeValueAsString(user);
 
             //  In cookie we should set json with user token and role instead of email
