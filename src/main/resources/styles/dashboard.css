@@ -88,10 +88,6 @@ body {
     color: #48547D;
 }
 
-.card-set-text-1 {
-    text-align: center;
-}
-
 .dashboard-card-title {
     font-size: 18px;
     font-weight: var(--fontWeight);
@@ -110,8 +106,8 @@ body {
     width: 6em;
 }
 
-.card-text {
-    height: 40%;
+[class^="card-set-text"] {
+    text-align: center;
 }
 
 .dashboard-card:hover, .card-set:hover {
@@ -174,7 +170,6 @@ body, .dashboard-card, .card-set {
 .dashboard-card::before, .dashboard-card::after, .card-set::before, .card-set::after, .card-set, .dashboard-card {
     border-radius: var(--borderRadius);
 }
-
 
 /*@media screen and (device-width: 360px) {*/
 /*    .row {*/

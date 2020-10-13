@@ -41,18 +41,23 @@
     outline: none;
 }
 
-.button:hover {
+.button:hover, #dashboard-button:hover {
     background-color: rgba(245, 245, 245, 0.7);
 }
 
-#back-button {
+#dashboard-button {
+    background-color: rgba(245, 245, 245, 0.4);
     margin-right: 1em;
-    background-color: rgba(154, 153, 153, 0.4);
 }
 
-#back-button:hover {
-    background-color: rgba(245, 245, 245, 0.6);
-}
+/*#back-button {*/
+/*    margin-right: 1em;*/
+/*    background-color: rgba(154, 153, 153, 0.4);*/
+/*}*/
+
+/*#back-button:hover {*/
+/*    background-color: rgba(245, 245, 245, 0.6);*/
+/*}*/
 
 footer {
     text-align: center;
