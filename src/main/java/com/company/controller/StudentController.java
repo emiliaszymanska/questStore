@@ -115,7 +115,7 @@ public class StudentController implements HttpHandler {
                         .setPhoneNumber(phoneNumber);
                 System.out.println(student.toString());
                 studentDao.update(student);
-                ResponseController.sendResponse(exchange, mapper.writeValueAsString(student), 200);
+                HttpHelper.sendResponse(exchange, mapper.writeValueAsString(student), 200);
                 break;
             default:
                 break;
