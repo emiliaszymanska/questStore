@@ -79,16 +79,23 @@ public class StudentController implements HttpHandler {
             case "profile":
                 response = getStudentProfile(uuid);
                 break;
+            case "data":
+                getStudentBalanceAndExperience(uuid);
             default:
                 break;
         }
         HttpHelper.sendResponse(exchange, response, 200);
     }
 
+    private void getStudentBalanceAndExperience(UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
+        User student = studentDao.getBySessionId(uuid);
+        student = studentDao.getStudentByIdWithAdditionalData(student.getId());
+        response = mapper.writeValueAsString(student);
+    }
+
     private void post(HttpExchange exchange) throws IOException, ObjectNotFoundException {
         InputStreamReader inputStreamReader = new InputStreamReader(exchange.getRequestBody(), "UTF-8");
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
 
         Map<String, String> data = Parser.parseFormData(bufferedReader.readLine());
         String firstName = data.get("firstName");

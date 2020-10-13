@@ -1,4 +1,5 @@
 const container = document.querySelector(".row");
+const spinner = document.getElementById("spinner");
 
 function getCookie(cname) {
     //TODO refactor
@@ -19,16 +20,35 @@ function getCookie(cname) {
 
 function getTransactions() {
     const sessionId = getCookie("sessionId");
-
+    spinner.removeAttribute('hidden');
     fetch(`http://localhost:8001/student/wallet/${sessionId.slice(1, -1)}`)
         .then(function(response) {
             return response.json();
         })
         .then(function(transactions) {
+            spinner.setAttribute('hidden', '');
             transactions.forEach(transaction => {
                 displayArtifact(transaction.artifact);
             });
         });
+}
+function getStudentData() {
+    const sessionId = getCookie("sessionId");
+
+    fetch(`http://localhost:8001/student/data/${sessionId.slice(1, -1)}`)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            displayStudentData(data);
+        });
+}
+
+function displayStudentData(data) {
+    const balance = document.querySelector('#balance');
+    const experienceLevel = document.querySelector('#level');
+    balance.innerHTML += data.balance;
+    experienceLevel.innerHTML += data.experienceLevel;
 }
 
 function displayArtifact(artifact) {
@@ -46,4 +66,5 @@ function displayArtifact(artifact) {
     container.innerHTML += node;
 }
 
+getStudentData();
 getTransactions();

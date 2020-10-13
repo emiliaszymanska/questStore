@@ -6,6 +6,7 @@ public class Student extends User {
 
     private ModuleType moduleType;
     private int experienceLevel;
+    private int balance;
 
     public ModuleType getModuleType() {
         return moduleType;
@@ -13,6 +14,10 @@ public class Student extends User {
 
     public int getExperienceLevel() {
         return experienceLevel;
+    }
+
+    public int getBalance() {
+        return balance;
     }
 
     public void setModuleType(ModuleType moduleType) {
@@ -31,9 +36,11 @@ public class Student extends User {
         super(builder);
         this.moduleType = builder.moduleType;
         this.experienceLevel = builder.experienceLevel;
+        this.balance = builder.balance;
     }
 
     public static class Builder extends User.Builder<Builder> {
+        public int balance;
         private ModuleType moduleType;
         private int experienceLevel;
 
@@ -46,6 +53,15 @@ public class Student extends User {
 
         public int getExperienceLevel() {
             return experienceLevel;
+        }
+
+        public int getBalance() {
+            return balance;
+        }
+
+        public Builder withBalance(int balance) {
+            this.balance = balance;
+            return this;
         }
 
         public Builder withModuleType(ModuleType moduleType) {

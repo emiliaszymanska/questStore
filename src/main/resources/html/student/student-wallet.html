@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../../styles/dashboard.css">
     <link rel="stylesheet" href="../../styles/menu.css">
     <link rel="stylesheet" href="../../styles/student-wallet.css">
+    <link rel="stylesheet" href="../../styles/spinner.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -42,12 +43,13 @@
 
     <div class="walletMain">
         <div class="balanceField">
-            <p id="balance"><i class="fas fa-coins"></i>  1200</p>
-            <p id="level"><i class="fas fa-trophy"></i>  2</p>
+            <p id="balance">Balance <i class="fas fa-coins icon"></i> </p>
+            <p id="level">Level of experience <i class="fas fa-trophy icon"></i> </p>
         </div>
 
         <div class="boughtArtifactsField">
             <h3 class="boughtArtifactsHeader">Your artifacts:</h3>
+            <div hidden id="spinner"></div>
             <div class="artifactList">
                 <div class="row"></div>
             </div>
