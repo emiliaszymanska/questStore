@@ -95,6 +95,8 @@ public class StudentController implements HttpHandler {
         String lastName = data.get("lastName");
         String email = data.get("email");
         String phoneNumber = data.get("phoneNumber");
+        System.out.println(email);
+        System.out.println(phoneNumber);
 
         switch (actions[2]) {
             case "update":
@@ -104,6 +106,7 @@ public class StudentController implements HttpHandler {
                         .setLastName(lastName)
                         .setEmail(email)
                         .setPhoneNumber(phoneNumber);
+                System.out.println(student.toString());
                 studentDao.update(student);
                 ResponseController.sendResponse(exchange, mapper.writeValueAsString(student), 200);
                 break;

@@ -1,20 +1,19 @@
-const container = document.querySelector(".profile");
 const spinner = document.querySelector("#spinner");
 const editForm = document.querySelector("#data-form");
 
 (() => {
     getProfile();
-    console.log("ccccc");
     editForm.addEventListener('submit', function(event) {
-        console.log("x");
         event.preventDefault();
 
-        const data = `firstName=${this.firstName.value}&lastName=${this.lastName.value}
-        &email=${this.email.value}&phoneNumber=${this.phoneNumber.value}`;
+        const data = `firstName=${this.firstName.value}&lastName=${this.lastName.value}`
+        + `&email=${this.email.value}&phoneNumber=${this.phoneNumber.value}`;
+        console.log(data);
 
         update(data);
     })
 })();
+
 
 function getProfile() {
     const sessionId = getCookie("sessionId");
@@ -30,27 +29,17 @@ function getProfile() {
 }
 
 function displayProfile(student) {
-    container.innerHTML = "";
-    let node = `<form id="data-form">
-
-                    <p class="fieldDescription">Name:</p>
-                    <input class="data" value="${student.firstName}"></input>
+    editForm.innerHTML = "";
+    let node = `<input type="text" class="data" name="firstName" value="${student.firstName}"></input>
        
+                    <input type="text" class="data" name="lastName" value="${student.lastName}"></input>
 
-                    <p class="fieldDescription">Surname:</p>
-                    <input class="data" value="${student.lastName}"></input>
-
-
-                    <p class="fieldDescription">E-mail:</p>
-                    <input class="data" value="${student.email}"></input>
+                    <input type="text" class="data" name="email" value="${student.email}"></input>
      
+                    <input type="text" class="data" name="phoneNumber" value="${student.phoneNumber}"></input>
 
-                    <p class="fieldDescription">Phone number:</p>
-                    <input class="data" value="${student.phoneNumber}"></input>
-
-                <button class="button" id="close-button">Submit Changes</button>
-                </form>`;
-    container.innerHTML += node;
+                <button class="button" id="submit-button">Submit Changes</button>`;
+    editForm.innerHTML += node;
 }
 
 function getCookie(cname) {
