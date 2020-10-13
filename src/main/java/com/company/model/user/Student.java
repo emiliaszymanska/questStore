@@ -47,16 +47,16 @@ public class Student extends User {
         public Builder() {
         }
 
+        public int getBalance() {
+            return balance;
+        }
+
         public ModuleType getModuleType() {
             return moduleType;
         }
 
         public int getExperienceLevel() {
             return experienceLevel;
-        }
-
-        public int getBalance() {
-            return balance;
         }
 
         public Builder withBalance(int balance) {

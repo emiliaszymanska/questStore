@@ -2,7 +2,6 @@ package com.company.controller;
 
 import com.company.dao.StudentDao;
 import com.company.dao.TransactionDao;
-import com.company.dao.UserDao;
 import com.company.exceptions.ObjectNotFoundException;
 import com.company.helpers.Parser;
 import com.company.helpers.HttpHelper;
@@ -16,7 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.*;
-import java.util.Collections;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +30,6 @@ public class StudentController implements HttpHandler {
     private String[] actions;
     private String response = "";
     private ObjectMapper mapper;
-
 
     public StudentController(SessionController sessionController) {
         this.sessionController = sessionController;

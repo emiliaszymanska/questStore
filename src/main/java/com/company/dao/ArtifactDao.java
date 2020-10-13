@@ -1,6 +1,5 @@
 package com.company.dao;
 
-import com.company.controller.SessionController;
 import com.company.model.Artifact;
 
 import java.sql.ResultSet;
