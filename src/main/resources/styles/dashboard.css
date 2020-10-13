@@ -58,7 +58,6 @@ body {
 .dashboard-card {
     width: 15em;
     height: 15em;
-    border-radius: 0.5em;
     transition: 0.5s;
     cursor: pointer;
     margin: 0.5em 0.5em;
@@ -70,7 +69,6 @@ body {
     justify-content: space-evenly;
     width: 17em;
     height: 17em;
-    border-radius: 0.5em;
     transition: 0.5s;
     cursor: pointer;
     margin: 0.5em 0.5em;
@@ -120,7 +118,6 @@ body {
 }
   
 .dashboard-card::before, .dashboard-card::after, .card-set::before, .card-set::after {
-    border-radius: 0.5em;
     position: absolute;
     top: 0;
     right: 0;
@@ -171,6 +168,11 @@ body, .dashboard-card, .card-set {
 .row {
     justify-content: var(--justifyContent);
 }
+
+.dashboard-card::before, .dashboard-card::after, .card-set::before, .card-set::after, .card-set, .dashboard-card {
+    border-radius: var(--borderRadius);
+}
+
 
 /*@media screen and (device-width: 360px) {*/
 /*    .row {*/

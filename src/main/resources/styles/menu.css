@@ -7,6 +7,7 @@
     --justifyContent: center;
     --alignItems: center;
     --fontWeight: bold;
+    --borderRadius: 0.5em;
 }
 
 * {
@@ -33,7 +34,6 @@
     background-color: rgba(245, 245, 245, 0.4);
     justify-content: right;
     padding: 1em 2em;
-    border-radius: 0.5em;
     text-transform: uppercase;
     font-weight: var(--fontWeight);
     cursor: pointer;
@@ -67,4 +67,8 @@ footer {
 
 .headerPlusMenu, footer {
     display: var(--flex);
+}
+
+.button {
+    border-radius: var(--borderRadius);
 }

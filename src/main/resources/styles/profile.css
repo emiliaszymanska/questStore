@@ -2,23 +2,66 @@
     margin-top: 5em;
 }
 
-.userData {
+.profile, #edit-field {
     width: 25em;
-    box-shadow: 0.4em 0.4em 1em 0.01em rgba(0,0,0,0.30);
-    border-radius: 0.5em;
     padding: 1.5em;
+}
+
+#edit-field {
+    background-color: rgba(207,210,206,0.8);
 }
 
 #profileImage {
     margin-right: 5em;
     width: 15em;
     height: 15em;
+}
+
+#close-button {
+    margin-top: 1.5em;
+    width: 100%;
+}
+
+#open-button {
+    justify-content: right;
+}
+
+.edit-form {
+    display: none;
+    position: absolute;
+    width: 20em;
+}
+
+.edit {
+    background-color: rgba(239,242,238,0.8);
+    outline: none;
+    width: 100%;
+    height: 3em;
+    margin: 0.5em auto;
+}
+
+.text {
+    text-align: center;
+    margin: 1em auto;
+    text-transform: uppercase;
+    font-weight: var(--fontWeight);
     border: none;
-    border-radius: 0.5em;
+    outline: none;
 }
 
 .fieldPlusDescription {
     justify-content: space-between;
+}
+
+.profile, #edit-field, .edit, #profileImage {
+    border-radius: var(--borderRadius);
+}
+
+.profile, #edit-field, .edit {
+    box-shadow: 0.4em 0.4em 1em 0.01em rgba(0,0,0,0.30);
+}
+
+#profileImage, .fieldPlusDescription, .edit {
     border: none;
 }
 
@@ -26,22 +69,49 @@
     font-weight: var(--fontWeight);
 }
 
-footer, .fieldPlusDescription, .userData, .mainContent, body {
+footer, .fieldPlusDescription, .profile, .mainContent, body, #spinner:not([hidden]) {
     display: var(--flex);
 }
 
-.mainContent, footer {
+.mainContent, footer, #spinner:not([hidden]) {
     justify-content: var(--justifyContent);
 }
 
-body, .userData {
+body, .profile {
     flex-direction: var(--flexColumn);
 }
 
-body, .mainContent {
+body, .mainContent, #spinner:not([hidden]) {
     align-items: var(--alignItems);
 }
 
 .mainContent, .fieldPlusDescription {
     flex-direction: var(--flexRow);
+}
+
+#spinner:not([hidden]) {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#spinner::after {
+    content: "";
+    width: 5em;
+    height: 5em;
+    border: 0.1em solid #b4adad;
+    border-top: 0.1em solid #393838;
+    border-radius: 100%;
+    will-change: transform;
+    animation: spin 1s infinite linear
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

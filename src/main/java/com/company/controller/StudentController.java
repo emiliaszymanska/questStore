@@ -2,7 +2,9 @@ package com.company.controller;
 
 import com.company.dao.StudentDao;
 import com.company.dao.TransactionDao;
+import com.company.dao.UserDao;
 import com.company.exceptions.ObjectNotFoundException;
+import com.company.helpers.Parser;
 import com.company.model.Artifact;
 import com.company.model.Quest;
 import com.company.model.Transaction;
@@ -12,10 +14,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import java.io.IOException;
-import java.io.OutputStream;
+
+import java.io.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class StudentController implements HttpHandler {
@@ -51,6 +54,7 @@ public class StudentController implements HttpHandler {
                     get(exchange);
                     break;
                 case "POST":
+                    post(exchange);
                     break;
             }
         } catch (Exception e) {
@@ -75,15 +79,37 @@ public class StudentController implements HttpHandler {
                 response = getStudentProfile(uuid);
                 break;
             default:
-
                 break;
         }
 
         ResponseController.sendResponse(exchange, response, 200);
     }
 
-    private void post(HttpExchange exchange) {
+    private void post(HttpExchange exchange) throws IOException, ObjectNotFoundException {
+        InputStreamReader inputStreamReader = new InputStreamReader(exchange.getRequestBody(), "UTF-8");
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
+
+        Map<String, String> data = Parser.parseFormData(bufferedReader.readLine());
+        String firstName = data.get("firstName");
+        String lastName = data.get("lastName");
+        String email = data.get("email");
+        String phoneNumber = data.get("phoneNumber");
+
+        switch (actions[2]) {
+            case "update":
+                UUID uuid = actions.length == 4 ? UUID.fromString(actions[3]) : null;
+                User student = studentDao.getBySessionId(uuid);
+                student.setFirstName(firstName)
+                        .setLastName(lastName)
+                        .setEmail(email)
+                        .setPhoneNumber(phoneNumber);
+                studentDao.update(student);
+                ResponseController.sendResponse(exchange, mapper.writeValueAsString(student), 200);
+                break;
+            default:
+                break;
+        }
     }
 
     private String getStudentProfile(UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
@@ -112,3 +138,21 @@ public class StudentController implements HttpHandler {
     }
 }
 
+/*
+    let node = `<div class="fieldPlusDescription">
+                    <p class="fieldDescription">Name:</p>
+                    <input class="data" value="${student.firstName}"></input>
+                </div>
+                <div class="fieldPlusDescription">
+                    <p class="fieldDescription">Surname:</p>
+                    <input class="data" value="${student.lastName}"></input>
+                </div>
+                <div class="fieldPlusDescription">
+                    <p class="fieldDescription">E-mail:</p>
+                    <input class="data" value="${student.email}"></input>
+                </div>
+                <div class="fieldPlusDescription">
+                    <p class="fieldDescription">Phone number:</p>
+                    <input class="data" value="${student.phoneNumber}"></input>
+                </div>`;
+ */

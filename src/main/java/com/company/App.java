@@ -22,7 +22,6 @@ public class App {
         server.createContext("/student", new StudentController(new SessionController()));
         server.createContext("/quest", new QuestController());
         server.createContext("/artifact", new ArtifactController());
-        server.createContext("/profile", new ProfileController());
         server.setExecutor(null);
         server.start();
 

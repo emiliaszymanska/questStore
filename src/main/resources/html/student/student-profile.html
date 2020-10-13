@@ -37,10 +37,46 @@
     </div>
 
     <div class="mainContent">
+
         <img id="profileImage" src="../../images/profilePicture.jpg" alt="example-profile-image">
-        <div class="userData">
-            <div class="profile"></div>
-        </div>
+
+
+            <div class="profile">
+                <div hidden id="spinner"></div>
+                <form id="data-form">
+
+                        <p class="fieldDescription">Name:</p>
+                        <input hidden class="data" name="firstName"></input>
+
+
+                        <p class="fieldDescription">Surname:</p>
+                        <input hidden class="data" name="lastName"></input>
+
+
+                        <p class="fieldDescription">E-mail:</p>
+                        <input hidden class="data" name="email"></input>
+
+
+                        <p class="fieldDescription">Phone number:</p>
+                        <input hidden class="data" name="phoneNumber"></input>
+
+                </form>
+            </div>
+
+
+
+
+<!--        <div class="edit-form" id="edit-field">-->
+<!--            <p class="text">Edit Your Profile</p>-->
+<!--            <form id="form-popup">-->
+<!--                <input type="text" placeholder="First Name" name="firstName" class="edit">-->
+<!--                <input type="text" placeholder="Last Name" name="lastName" class="edit">-->
+<!--                <input type="text" placeholder="Email" name="email" class="edit">-->
+<!--                <input type="text" placeholder="Phone Number" name="phoneNumber" class="edit">-->
+<!--                <button class="button" id="close-button1">Submit Changes</button>-->
+<!--            </form>-->
+<!--        </div>-->
+
     </div>
 
     <footer>
