@@ -5,6 +5,7 @@ import com.company.dao.TransactionDao;
 import com.company.dao.UserDao;
 import com.company.exceptions.ObjectNotFoundException;
 import com.company.helpers.Parser;
+import com.company.helpers.HttpHelper;
 import com.company.model.Artifact;
 import com.company.model.Quest;
 import com.company.model.Transaction;
@@ -14,9 +15,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
 import java.io.*;
 import java.util.Collections;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -35,11 +36,11 @@ public class StudentController implements HttpHandler {
 
     public StudentController(SessionController sessionController) {
         this.sessionController = sessionController;
-        studentDao = new StudentDao();
-        artifact = new Artifact();
-        wallet = new Wallet();
-        quest = new Quest();
-        mapper = new ObjectMapper();
+        this.studentDao = new StudentDao();
+        this.artifact = new Artifact();
+        this.wallet = new Wallet();
+        this.quest = new Quest();
+        this.mapper = new ObjectMapper();
     }
 
     @Override
@@ -81,8 +82,7 @@ public class StudentController implements HttpHandler {
             default:
                 break;
         }
-
-        ResponseController.sendResponse(exchange, response, 200);
+        HttpHelper.sendResponse(exchange, response, 200);
     }
 
     private void post(HttpExchange exchange) throws IOException, ObjectNotFoundException {
@@ -117,6 +117,7 @@ public class StudentController implements HttpHandler {
 
     private String getStudentProfile(UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
         User student = studentDao.getBySessionId(uuid);
+
         return mapper.writeValueAsString(student);
     }
 
@@ -134,28 +135,9 @@ public class StudentController implements HttpHandler {
 
     private String getStudentWallet(UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
         TransactionDao transactionDao = new TransactionDao();
-
         User student = studentDao.getBySessionId(uuid);
         List<Transaction> transactions = transactionDao.getTransactionsByStudentId(student.getId());
+
         return mapper.writeValueAsString(transactions);
     }
 }
-
-/*
-    let node = `<div class="fieldPlusDescription">
-                    <p class="fieldDescription">Name:</p>
-                    <input class="data" value="${student.firstName}"></input>
-                </div>
-                <div class="fieldPlusDescription">
-                    <p class="fieldDescription">Surname:</p>
-                    <input class="data" value="${student.lastName}"></input>
-                </div>
-                <div class="fieldPlusDescription">
-                    <p class="fieldDescription">E-mail:</p>
-                    <input class="data" value="${student.email}"></input>
-                </div>
-                <div class="fieldPlusDescription">
-                    <p class="fieldDescription">Phone number:</p>
-                    <input class="data" value="${student.phoneNumber}"></input>
-                </div>`;
- */

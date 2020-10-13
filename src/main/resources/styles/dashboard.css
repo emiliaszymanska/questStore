@@ -68,7 +68,8 @@ body {
 .card-set {
     justify-content: space-evenly;
     width: 17em;
-    height: 17em;
+    height: 18em;
+    border-radius: 0.5em;
     transition: 0.5s;
     cursor: pointer;
     margin: 0.5em 0.5em;
@@ -81,9 +82,10 @@ body {
 }
 
 .card-set-title {
+    text-transform: uppercase;
+    text-align: center;
     font-size: 16px;
     color: #48547D;
-    text-transform: uppercase;
 }
 
 .card-set-text-1 {

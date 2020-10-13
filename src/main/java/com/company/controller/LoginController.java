@@ -2,6 +2,7 @@ package com.company.controller;
 
 import com.company.dao.StudentDao;
 import com.company.dao.UserDao;
+import com.company.helpers.HttpHelper;
 import com.company.helpers.Parser;
 import com.company.model.user.Student;
 import com.company.model.user.User;
@@ -12,9 +13,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpCookie;
-import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
@@ -39,9 +38,7 @@ public class LoginController implements HttpHandler {
             String password = data.get("password");
 
             UserDao userDao = new UserDao();
-
             User user = userDao.getByEmailPassword(email, password);
-
             UUID uuid = UUID.randomUUID();
 
             sessionController.sessions.put(uuid, user);
@@ -53,7 +50,6 @@ public class LoginController implements HttpHandler {
                 StudentDao studentDao = new StudentDao();
                 user = studentDao.getStudentByIdWithAdditionalData(user.getId());
             }
-
             String response = mapper.writeValueAsString(user);
 
             //  In cookie we should set json with user token and role instead of email
@@ -61,10 +57,10 @@ public class LoginController implements HttpHandler {
             exchange.getResponseHeaders().add("Set-Cookie", cookie.toString());
             exchange.getResponseHeaders().add("Access-Control-Allow-Credentials", "true");
 
-            ResponseController.sendLoginResponse(response, exchange, 200);
+            HttpHelper.sendResponse(exchange, response, 200);
         } catch (Exception e) {
             e.printStackTrace();
-            ResponseController.sendLoginResponse(e.getMessage(), exchange, 500);
+            HttpHelper.sendResponse(exchange, e.getMessage(), 500);
         }
     }
 }

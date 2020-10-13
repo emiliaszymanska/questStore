@@ -5,7 +5,7 @@ function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
@@ -32,8 +32,7 @@ function getTransactions() {
 }
 
 function displayArtifact(artifact) {
-
-        let node = `
+    let node = `
         <div class="single-card">
             <div class="card-set card-block">
                 <h4 class="card-set-title">${artifact.name}</h4>
@@ -44,7 +43,7 @@ function displayArtifact(artifact) {
             </div>
         </div>
         `;
-        container.innerHTML += node;
+    container.innerHTML += node;
 }
 
 getTransactions();
