@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="../../styles/dashboard.css">
     <link rel="stylesheet" href="../../styles/menu.css">
+    <link rel="stylesheet" href="../../styles/spinner.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -20,12 +21,8 @@
             <img src="../../images/logoTransparent.png" alt="logo">
         </div>
         <div id="menu">
-            <button onclick="location.href='../student/student.html'" type="submit" class="button" id="back-button">
-                <i class="fas fa-arrow-left"></i>
-                Back
-            </button>
-            <button onclick="location.href='../student/student.html'" type="submit" class="button">
-                <i class='fas fa-list'></i>
+            <button onclick="location.href='../student/student.html'" type="submit" class="button" id="dashboard-button">
+                <i class='fas fa-arrow-left'></i>
                 Dashboard
             </button>
             <button onclick="location.href='../student/student-profile.html'" type="submit" class="button">
@@ -39,26 +36,9 @@
         </div>
     </div>
 
-    <div class="dashboard-row">
-        <div class="single-card types">
-            <div class="dashboard-card">
-                <h4 class="dashboard-card-title">Easy</h4>
-                <img src="../../images/dashboard-images/money-pig.jpg" alt="Photo" class="dashboard-card-image">
-            </div>
-        </div>
-        <div class="single-card types">
-            <div class="dashboard-card">
-                <h4 class="dashboard-card-title">Moderate</h4>
-                <img src="../../images/dashboard-images/money-pig.jpg" alt="Photo" class="dashboard-card-image">
-            </div>
-        </div>
-        <div class="single-card types">
-            <div class="dashboard-card">
-                <h4 class="dashboard-card-title">Difficult</h4>
-                <img src="../../images/dashboard-images/money-pig.jpg" alt="Photo" class="dashboard-card-image">
-            </div>
-        </div>
-    </div>
+    <div class="dashboard-row"></div>
+
+    <div hidden id="spinner"></div>
 
     <div class="row"></div>
 
