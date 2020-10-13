@@ -2,7 +2,9 @@ package com.company.controller;
 
 import com.company.dao.StudentDao;
 import com.company.dao.TransactionDao;
+import com.company.dao.UserDao;
 import com.company.exceptions.ObjectNotFoundException;
+import com.company.helpers.Parser;
 import com.company.helpers.HttpHelper;
 import com.company.model.Artifact;
 import com.company.model.Quest;
@@ -13,8 +15,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import java.io.*;
+import java.util.Collections;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class StudentController implements HttpHandler {
@@ -50,6 +55,7 @@ public class StudentController implements HttpHandler {
                     get(exchange);
                     break;
                 case "POST":
+                    post(exchange);
                     break;
             }
         } catch (Exception e) {
@@ -87,8 +93,33 @@ public class StudentController implements HttpHandler {
         response = mapper.writeValueAsString(student);
     }
 
-    private void post(HttpExchange exchange) {
+    private void post(HttpExchange exchange) throws IOException, ObjectNotFoundException {
+        InputStreamReader inputStreamReader = new InputStreamReader(exchange.getRequestBody(), "UTF-8");
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
+        Map<String, String> data = Parser.parseFormData(bufferedReader.readLine());
+        String firstName = data.get("firstName");
+        String lastName = data.get("lastName");
+        String email = data.get("email");
+        String phoneNumber = data.get("phoneNumber");
+        System.out.println(email);
+        System.out.println(phoneNumber);
+
+        switch (actions[2]) {
+            case "update":
+                UUID uuid = actions.length == 4 ? UUID.fromString(actions[3]) : null;
+                User student = studentDao.getBySessionId(uuid);
+                student.setFirstName(firstName)
+                        .setLastName(lastName)
+                        .setEmail(email)
+                        .setPhoneNumber(phoneNumber);
+                System.out.println(student.toString());
+                studentDao.update(student);
+                ResponseController.sendResponse(exchange, mapper.writeValueAsString(student), 200);
+                break;
+            default:
+                break;
+        }
     }
 
     private String getStudentProfile(UUID uuid) throws ObjectNotFoundException, JsonProcessingException {

@@ -1,4 +1,46 @@
-const container = document.querySelector(".profile");
+const spinner = document.querySelector("#spinner");
+const editForm = document.querySelector("#data-form");
+
+(() => {
+    getProfile();
+    editForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const data = `firstName=${this.firstName.value}&lastName=${this.lastName.value}`
+        + `&email=${this.email.value}&phoneNumber=${this.phoneNumber.value}`;
+        console.log(data);
+
+        update(data);
+    })
+})();
+
+
+function getProfile() {
+    const sessionId = getCookie("sessionId");
+    spinner.removeAttribute('hidden');
+    fetch(`http://localhost:8001/student/profile/${sessionId.slice(1, -1)}`)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(student) {
+            spinner.setAttribute('hidden', '');
+            displayProfile(student);
+        });
+}
+
+function displayProfile(student) {
+    editForm.innerHTML = "";
+    let node = `<input type="text" class="data" name="firstName" value="${student.firstName}"></input>
+       
+                    <input type="text" class="data" name="lastName" value="${student.lastName}"></input>
+
+                    <input type="text" class="data" name="email" value="${student.email}"></input>
+     
+                    <input type="text" class="data" name="phoneNumber" value="${student.phoneNumber}"></input>
+
+                <button class="button" id="submit-button">Submit Changes</button>`;
+    editForm.innerHTML += node;
+}
 
 function getCookie(cname) {
     //TODO refactor
@@ -17,37 +59,17 @@ function getCookie(cname) {
     return "";
 }
 
-function getProfile() {
+function update(data) {
     const sessionId = getCookie("sessionId");
-
-    fetch(`http://localhost:8001/student/profile/${sessionId.slice(1, -1)}`)
-        .then(function (response) {
+    fetch(`http://localhost:8001/student/update/${sessionId.slice(1, -1)}`, {
+        method: "POST",
+        body: data
+    })
+        .then(function(response) {
             return response.json();
         })
-        .then(function (student) {
+        .then(function(student) {
+            alert("updated");
             displayProfile(student);
         });
 }
-
-function displayProfile(student) {
-    let node = `<div class="fieldPlusDescription">
-                    <p class="fieldDescription">Name:</p>
-                    <p class="data">${student.firstName}</p>
-                </div>
-                <div class="fieldPlusDescription">
-                    <p class="fieldDescription">Surname:</p>
-                    <p class="data">${student.lastName}</p>
-                </div>
-                <div class="fieldPlusDescription">
-                    <p class="fieldDescription">E-mail:</p>
-                    <p class="data">${student.email}</p>
-                </div>
-                <div class="fieldPlusDescription">
-                    <p class="fieldDescription">Phone number:</p>
-                    <p class="data">${student.phoneNumber}</p>
-                </div>`;
-    container.innerHTML += node;
-    console.log(student);
-}
-
-getProfile();
