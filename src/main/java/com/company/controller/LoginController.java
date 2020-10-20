@@ -21,10 +21,12 @@ public class LoginController implements HttpHandler {
 
     private ObjectMapper mapper;
     private SessionController sessionController;
+    private Parser parser;
 
     public LoginController(SessionController sessionController) {
         this.mapper = new ObjectMapper();
         this.sessionController = sessionController;
+        this.parser = new Parser();
     }
 
     @Override
@@ -33,7 +35,7 @@ public class LoginController implements HttpHandler {
             InputStreamReader isr = new InputStreamReader(exchange.getRequestBody(), "UTF-8");
             BufferedReader br = new BufferedReader(isr);
 
-            Map<String, String> data = Parser.parseFormData(br.readLine());
+            Map<String, String> data = parser.parseFormData(br.readLine());
             String email = data.get("email");
             String password = data.get("password");
 
