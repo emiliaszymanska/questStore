@@ -28,12 +28,10 @@ public class UserFactory {
                 //Mentor
                 User mentor = new Mentor.Builder().build();
                 return createUserData(mentor);
-                break;
             case 3:
                 //Student
                 User student = new Student.Builder().build();
                 return createUserData(student);
-                break;
         }
         throw new ObjectNotFoundException("User not found");
     }
