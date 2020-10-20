@@ -4,6 +4,7 @@ import com.company.exceptions.ObjectNotFoundException;
 import com.company.model.user.Mentor;
 import com.company.model.user.Student;
 import com.company.model.user.User;
+import com.company.model.user.UserFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,18 +36,21 @@ public class UserDao extends Dao<User> {
     }
 
     private User getUser(ResultSet resultSet) throws SQLException {
-        int type = resultSet.getInt("user_type_id");
-        //TODO factory pattern
-        User user = type == 2 ? new Mentor.Builder().build() : new Student.Builder().build();
+        UserFactory userFactory = new UserFactory(resultSet);
+        return userFactory.create();
 
-        return user.setId(resultSet.getInt("id"))
-                .setFirstName(resultSet.getString("first_name"))
-                .setLastName(resultSet.getString("last_name"))
-                .setTypeId(resultSet.getInt("user_type_id"))
-                .setPhoneNumber(resultSet.getString("phone_number"))
-                .setEmail(resultSet.getString("email"))
-                .setPassword(resultSet.getString("password"))
-                .setActive(resultSet.getBoolean("is_active"));
+//        int type = resultSet.getInt("user_type_id");
+//        //TODO factory pattern
+//        User user = type == 2 ? new Mentor.Builder().build() : new Student.Builder().build();
+//
+//        return user.setId(resultSet.getInt("id"))
+//                .setFirstName(resultSet.getString("first_name"))
+//                .setLastName(resultSet.getString("last_name"))
+//                .setTypeId(resultSet.getInt("user_type_id"))
+//                .setPhoneNumber(resultSet.getString("phone_number"))
+//                .setEmail(resultSet.getString("email"))
+//                .setPassword(resultSet.getString("password"))
+//                .setActive(resultSet.getBoolean("is_active"));
     }
 
     @Override
