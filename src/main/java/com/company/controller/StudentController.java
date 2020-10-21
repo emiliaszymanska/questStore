@@ -81,14 +81,11 @@ public class StudentController implements HttpHandler {
 
     private void post(HttpExchange exchange, Actions actions) throws IOException, ObjectNotFoundException {
         Map<String, String> formData = parser.parseFormData(exchange);
-        String uuidString = exchange.getRequestHeaders().getFirst("sessionId");
-        actions.getUUID();
-        UUID uuid = UUID.fromString(uuidString);
         String response;
 
         switch (actions.getOperation()) {
             case "update": // /student/update
-                response = studentService.updateStudent(formData, uuid);
+                response = studentService.updateStudent(formData, actions.getUUID().get());
                 break;
             default:
                 HttpHelper.sendResponse(exchange, "Invalid URL", 404);

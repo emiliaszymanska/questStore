@@ -19,6 +19,7 @@ public class App {
             http://localhost:8001/student/store
             http://localhost:8001/student
          */
+        server.createContext("/register", new RegisterController());
         server.createContext("/student", new StudentController());
         server.createContext("/quest", new QuestController());
         server.createContext("/artifact", new ArtifactController());
