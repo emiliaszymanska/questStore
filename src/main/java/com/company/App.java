@@ -12,6 +12,7 @@ public class App {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8001), 0);
 
+        server.createContext("/register", new RegisterController());
         server.createContext("/login", new LoginController(new SessionController()));
         /*
             http://localhost:8001/student/wallet
