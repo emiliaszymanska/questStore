@@ -37,20 +37,28 @@ public class UserDao extends Dao<User> {
 
     private User getUser(ResultSet resultSet) throws SQLException {
         UserFactory userFactory = new UserFactory(resultSet);
-        return userFactory.create();
+        int typeId = resultSet.getInt("user_type_id");
 
-//        int type = resultSet.getInt("user_type_id");
-//        //TODO factory pattern
-//        User user = type == 2 ? new Mentor.Builder().build() : new Student.Builder().build();
-//
-//        return user.setId(resultSet.getInt("id"))
-//                .setFirstName(resultSet.getString("first_name"))
-//                .setLastName(resultSet.getString("last_name"))
-//                .setTypeId(resultSet.getInt("user_type_id"))
-//                .setPhoneNumber(resultSet.getString("phone_number"))
-//                .setEmail(resultSet.getString("email"))
-//                .setPassword(resultSet.getString("password"))
-//                .setActive(resultSet.getBoolean("is_active"));
+        User user = userFactory.create(typeId);
+        return createUserData(user, resultSet);
+    }
+
+    private User createUserData(User user, ResultSet resultSet) throws SQLException {
+        user.setId(resultSet.getInt("id"))
+                .setFirstName(resultSet.getString("first_name"))
+                .setLastName(resultSet.getString("last_name"))
+                .setTypeId(resultSet.getInt("user_type_id"))
+                .setPhoneNumber(resultSet.getString("phone_number"))
+                .setEmail(resultSet.getString("email"))
+                .setPassword(resultSet.getString("password"))
+                .setActive(resultSet.getBoolean("is_active"));
+
+        if (user instanceof Student) {
+            StudentDao studentDao = new StudentDao();
+            studentDao.getStudentByIdWithAdditionalData(user.getId());
+        }
+
+        return user;
     }
 
     @Override
