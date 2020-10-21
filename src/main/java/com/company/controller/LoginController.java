@@ -6,6 +6,7 @@ import com.company.helpers.HttpHelper;
 import com.company.helpers.Parser;
 import com.company.model.user.Student;
 import com.company.model.user.User;
+import com.company.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -22,11 +23,13 @@ public class LoginController implements HttpHandler {
     private ObjectMapper mapper;
     private SessionController sessionController;
     private Parser parser;
+    private LoginService loginService;
 
     public LoginController(SessionController sessionController) {
         this.mapper = new ObjectMapper();
         this.sessionController = sessionController;
         this.parser = new Parser();
+        this.loginService = new LoginService();
     }
 
     @Override
@@ -39,20 +42,14 @@ public class LoginController implements HttpHandler {
             String email = data.get("email");
             String password = data.get("password");
 
-            UserDao userDao = new UserDao();
-            User user = userDao.getByEmailPassword(email, password);
-
-            if (user instanceof Student) {
-                StudentDao studentDao = new StudentDao();
-                user = studentDao.getStudentByIdWithAdditionalData(user.getId());
-            }
+            User user = loginService.getUserByEmailAndPassword(email, password);
 
             UUID uuid = UUID.randomUUID();
 
             sessionController.sessions.put(uuid, user);
             System.out.println(uuid + ": " + user);
 
-            userDao.updateSessionId(uuid, email, password);
+            loginService.updateSessionIdByEmailAndPassword(uuid, email, password);
 
             String response = mapper.writeValueAsString(user);
 
