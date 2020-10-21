@@ -9,6 +9,7 @@ import com.company.model.user.User;
 import java.util.UUID;
 
 public class LoginService {
+
     private UserDao userDao;
 
     public LoginService() {

@@ -1,10 +1,7 @@
 package com.company.controller;
 
-import com.company.dao.StudentDao;
-import com.company.dao.UserDao;
 import com.company.helpers.HttpHelper;
 import com.company.helpers.Parser;
-import com.company.model.user.Student;
 import com.company.model.user.User;
 import com.company.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,14 +18,14 @@ import java.util.UUID;
 public class LoginController implements HttpHandler {
 
     private ObjectMapper mapper;
-    private SessionController sessionController;
     private Parser parser;
+    private SessionController sessionController;
     private LoginService loginService;
 
     public LoginController(SessionController sessionController) {
         this.mapper = new ObjectMapper();
-        this.sessionController = sessionController;
         this.parser = new Parser();
+        this.sessionController = sessionController;
         this.loginService = new LoginService();
     }
 
@@ -43,9 +40,7 @@ public class LoginController implements HttpHandler {
             String password = data.get("password");
 
             User user = loginService.getUserByEmailAndPassword(email, password);
-
             UUID uuid = UUID.randomUUID();
-
             sessionController.sessions.put(uuid, user);
             System.out.println(uuid + ": " + user);
 
