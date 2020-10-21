@@ -9,3 +9,8 @@ public class SessionController {
 
     Map<UUID, User> sessions = new HashMap<>();
 }
+
+/*
+boolean - isLogged(uuid uuid)
+kto jest zalogowany
+ */

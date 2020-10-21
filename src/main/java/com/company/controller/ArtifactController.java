@@ -1,8 +1,9 @@
 package com.company.controller;
 
-import com.company.dao.ArtifactDao;
 import com.company.exceptions.ObjectNotFoundException;
 import com.company.helpers.HttpHelper;
+import com.company.helpers.Parser;
+import com.company.service.ArtifactService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
@@ -12,24 +13,29 @@ import java.io.IOException;
 
 public class ArtifactController implements HttpHandler {
 
-    private ArtifactDao artifactDao;
+    private ArtifactService artifactService;
+    private final ActionParser actionParser;
+    private final Parser parser;
 
     public ArtifactController() {
-        this.artifactDao = new ArtifactDao();
+        artifactService = new ArtifactService();
+        this.actionParser = new ActionParser();
+        this.parser = new Parser();
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
-        String response = "";
+        String url = exchange.getRequestURI().getRawPath();
+        Actions actions = actionParser.fromURL(url);
 
         try {
-            switch (method){
+            switch (method) {
                 case "GET":
-                    response = get(exchange);
-                    HttpHelper.sendResponse(exchange, response, 200);
+                    get(exchange, actions);
                     break;
                 case "POST":
+                    post(exchange, actions);
                     break;
             }
         } catch (Exception e) {
@@ -39,16 +45,18 @@ public class ArtifactController implements HttpHandler {
         }
     }
 
-    private String get(HttpExchange exchange) throws ObjectNotFoundException, JsonProcessingException {
+    private void get(HttpExchange exchange, Actions actions) throws ObjectNotFoundException, JsonProcessingException {
         String url = exchange.getRequestURI().getRawPath();
         String[] actions = url.split("/");
-        ObjectMapper mapper = new ObjectMapper();
+        HttpHelper.sendResponse(exchange, response, 200);
 
-        if (actions.length == 3) {
-            int id = Integer.parseInt(actions[2]);
-            System.out.println(id);
-            return mapper.writeValueAsString(artifactDao.getById(id));
-        }
-        return mapper.writeValueAsString(artifactDao.getAll());
+    }
+
+    private void post(HttpExchange exchange, Actions actions) {
+
     }
 }
+
+/*
+mapper do serwisu
+ */
