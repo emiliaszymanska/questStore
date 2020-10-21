@@ -1,3 +1,4 @@
+
 package com.company.helpers;
 
 import java.util.Optional;
@@ -23,5 +24,13 @@ public class Actions {
 
     public String getOperation() {
         return URLComponents[2];
+    }
+
+    public int getActionsSize() {
+        return URLComponents.length;
+    }
+
+    public int getThirdComponent() {
+        return Integer.parseInt(URLComponents[2]);
     }
 }
