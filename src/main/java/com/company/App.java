@@ -12,6 +12,7 @@ public class App {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8001), 0);
 
+        server.createContext("/register", new RegisterController());
         server.createContext("/login", new LoginController(new SessionController()));
         /*
             http://localhost:8001/student/wallet
@@ -19,7 +20,6 @@ public class App {
             http://localhost:8001/student/store
             http://localhost:8001/student
          */
-        server.createContext("/register", new RegisterController());
         server.createContext("/student", new StudentController());
         server.createContext("/quest", new QuestController());
         server.createContext("/artifact", new ArtifactController());
