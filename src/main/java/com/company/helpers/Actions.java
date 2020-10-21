@@ -5,15 +5,23 @@ import java.util.UUID;
 
 public class Actions {
 
+    private String[] URLComponents;
+
+    public Actions(String[] URLComponents) {
+        this.URLComponents = URLComponents;
+    }
+
     public Optional<UUID> getUUID() {
-        return Optional.empty();
+        if (this.URLComponents.length != 4)
+            return Optional.empty();
+        return Optional.of(UUID.fromString(URLComponents[3]));
     }
 
     public String getEntity() {
-        return "wallet";
+        return URLComponents[2];
     }
 
     public String getOperation() {
-        return "anything";
+        return URLComponents[2];
     }
 }
