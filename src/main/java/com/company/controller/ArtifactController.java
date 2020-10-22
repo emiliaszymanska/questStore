@@ -70,10 +70,10 @@ public class ArtifactController implements HttpHandler {
                 response = artifactService.addArtifact(formData);
                 break;
             case "update":
-                response = artifactService.editArtifact(formData, Integer.parseInt(formData.get("id")));
+                response = artifactService.updateArtifact(formData);
                 break;
             case "delete":
-                response = artifactService.deleteArtifact(formData, Integer.parseInt(formData.get("id")));
+                response = artifactService.deleteArtifact(formData);
                 break;
             default:
                 HttpHelper.sendResponse(exchange, "Invalid URL", 404);
@@ -82,3 +82,11 @@ public class ArtifactController implements HttpHandler {
         HttpHelper.sendResponse(exchange, response, 200);
     }
 }
+
+/*
+mock dao
+assert mocka
+mock object mapper
+assert czy do dao jest artefakt zgodny z expected
+do mappera tak samo
+ */
