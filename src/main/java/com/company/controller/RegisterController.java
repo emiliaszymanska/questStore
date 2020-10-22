@@ -16,6 +16,11 @@ public class RegisterController implements HttpHandler {
     private Parser parser;
     private RegisterService registerService;
 
+    public RegisterController(Parser parser, RegisterService registerService) {
+        this.parser = parser;
+        this.registerService = registerService;
+    }
+
     public RegisterController() {
         this.parser = new Parser();
         this.registerService = new RegisterService();
