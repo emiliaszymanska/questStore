@@ -1,10 +1,8 @@
 package com.company.model.user;
 
-import com.company.dao.StudentDao;
 import com.company.exceptions.ObjectNotFoundException;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class UserFactory {
 
@@ -17,13 +15,13 @@ public class UserFactory {
     public UserFactory() {
     }
 
-    public User create(int typeId) throws SQLException {
+    public User create(int typeId) throws ObjectNotFoundException {
 
         switch (typeId) {
             case 1:
+                //TODO Admin model
                 //Admin
                 //return new Admin.Builder().build();
-                //TODO Admin model
                 break;
             case 2:
                 //Mentor
