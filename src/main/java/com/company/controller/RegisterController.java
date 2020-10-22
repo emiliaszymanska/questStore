@@ -6,6 +6,7 @@ import com.company.helpers.Parser;
 import com.company.model.ModuleType;
 import com.company.model.user.Student;
 import com.company.model.user.User;
+import com.company.model.user.UserFactory;
 import com.company.service.RegisterService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
