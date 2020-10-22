@@ -1,23 +1,10 @@
 package com.company.model.user;
 
-import com.company.dao.StudentDao;
 import com.company.exceptions.ObjectNotFoundException;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class UserFactory {
 
-    private ResultSet resultSet;
-
-    public UserFactory(ResultSet resultSet) {
-        this.resultSet = resultSet;
-    }
-
-    public UserFactory() {
-    }
-
-    public User create(int typeId) throws SQLException {
+    public User create(int typeId) throws ObjectNotFoundException {
 
         switch (typeId) {
             case 1:
