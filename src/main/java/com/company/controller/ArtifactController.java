@@ -70,10 +70,10 @@ public class ArtifactController implements HttpHandler {
                 response = artifactService.addArtifact(formData);
                 break;
             case "update":
-                response = artifactService.editArtifact(formData, Integer.parseInt(formData.get("id")));
+                response = artifactService.editArtifact(formData);
                 break;
             case "delete":
-                response = artifactService.deleteArtifact(formData, Integer.parseInt(formData.get("id")));
+                response = artifactService.deleteArtifact(formData);
                 break;
             default:
                 HttpHelper.sendResponse(exchange, "Invalid URL", 404);

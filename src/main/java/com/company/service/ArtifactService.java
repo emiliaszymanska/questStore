@@ -34,14 +34,14 @@ public class ArtifactService {
         return mapper.writeValueAsString(artifact);
     }
 
-    public String editArtifact(Map<String, String> formData, int id) throws ObjectNotFoundException, JsonProcessingException {
+    public String editArtifact(Map<String, String> formData) throws ObjectNotFoundException, JsonProcessingException {
         artifact = artifactDao.getById(Integer.parseInt(formData.get("id")));
         getArtifactData(formData, artifact);
         artifactDao.update(artifact);
         return mapper.writeValueAsString(artifact);
     }
 
-    public String deleteArtifact(Map<String, String> formData, int id) throws ObjectNotFoundException, JsonProcessingException {
+    public String deleteArtifact(Map<String, String> formData) throws ObjectNotFoundException, JsonProcessingException {
         artifact = artifactDao.getById(Integer.parseInt(formData.get("id")));
         artifactDao.delete(artifact);
         return mapper.writeValueAsString(artifact);
