@@ -17,6 +17,12 @@ public class RegisterService {
     private StudentDao studentDao;
     private ObjectMapper objectMapper;
 
+    public RegisterService(UserDao userDao, StudentDao studentDao, ObjectMapper objectMapper) {
+        this.userDao = userDao;
+        this.studentDao = studentDao;
+        this.objectMapper = objectMapper;
+    }
+
     public RegisterService() {
         this.userDao = new UserDao();
         this.studentDao = new StudentDao();
@@ -50,7 +56,6 @@ public class RegisterService {
 
     private User populateStudentObjectWithAdditionalData(Map<String, String> formData) throws ObjectNotFoundException {
         Student student = (Student) studentDao.getByEmailPassword(formData.get("email"), formData.get("password"));
-
         student.setModuleType(ModuleType.valueOf("PROGRAMMING_BASICS"))
                 .setExperienceLevel(1)
                 .setBalance(0);
