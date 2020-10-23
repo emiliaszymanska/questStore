@@ -1,35 +1,98 @@
 package com.company.service;
 
 import com.company.dao.ArtifactDao;
-import com.company.dao.ArtifactTypeDao;
 import com.company.exceptions.ObjectNotFoundException;
 import com.company.model.Artifact;
-import com.company.model.ArtifactType;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ArtifactServiceTest {
 
-    private ArtifactService artifactService = new ArtifactService();
-    private Artifact artifact;
-    private ArtifactTypeDao artifactTypeDao = new ArtifactTypeDao();
-    private ArtifactDao artifactDao = new ArtifactDao();
+    @Test
+    public void testAddingArtifact() throws ObjectNotFoundException, JsonProcessingException {
+        ArtifactDao artifactDao = Mockito.mock(ArtifactDao.class);
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+
+        Artifact artifact = new Artifact();
+
+        artifactDao.insert(artifact);
+        mapper.writeValueAsString(artifact);
+
+        assertAll(
+                () -> Mockito.verify(artifactDao, Mockito.times(1)).insert(artifact),
+                () -> Mockito.verify(mapper, Mockito.times(1)).writeValueAsString(artifact),
+                () -> assertEquals(Mockito.any(), artifact.getName()),
+                () -> assertEquals(Mockito.any(), artifact.getDescription()),
+                () -> assertEquals(Mockito.anyDouble(), artifact.getPrice()),
+                () -> assertEquals(Mockito.any(), artifact.getType()),
+                () -> assertEquals(Mockito.anyBoolean(), artifact.isGroup())
+        );
+    }
 
     @Test
-    public void testIfArtifactExists() throws ObjectNotFoundException {
-        artifact = new Artifact
-                (1, "Doom Inscriptions", "All the students will focus on your coding problem until it's solved",
-                        1000, artifactTypeDao.getTypeById(1), false);
+    public void testUpdateArtifact() throws JsonProcessingException, ObjectNotFoundException {
+        ArtifactDao artifactDao = Mockito.mock(ArtifactDao.class);
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
 
-        Artifact actual = artifactDao.getById(1);
+        Artifact artifact = new Artifact();
 
-        assertEquals(artifact.getId(), actual.getId());
-        assertEquals(artifact.getName(), actual.getName());
-        assertEquals(artifact.getDescription(), actual.getDescription());
-        assertEquals(artifact.getPrice(), actual.getPrice());
-        assertEquals(artifact.getType(), actual.getType());
-        assertEquals(artifact.isGroup(), actual.isGroup());
+        artifactDao.update(artifact);
+        mapper.writeValueAsString(artifact);
+
+        assertAll(
+                () -> Mockito.verify(artifactDao, Mockito.times(1)).update(artifact),
+                () -> Mockito.verify(mapper, Mockito.times(1)).writeValueAsString(artifact)
+        );
+    }
+
+    @Test
+    public void testDeleteArtifact() throws ObjectNotFoundException, JsonProcessingException {
+        ArtifactDao artifactDao = Mockito.mock(ArtifactDao.class);
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+
+        Artifact artifact = new Artifact();
+
+        artifactDao.delete(artifact);
+        mapper.writeValueAsString(artifact);
+
+        assertAll(
+                () -> Mockito.verify(artifactDao, Mockito.times(1)).delete(artifact),
+                () -> Mockito.verify(mapper, Mockito.times(1)).writeValueAsString(artifact)
+        );
+    }
+
+    @Test
+    public void testGetAll() throws ObjectNotFoundException {
+        ArtifactDao artifactDao = Mockito.mock(ArtifactDao.class);
+
+        artifactDao.getAll();
+
+        assertAll(
+                () -> Mockito.verify(artifactDao, Mockito.times(1)).getAll()
+        );
+    }
+
+    @Test
+    public void testGetById() throws ObjectNotFoundException, JsonProcessingException {
+        ArtifactDao artifactDao = Mockito.mock(ArtifactDao.class);
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+
+        Artifact artifact = new Artifact();
+
+        artifactDao.getById(artifact.getId());
+        mapper.writeValueAsString(artifact);
+
+        assertAll(
+                () -> Mockito.verify(artifactDao, Mockito.times(1)).getById(artifact.getId()),
+                () -> Mockito.verify(mapper, Mockito.times(1)).writeValueAsString(artifact)
+        );
     }
 }
