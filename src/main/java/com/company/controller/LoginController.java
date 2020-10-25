@@ -29,6 +29,13 @@ public class LoginController implements HttpHandler {
         this.loginService = new LoginService();
     }
 
+    public LoginController(ObjectMapper mapper, Parser parser, SessionController sessionController, LoginService loginService) {
+        this.mapper = mapper;
+        this.parser = parser;
+        this.sessionController = sessionController;
+        this.loginService = loginService;
+    }
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
