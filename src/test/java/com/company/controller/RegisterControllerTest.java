@@ -6,7 +6,6 @@ import com.company.service.RegisterService;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,36 +13,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class RegisterControllerTest {
 
     @Test
-    void isRegistrationProcessSuccessful() throws IOException, ObjectNotFoundException {
-        // arrange
-        HttpExchange exchange = Mockito.mock(HttpExchange.class);
+    void testRegistrationProcessSuccessful() throws IOException, ObjectNotFoundException {
+        // Arrange
+        HttpExchange exchange = mock(HttpExchange.class);
         Headers headers = new Headers();
-        Mockito.when(exchange.getResponseHeaders()).thenReturn(headers);
-        Mockito.doNothing().when(exchange).sendResponseHeaders(Mockito.anyInt(), Mockito.anyLong());
+        when(exchange.getResponseHeaders()).thenReturn(headers);
+        doNothing().when(exchange).sendResponseHeaders(anyInt(), anyLong());
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Mockito.when(exchange.getResponseBody()).thenReturn(outputStream);
+        when(exchange.getResponseBody()).thenReturn(outputStream);
 
-        Parser parser = Mockito.mock(Parser.class);
+        Parser parser = mock(Parser.class);
         Map<String, String> map = new HashMap<>();
         map.put("typeId", "2");
-        Mockito.when(parser.parseFormData(exchange)).thenReturn(map);
+        when(parser.parseFormData(exchange)).thenReturn(map);
 
-        RegisterService registerService = Mockito.mock(RegisterService.class);
+        RegisterService registerService = mock(RegisterService.class);
         String response = "Response";
-        Mockito.when(registerService.createNewUser(Mockito.any(), Mockito.eq(map))).thenReturn(response);
+        when(registerService.createNewUser(any(), eq(map))).thenReturn(response);
 
         RegisterController registerController = new RegisterController(parser, registerService);
-        // act
+        // Act
         registerController.handle(exchange);
-        // assert
+        // Assert
         assertAll(
-                () -> Mockito.verify(parser, Mockito.times(1)).parseFormData(exchange),
-                () -> Mockito.verify(registerService, Mockito.times(1)).createNewUser(Mockito.any(),
-                        Mockito.eq(map)),
+                () -> verify(parser).parseFormData(exchange),
+                () -> verify(registerService).createNewUser(any(), eq(map)),
                 () -> assertEquals("true", headers.get("Access-Control-Allow-Credentials").get(0)),
                 () -> assertEquals("application/json", headers.get("Content-type").get(0)),
                 () -> assertEquals("http://localhost:63342", headers.get("Access-Control-Allow-Origin").get(0)),
