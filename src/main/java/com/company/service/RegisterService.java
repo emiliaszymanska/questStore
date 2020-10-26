@@ -13,8 +13,23 @@ import java.util.Map;
 
 public class RegisterService {
 
+    private UserDao userDao;
+    private StudentDao studentDao;
+    private ObjectMapper objectMapper;
+
+    public RegisterService(UserDao userDao, StudentDao studentDao, ObjectMapper objectMapper) {
+        this.userDao = userDao;
+        this.studentDao = studentDao;
+        this.objectMapper = objectMapper;
+    }
+
+    public RegisterService() {
+        this.userDao = new UserDao();
+        this.studentDao = new StudentDao();
+        this.objectMapper = new ObjectMapper();
+    }
+
     public String createNewUser(User user, Map<String, String> formData) throws ObjectNotFoundException, JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         User newUser = populateUserObjectWithData(user, formData);
 
         if (user instanceof Student) {
@@ -26,8 +41,6 @@ public class RegisterService {
     }
 
     private User populateUserObjectWithData(User user, Map<String, String> formData) throws ObjectNotFoundException {
-        UserDao userDao = new UserDao();
-
         user.setFirstName(formData.get("firstName"))
                 .setLastName(formData.get("lastName"))
                 .setTypeId(Integer.parseInt(formData.get("typeId")))
@@ -37,15 +50,12 @@ public class RegisterService {
                 .setActive(true);
 
         userDao.insert(user);
-        User newUser = userDao.getByEmailPassword(formData.get("email"), formData.get("password"));
 
-        return newUser;
+        return userDao.getByEmailPassword(formData.get("email"), formData.get("password"));
     }
 
     private User populateStudentObjectWithAdditionalData(Map<String, String> formData) throws ObjectNotFoundException {
-        StudentDao studentDao = new StudentDao();
         Student student = (Student) studentDao.getByEmailPassword(formData.get("email"), formData.get("password"));
-
         student.setModuleType(ModuleType.valueOf("PROGRAMMING_BASICS"))
                 .setExperienceLevel(1)
                 .setBalance(0);
