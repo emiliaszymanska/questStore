@@ -1,5 +1,7 @@
 package com.company.model.user;
 
+import java.util.Objects;
+
 public abstract class User {
 
     protected int id;
@@ -146,6 +148,26 @@ public abstract class User {
 
         abstract User build();
         protected abstract T self();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                typeId == user.typeId &&
+                isActive == user.isActive &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(phoneNumber, user.phoneNumber) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, typeId, phoneNumber, email, password, isActive);
     }
 
     @Override
