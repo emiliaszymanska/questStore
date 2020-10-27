@@ -20,6 +20,11 @@ public class QuestService {
         this.mapper = new ObjectMapper();
     }
 
+    public QuestService(final QuestDao questDao, final ObjectMapper mapper) {//settings -> final?
+        this.questDao = questDao;
+        this.mapper = mapper;
+    }
+
     public String getAll() throws ObjectNotFoundException, JsonProcessingException {
         return mapper.writeValueAsString(questDao.getAll());
     }
@@ -34,14 +39,14 @@ public class QuestService {
         return mapper.writeValueAsString(quest);
     }
 
-    public String updateQuest(Map<String, String> formData, int id) throws ObjectNotFoundException, JsonProcessingException {
+    public String updateQuest(Map<String, String> formData) throws ObjectNotFoundException, JsonProcessingException {
         quest = questDao.getById(Integer.parseInt(formData.get("id")));
         getQuestData(formData, quest);
         questDao.update(quest);
         return mapper.writeValueAsString(quest);
     }
 
-    public String deleteQuest(Map<String, String> formData, int id) throws ObjectNotFoundException, JsonProcessingException {
+    public String deleteQuest(Map<String, String> formData) throws ObjectNotFoundException, JsonProcessingException {
         quest = questDao.getById(Integer.parseInt(formData.get("id")));
         questDao.delete(quest);
         return mapper.writeValueAsString(quest);

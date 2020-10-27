@@ -20,6 +20,12 @@ public class ArtifactService {
         this.mapper = new ObjectMapper();
     }
 
+    public ArtifactService(ArtifactDao artifactDao, ObjectMapper mapper) {
+        this.artifactDao = artifactDao;
+        this.mapper = mapper;
+    }
+
+
     public String getAll() throws ObjectNotFoundException, JsonProcessingException {
         return mapper.writeValueAsString(artifactDao.getAll());
     }

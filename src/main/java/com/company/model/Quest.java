@@ -1,5 +1,7 @@
 package com.company.model;
 
+import java.util.Objects;
+
 public class Quest {
 
     private int id;
@@ -85,5 +87,23 @@ public class Quest {
                 ", experience=" + experience +
                 ", type=" + type +
                 '}';
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        final Quest quest = (Quest) o;
+        return this.id == quest.id &&
+                this.reward == quest.reward &&
+                this.experience == quest.experience &&
+                Objects.equals(this.name, quest.name) &&
+                Objects.equals(this.description, quest.description) &&
+                this.type == quest.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.name, this.description, this.reward, this.experience, this.type);
     }
 }
