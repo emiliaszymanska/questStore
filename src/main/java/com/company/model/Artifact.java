@@ -1,5 +1,7 @@
 package com.company.model;
 
+import java.util.Objects;
+
 public class Artifact {
 
     private int id;
@@ -86,5 +88,23 @@ public class Artifact {
                 ", isGroup=" + isGroup +
                 '}';
 
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        final Artifact artifact = (Artifact) o;
+        return this.id == artifact.id &&
+                this.price == artifact.price &&
+                this.isGroup == artifact.isGroup &&
+                Objects.equals(this.name, artifact.name) &&
+                Objects.equals(this.description, artifact.description) &&
+                this.type == artifact.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.name, this.description, this.price, this.type, this.isGroup);
     }
 }

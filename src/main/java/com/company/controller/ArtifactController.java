@@ -24,6 +24,11 @@ public class ArtifactController implements HttpHandler {
         this.parser = new Parser();
     }
 
+    public ArtifactController(Parser parser, ArtifactService artifactService) {
+        this.actionParser = new ActionParser();
+        this.parser = new Parser();
+    }
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
@@ -44,7 +49,7 @@ public class ArtifactController implements HttpHandler {
         }
     }
 
-    private void get(HttpExchange exchange, Actions actions) throws ObjectNotFoundException, IOException {
+    public void get(HttpExchange exchange, Actions actions) throws ObjectNotFoundException, IOException {
         String response;
 
         switch (actions.getActionsSize()) {
@@ -61,7 +66,7 @@ public class ArtifactController implements HttpHandler {
         HttpHelper.sendResponse(exchange, response, 200);
     }
 
-    private void post(HttpExchange exchange, Actions actions) throws IOException, ObjectNotFoundException {
+    public void post(HttpExchange exchange, Actions actions) throws IOException, ObjectNotFoundException {
         Map<String, String> formData = parser.parseFormData(exchange);
         String response;
 
@@ -70,7 +75,7 @@ public class ArtifactController implements HttpHandler {
                 response = artifactService.addArtifact(formData);
                 break;
             case "update":
-                response = artifactService.editArtifact(formData);
+                response = artifactService.updateArtifact(formData);
                 break;
             case "delete":
                 response = artifactService.deleteArtifact(formData);
