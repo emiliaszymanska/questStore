@@ -1,5 +1,5 @@
 const spinner = document.querySelector("#spinner");
-const editForm = document.querySelector("#data-form");
+const editForm = document.querySelector("#profile-form");
 
 (() => {
     getProfile();
@@ -7,7 +7,7 @@ const editForm = document.querySelector("#data-form");
         event.preventDefault();
 
         const data = `firstName=${this.firstName.value}&lastName=${this.lastName.value}`
-        + `&email=${this.email.value}&phoneNumber=${this.phoneNumber.value}`;
+            + `&email=${this.email.value}&phoneNumber=${this.phoneNumber.value}`;
         console.log(data);
 
         update(data);
@@ -30,15 +30,28 @@ function getProfile() {
 
 function displayProfile(student) {
     editForm.innerHTML = "";
-    let node = `<input type="text" class="data" name="firstName" value="${student.firstName}"></input>
-       
-                    <input type="text" class="data" name="lastName" value="${student.lastName}"></input>
-
-                    <input type="text" class="data" name="email" value="${student.email}"></input>
-     
-                    <input type="text" class="data" name="phoneNumber" value="${student.phoneNumber}"></input>
-
-                <button class="button" id="submit-button">Submit Changes</button>`;
+    let node = `
+                <img id="profileImage" src="../../images/users/natalie-portman.jpg" alt="profile-image">
+                <div id="form-data">
+                    <div id="firstName-group">
+                        <label for="input-firstName">First name:</label>
+                        <input type="text" id="input-firstName" name="firstName" value="${student.firstName}">
+                    </div>
+                    <div id="lastName-group">
+                        <label for="input-lastName">Last name:</label>
+                        <input type="text" id="input-lastName" name="lastName" value="${student.lastName}">
+                    </div>
+                    <div id="email-group">
+                        <label for="input-email">Email:</label>
+                        <input type="text" id="input-email" name="email" value="${student.email}">
+                    </div>
+                    <div id="phoneNumber-group">
+                        <label for="input-phoneNumber">Phone number:</label>
+                        <input type="text" id="input-phoneNumber" name="phoneNumber" value="${student.phoneNumber}">
+                    </div>
+                    <button id="profile-submit-button">Submit Changes</button>
+                </div>
+                `;
     editForm.innerHTML += node;
 }
 
