@@ -1,8 +1,6 @@
 package com.company.dao;
 
 import com.company.exceptions.ObjectNotFoundException;
-import com.company.model.user.Mentor;
-import com.company.model.user.Student;
 import com.company.model.user.User;
 import com.company.model.user.UserFactory;
 
@@ -38,8 +36,8 @@ public class UserDao extends Dao<User> {
     private User getUser(ResultSet resultSet) throws SQLException {
         UserFactory userFactory = new UserFactory(resultSet);
         int typeId = resultSet.getInt("user_type_id");
-
         User user = userFactory.create(typeId);
+
         return createUserData(user, resultSet);
     }
 
@@ -52,11 +50,6 @@ public class UserDao extends Dao<User> {
                 .setEmail(resultSet.getString("email"))
                 .setPassword(resultSet.getString("password"))
                 .setActive(resultSet.getBoolean("is_active"));
-
-        if (user instanceof Student) {
-            StudentDao studentDao = new StudentDao();
-            studentDao.getStudentByIdWithAdditionalData(user.getId());
-        }
 
         return user;
     }

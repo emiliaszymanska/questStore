@@ -105,6 +105,7 @@ public class Student extends User {
                 ", isActive=" + isActive +
                 ", experienceLevel=" + experienceLevel +
                 ", moduleType=" + moduleType +
+                ", balance=" + balance +
                 '}';
     }
 }

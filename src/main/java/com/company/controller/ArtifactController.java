@@ -87,11 +87,3 @@ public class ArtifactController implements HttpHandler {
         HttpHelper.sendResponse(exchange, response, 200);
     }
 }
-
-/*
-mock dao
-assert mocka
-mock object mapper
-assert czy do dao jest artefakt zgodny z expected
-do mappera tak samo
- */
