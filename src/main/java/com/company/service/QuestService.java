@@ -20,7 +20,7 @@ public class QuestService {
         this.mapper = new ObjectMapper();
     }
 
-    public QuestService(final QuestDao questDao, final ObjectMapper mapper) {//settings -> final?
+    public QuestService(QuestDao questDao, ObjectMapper mapper) {
         this.questDao = questDao;
         this.mapper = mapper;
     }
