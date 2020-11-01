@@ -9,17 +9,17 @@
 }
 
 #profileImage {
+    box-shadow: 0 1em 1em 0.5em rgba(0, 0, 0, 0.2);
     margin-right: 2em;
     width: 15em;
     height: 15em;
     border-radius: 0.6em;
-    box-shadow: 0 1.5em 1.5em 0.5em rgba(0, 0, 0, 0.3);
 }
 
 #profile-form {
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.1);
     box-shadow: 0 1.5em 1.5em 0.5em rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 1em;
     height: 20em;
     width: 45em;
@@ -29,13 +29,17 @@
     justify-content: center;
 }
 
-label {
-    font-weight: bold;
+#firstName-group {
+    margin-top: 0.5em;
 }
 
 #firstName-group, #lastName-group, #email-group, #phoneNumber-group {
     justify-content: space-between;
     align-items: center;
+}
+
+label {
+    font-weight: bold;
 }
 
 input {
@@ -52,7 +56,6 @@ input {
 
 #profile-submit-button {
     align-self: center;
-    box-shadow: 0 1.5em 1.5em rgba(0, 0, 0, 0.3);
     background-color: rgba(18, 23, 48, 0.5);
     color: rgba(245, 245, 245, 0.9);
     margin-top: 2em;
@@ -67,6 +70,10 @@ input {
 #profile-submit-button:hover {
     background-color: rgba(18, 23, 48, 0.6);
     color: white;
+}
+
+#spinner:not([hidden]) {
+    margin-top: 3.6em;
 }
 
 .mainContent, #profile-form, #form-data, #firstName-group, #lastName-group, #email-group, #phoneNumber-group {
