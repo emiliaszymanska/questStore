@@ -21,6 +21,10 @@ public class GroupTransaction extends Transaction {
         return this;
     }
 
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
     @Override
     public String toString() {
         return super.toString() +

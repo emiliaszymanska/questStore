@@ -131,12 +131,25 @@ public class TransactionDao {
         return paymentList;
     }
 
-    public void addTransaction(Transaction transaction) throws ObjectNotFoundException {
+    public void insertTransaction(Transaction transaction) throws ObjectNotFoundException {
+        insertIntoBoughtArtifacts(transaction);
+        if (transaction instanceof GroupTransaction) {
+            insertIntoGroupBuying((GroupTransaction) transaction);
+        }
+    }
+
+    private void insertIntoBoughtArtifacts(Transaction transaction) throws ObjectNotFoundException {
+        String insertStatement = "INSERT INTO bought_artifacts (purchase_date, artifact_id, student_id) VALUES (?, ?, ?)";
         try {
             CONNECTOR.connect();
-            preparedStatement = CONNECTOR.connection.prepareStatement(insertTransaction);
-
-            //insertTransactionToDatabase(transaction);
+            preparedStatement = CONNECTOR.connection.prepareStatement(insertStatement);
+            preparedStatement.setString(1, transaction.getPurchaseDate().toString());
+            preparedStatement.setInt(2, transaction.getArtifact().getId());
+            if (transaction instanceof SingleTransaction) {
+                preparedStatement.setInt(3, ((SingleTransaction) transaction).getPayment().getStudent().getId());
+            } else if (transaction instanceof GroupTransaction) {
+                preparedStatement.setInt(3, ((GroupTransaction) transaction).getPayments().get(0).getStudent().getId());
+            }
 
             preparedStatement.executeUpdate();
 
@@ -147,6 +160,32 @@ public class TransactionDao {
             e.printStackTrace();
             throw new ObjectNotFoundException("Can't insert transaction to database");
         }
+    }
 
+    private void insertIntoGroupBuying(GroupTransaction transaction) throws ObjectNotFoundException {
+        String insertStatement = "INSERT INTO group_buying (student_payment, payment_date, bought_artifact_id, student_id) VALUES (?, ?, ?, ?)";
+        try {
+            List<Payment> paymentList = transaction.getPayments();
+            for (int index = 0; index < paymentList.size(); index++) {
+                Payment singlePayment = paymentList.get(index);
+
+                CONNECTOR.connect();
+                preparedStatement = CONNECTOR.connection.prepareStatement(insertStatement);
+                preparedStatement.setInt(1, singlePayment.getAmount());
+                preparedStatement.setString(2, singlePayment.getPaymentDate().toString());
+                preparedStatement.setInt(3, transaction.getId());
+                preparedStatement.setInt(4, singlePayment.getStudent().getId());
+
+
+                preparedStatement.executeUpdate();
+
+                preparedStatement.close();
+                CONNECTOR.connection.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ObjectNotFoundException("Can't insert transaction to database");
+        }
     }
 }

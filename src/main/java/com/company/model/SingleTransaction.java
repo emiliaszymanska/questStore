@@ -19,6 +19,10 @@ public class SingleTransaction extends Transaction {
         return this;
     }
 
+    public Payment getPayment() {
+        return payment;
+    }
+
     @Override
     public String toString() {
         return super.toString() +
