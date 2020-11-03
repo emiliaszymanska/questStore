@@ -41,6 +41,31 @@ public class TransactionDao {
         return getTransactionsById(selectTransactions + byArtifactId, artifactId);
     }
 
+    private List<Transaction> getTransactionsById(String query, int id) throws ObjectNotFoundException {
+        List<Transaction> transactions = new ArrayList<>();
+
+        try {
+            CONNECTOR.connect();
+            preparedStatement = CONNECTOR.connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                createTransaction(resultSet, transactions);
+                System.out.println(transactions);
+            }
+            resultSet.close();
+            preparedStatement.close();
+            CONNECTOR.connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ObjectNotFoundException("Object not found");
+        }
+
+        return transactions;
+    }
+
     private void createTransaction(ResultSet resultSet, List<Transaction> transactions) throws SQLException {
         Artifact artifact = new Artifact();
         artifact.setId(resultSet.getInt("artifact_id"))
@@ -104,31 +129,6 @@ public class TransactionDao {
         }
 
         return paymentList;
-    }
-
-    private List<Transaction> getTransactionsById(String query, int id) throws ObjectNotFoundException {
-        List<Transaction> transactions = new ArrayList<>();
-
-        try {
-            CONNECTOR.connect();
-            preparedStatement = CONNECTOR.connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                createTransaction(resultSet, transactions);
-                System.out.println(transactions);
-            }
-            resultSet.close();
-            preparedStatement.close();
-            CONNECTOR.connection.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ObjectNotFoundException("Object not found");
-        }
-
-        return transactions;
     }
 
     public void addTransaction(Transaction transaction) throws ObjectNotFoundException {
