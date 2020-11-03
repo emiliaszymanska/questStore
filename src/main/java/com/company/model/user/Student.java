@@ -20,12 +20,19 @@ public class Student extends User {
         return balance;
     }
 
-    public void setModuleType(ModuleType moduleType) {
+    public Student setModuleType(ModuleType moduleType) {
         this.moduleType = moduleType;
+        return this;
     }
 
-    public void setExperienceLevel(int experienceLevel) {
+    public Student setExperienceLevel(int experienceLevel) {
         this.experienceLevel = experienceLevel;
+        return this;
+    }
+
+    public Student setBalance(int balance) {
+        this.balance = balance;
+        return this;
     }
 
     public Student(User.Builder<?> builder) {
@@ -98,6 +105,7 @@ public class Student extends User {
                 ", isActive=" + isActive +
                 ", experienceLevel=" + experienceLevel +
                 ", moduleType=" + moduleType +
+                ", balance=" + balance +
                 '}';
     }
 }

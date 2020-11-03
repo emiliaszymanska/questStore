@@ -8,9 +8,9 @@ public class UserFactory {
 
         switch (typeId) {
             case 1:
+                //TODO Admin model
                 //Admin
                 //return new Admin.Builder().build();
-                //TODO Admin model
                 break;
             case 2:
                 //Mentor

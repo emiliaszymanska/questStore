@@ -1,54 +1,89 @@
 package com.company.controller;
 
-import com.company.dao.ArtifactDao;
 import com.company.exceptions.ObjectNotFoundException;
+import com.company.helpers.ActionParser;
+import com.company.helpers.Actions;
 import com.company.helpers.HttpHelper;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.company.helpers.Parser;
+import com.company.service.ArtifactService;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class ArtifactController implements HttpHandler {
 
-    private ArtifactDao artifactDao;
+    private ArtifactService artifactService;
+    private final ActionParser actionParser;
+    private final Parser parser;
 
     public ArtifactController() {
-        this.artifactDao = new ArtifactDao();
+        this.artifactService = new ArtifactService();
+        this.actionParser = new ActionParser();
+        this.parser = new Parser();
+    }
+
+    public ArtifactController(Parser parser, ArtifactService artifactService) {
+        this.actionParser = new ActionParser();
+        this.parser = new Parser();
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
-        String response = "";
+        String url = exchange.getRequestURI().getRawPath();
+        Actions actions = actionParser.fromURL(url);
 
         try {
-            switch (method){
+            switch (method) {
                 case "GET":
-                    response = get(exchange);
-                    HttpHelper.sendResponse(exchange, response, 200);
+                    get(exchange, actions);
                     break;
                 case "POST":
+                    post(exchange, actions);
                     break;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response = e.getMessage();
-            HttpHelper.sendResponse(exchange, response, 404);
         }
     }
 
-    private String get(HttpExchange exchange) throws ObjectNotFoundException, JsonProcessingException {
-        String url = exchange.getRequestURI().getRawPath();
-        String[] actions = url.split("/");
-        ObjectMapper mapper = new ObjectMapper();
+    public void get(HttpExchange exchange, Actions actions) throws ObjectNotFoundException, IOException {
+        String response;
 
-        if (actions.length == 3) {
-            int id = Integer.parseInt(actions[2]);
-            System.out.println(id);
-            return mapper.writeValueAsString(artifactDao.getById(id));
+        switch (actions.getActionsSize()) {
+            case 2:
+                response = artifactService.getAll();
+                break;
+            case 3:
+                response = artifactService.getById(actions.getThirdComponent());
+                break;
+            default:
+                response = "Invalid URL";
+                break;
         }
-        return mapper.writeValueAsString(artifactDao.getAll());
+        HttpHelper.sendResponse(exchange, response, 200);
+    }
+
+    public void post(HttpExchange exchange, Actions actions) throws IOException, ObjectNotFoundException {
+        Map<String, String> formData = parser.parseFormData(exchange);
+        String response;
+
+        switch (actions.getOperation()) {
+            case "add":
+                response = artifactService.addArtifact(formData);
+                break;
+            case "update":
+                response = artifactService.updateArtifact(formData);
+                break;
+            case "delete":
+                response = artifactService.deleteArtifact(formData);
+                break;
+            default:
+                HttpHelper.sendResponse(exchange, "Invalid URL", 404);
+                return;
+        }
+        HttpHelper.sendResponse(exchange, response, 200);
     }
 }
