@@ -1,0 +1,67 @@
+h1 {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.walletMain {
+    margin-top: 1em;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+.walletHeaders {
+    flex-direction: row;
+    justify-content: space-around;
+    width: 62vw;
+    padding: 1em 3em;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+    font-size: 1.3em;
+}
+
+.icon {
+    margin-right: 0.7em;
+}
+
+.boughtArtifacts {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+}
+
+h3 {
+    margin-top: 1.5em;
+    padding: 0.5em;
+    display: flex;
+    justify-content: center;
+    font-size: 1.2em;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+#spinner:not([hidden]) {
+    margin-top: 7em;
+}
+
+.artifactList {
+    width: 62vw;
+    min-width: 33%;
+    margin-top: 0.5em;
+}
+
+.single-card {
+    margin: 0.3em;
+}
+
+.row {
+    margin: 1em 0.5em 1em;
+}
+
+.walletMain, .walletHeaders, .boughtArtifacts {
+    display: var(--flex);
+}
+
+.walletMain, .boughtArtifacts {
+    flex-direction: var(--flexColumn);
+    justify-content: var(--justifyContent);
+}
