@@ -2,18 +2,7 @@ package com.company.model.user;
 
 import com.company.exceptions.ObjectNotFoundException;
 
-import java.sql.ResultSet;
-
 public class UserFactory {
-
-    private ResultSet resultSet;
-
-    public UserFactory(ResultSet resultSet) {
-        this.resultSet = resultSet;
-    }
-
-    public UserFactory() {
-    }
 
     public User create(int typeId) throws ObjectNotFoundException {
 

@@ -34,7 +34,7 @@ public class UserDao extends Dao<User> {
     }
 
     private User getUser(ResultSet resultSet) throws SQLException {
-        UserFactory userFactory = new UserFactory(resultSet);
+        UserFactory userFactory = new UserFactory();
         int typeId = resultSet.getInt("user_type_id");
         User user = userFactory.create(typeId);
 
