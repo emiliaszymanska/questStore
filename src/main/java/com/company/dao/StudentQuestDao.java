@@ -59,3 +59,8 @@ public class StudentQuestDao {
         return getQuestById(selectAllStatement + byStudentId, studentId);
     }
 }
+
+/*
+trzeba dorobic insert -> jak student kliknie to "zaczyna" questa i on wtedy pojawia sie jako "in progress"
+teraz wszystkie qusty ktore sie pobieraja sa jako "in progress" - to tez do zmiany, powinna byc data zakonczenia go
+ */
