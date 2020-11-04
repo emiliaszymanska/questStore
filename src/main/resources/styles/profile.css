@@ -1,14 +1,17 @@
-.mainContent {
-    align-items: var(--alignItems);
-    margin-top: 5em;
-}
-
 * {
     outline: none;
     border: none;
 }
 
-#profileImage {
+.main-content-profile {
+    margin-top: 2em;
+}
+
+h1 {
+    align-self: flex-start;
+}
+
+#profile-image {
     box-shadow: 0 1em 1em 0.5em rgba(0, 0, 0, 0.2);
     margin-right: 2em;
     width: 15em;
@@ -17,25 +20,25 @@
 }
 
 #profile-form {
-    align-items: center;
+    flex-direction: var(--flexRow);
+    justify-content: var(--justifyContent);
     box-shadow: 0 1.5em 1.5em 0.5em rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 1em;
     height: 20em;
     width: 45em;
 }
 
 #form-data {
-    justify-content: center;
+    justify-content: var(--justifyContent);
 }
 
-#firstName-group {
+#first-name-group {
     margin-top: 0.5em;
 }
 
-#firstName-group, #lastName-group, #email-group, #phoneNumber-group {
+#first-name-group, #last-name-group, #email-group, #phone-number-group {
     justify-content: space-between;
-    align-items: center;
 }
 
 label {
@@ -45,11 +48,11 @@ label {
 input {
     background-color: rgba(255, 255, 255, 0.7);
     box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.3);
+    width: 14em;
+    height: 1.7em;
     padding: 0.3em 0.5em 0.2em;
     margin: 0.3em 0 0.3em 1em;
     border-radius: 0.4em;
-    width: 14em;
-    height: 1.7em;
     font-size: 1em;
     color: rgb(65, 65, 65);
 }
@@ -57,13 +60,14 @@ input {
 #profile-submit-button {
     align-self: center;
     background-color: rgba(18, 23, 48, 0.5);
-    color: rgba(245, 245, 245, 0.9);
     margin-top: 2em;
-    padding: 0.8em 1.2em;
+    padding: 0.9em 1.2em 0.8em;
     border-radius: 0.5em;
     outline: none;
-    text-transform: uppercase;
+    color: rgba(245, 245, 245, 0.9);
+    font-size: 0.9em;
     font-weight: var(--fontWeight);
+    text-transform: uppercase;
     cursor: pointer;
 }
 
@@ -72,19 +76,14 @@ input {
     color: white;
 }
 
-#spinner:not([hidden]) {
-    margin-top: 3.6em;
-}
-
-.mainContent, #profile-form, #form-data, #firstName-group, #lastName-group, #email-group, #phoneNumber-group {
+.main-content-profile, #profile-form, #form-data, #first-name-group, #last-name-group, #email-group, #phone-number-group, h1 {
     display: var(--flex);
 }
 
-#form-data, #form-data {
+.main-content-profile, #form-data {
     flex-direction: var(--flexColumn);
 }
 
-.mainContent, #profile-form {
-    flex-direction: var(--flexRow);
-    justify-content: var(--justifyContent);
+#profile-form, #first-name-group, #last-name-group, #email-group, #phone-number-group {
+    align-items: var(--alignItems);
 }
