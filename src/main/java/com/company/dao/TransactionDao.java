@@ -36,11 +36,11 @@ public class TransactionDao {
         return getTransactionsById(selectTransactions + byStudentId, studentId);
     }
 
-    public List<Transaction> getTransactionByArtifactId(int artifactId) throws ObjectNotFoundException {
+    public List<Transaction> getTransactionsByArtifactId(int artifactId) throws ObjectNotFoundException {
         return getTransactionsById(selectTransactions + byArtifactId, artifactId);
     }
 
-    public List<Transaction> getTransactionByBoughtArtifactId(int boughtArtifactId) throws ObjectNotFoundException {
+    public List<Transaction> getTransactionsByBoughtArtifactId(int boughtArtifactId) throws ObjectNotFoundException {
         return getTransactionsById(selectTransactions + byBoughtArtifactId, boughtArtifactId);
     }
 
@@ -153,8 +153,8 @@ public class TransactionDao {
             } else if (transaction instanceof GroupTransaction) {
                 preparedStatement.setInt(3, ((GroupTransaction) transaction).getPayments().get(0).getStudent().getId());
             }
-
             preparedStatement.executeUpdate();
+
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             int boughtArtifactId = 0;
 
@@ -174,7 +174,8 @@ public class TransactionDao {
     }
 
     public void insertIntoGroupBuying(GroupTransaction transaction, int boughtArtifactId) throws ObjectNotFoundException {
-        String insertStatement = "INSERT INTO group_buying (student_payment, payment_date, bought_artifact_id, student_id) VALUES (?, ?, ?, ?)";
+        String insertStatement = "INSERT INTO group_buying (student_payment, payment_date, bought_artifact_id, student_id) " +
+                                 "VALUES (?, ?, ?, ?)";
         try {
             List<Payment> paymentList = transaction.getPayments();
             for (int index = 0; index < paymentList.size(); index++) {
@@ -186,14 +187,11 @@ public class TransactionDao {
                 preparedStatement.setDate(2, Date.valueOf(singlePayment.getPaymentDate()));
                 preparedStatement.setInt(3, boughtArtifactId);
                 preparedStatement.setInt(4, singlePayment.getStudent().getId());
-
-
                 preparedStatement.executeUpdate();
 
                 preparedStatement.close();
                 CONNECTOR.connection.close();
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ObjectNotFoundException("Can't insert group transaction to database");
@@ -214,7 +212,7 @@ public class TransactionDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new ObjectNotFoundException("Update can't be done to this object");
+            throw new ObjectNotFoundException("Object can't be updated");
         }
     }
 }
