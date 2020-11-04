@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <title>My Quests</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quests</title>
 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script src="../../scripts/quests.js" defer></script>
+    <script src="../../scripts/student-quests.js" defer></script>
 
     <link rel="stylesheet" href="../../styles/dashboard.css">
     <link rel="stylesheet" href="../../styles/menu.css">
-    <link rel="stylesheet" href="../../styles/spinner.css">
     <link rel="stylesheet" href="../../styles/buttons.css">
+    <link rel="stylesheet" href="../../styles/spinner.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
 
+</head>
 <body>
     <div class="headerPlusMenu">
         <div id="header">
@@ -37,15 +36,15 @@
         </div>
     </div>
 
-    <div class="dashboard-row"></div>
-
-    <div hidden id="spinner"></div>
-
-    <div class="row"></div>
-
-    <footer>
-        <p>Copyright &#169 Dominika Jarek, Emilia Szymańska, Mateusz Przystał 2020</p>
-    </footer>
+    <div class="container">
+        <div class="questsField">
+            <h3 class="questsHeader">Your quests:</h3>
+            <div hidden id="spinner"></div>
+            <div class="questsList">
+                <div class="row"></div>
+            </div>
+        </div>
+        <div class="dashboard-row"></div>
+    </div>
 </body>
-
 </html>

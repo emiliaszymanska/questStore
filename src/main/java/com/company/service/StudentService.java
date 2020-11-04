@@ -1,8 +1,11 @@
 package com.company.service;
 
 import com.company.dao.StudentDao;
+import com.company.dao.StudentQuestDao;
 import com.company.dao.TransactionDao;
 import com.company.exceptions.ObjectNotFoundException;
+import com.company.model.Quest;
+import com.company.model.StudentQuests;
 import com.company.model.Transaction;
 import com.company.model.user.Student;
 import com.company.model.user.User;
@@ -82,10 +85,12 @@ public class StudentService {
         return "store";
     }
 
-    public String getStudentQuests(UUID uuid) throws ObjectNotFoundException {
+    public String getStudentQuests(UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
         User student = studentDao.getBySessionId(uuid);
+        StudentQuestDao studentQuestDao = new StudentQuestDao();
+        List<Quest> studentQuests = studentQuestDao.getByUserId(student.getId());
 
-        return "quest";
+        return mapper.writeValueAsString(studentQuests);
     }
 
     public String getStudentWallet(UUID uuid) throws ObjectNotFoundException, JsonProcessingException {

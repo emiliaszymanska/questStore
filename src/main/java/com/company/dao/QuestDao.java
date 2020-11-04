@@ -58,7 +58,7 @@ public class QuestDao extends Dao<Quest> {
         preparedStatement.setInt(1, quest.getId());
     }
 
-    private Quest getQuest(ResultSet resultSet) throws SQLException {
+    public Quest getQuest(ResultSet resultSet) throws SQLException {
         Quest quest = new Quest();
         quest.setId(resultSet.getInt("id"))
                 .setName(resultSet.getString("name"))

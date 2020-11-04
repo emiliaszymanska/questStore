@@ -55,6 +55,10 @@ body {
     text-align: center;
 }
 
+.single-card {
+    margin: 0.8em 0.8em;
+}
+
 .dashboard-card {
     width: 15em;
     height: 15em;
@@ -72,9 +76,10 @@ body {
     border-radius: 0.5em;
     transition: 0.5s;
     cursor: pointer;
-    margin: 0.5em 0.5em;
+    margin: 1em 1.5em;
     padding: 0 15px;
     box-shadow: 10px 10px 15px rgba(173, 173, 173, 0.3);
+    position: relative;
 }
 
 .card-set > h4, .card-set > h5 {

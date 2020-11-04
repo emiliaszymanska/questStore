@@ -3,6 +3,8 @@ const container = document.querySelector(".row");
 const spinner = document.getElementById("spinner");
 let object;
 
+
+
 function enableEventListeners() {
     const types = document.querySelectorAll(".types");
     types.forEach(type => {
@@ -72,6 +74,7 @@ function displayQuests(quests) {
                 <h5 class="card-set-text-3">Experience: ${quest.experience}</h5>
                 <h5 class="card-set-text-4">Difficulty level: ${quest.type}</h5>
             </div>
+            <button id="addQuest">Start Quest</button>
         </div>
         `;
         container.innerHTML += node;

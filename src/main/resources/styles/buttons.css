@@ -1,0 +1,13 @@
+#addQuest {
+    border: none;
+    outline: none;
+    float: right;
+    margin-right: 2em;
+    margin-left: 0.8em;
+    border-radius: var(--borderRadius);
+    padding: 1em;
+}
+
+#addQuest:hover {
+    background-color: rgba(206, 206, 206, 0.57);
+}
