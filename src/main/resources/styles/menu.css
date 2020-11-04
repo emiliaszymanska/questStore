@@ -12,16 +12,17 @@
 
 * {
     font-family: var(--fontFamily);
+    outline: none;
 }
 
 #header > img {
-    margin-top: 2em;
-    margin-bottom: 0;
     width: 12em;
     height: 12em;
+    margin-top: 2em;
+    margin-bottom: 0;
 }
 
-.headerPlusMenu {
+.header-plus-menu {
     width: 65vw;
     height: 20vh;
     border-bottom: solid;
@@ -29,51 +30,45 @@
     border-color: rgb(37, 44, 68);
 }
 
-.button {
+.button-menu {
     box-shadow: 0 1.5em 1.5em rgba(0, 0, 0, 0.3);
     background-color: rgba(245, 245, 245, 0.4);
     justify-content: right;
     padding: 1em 2em;
+    border: none;
     text-transform: uppercase;
     font-weight: var(--fontWeight);
     cursor: pointer;
-    border: none;
-    outline: none;
 }
 
-.button:hover, #dashboard-button:hover {
+.button-menu:hover, #dashboard-button:hover {
     background-color: rgba(245, 245, 245, 0.7);
 }
 
 #dashboard-button {
     background-color: rgba(245, 245, 245, 0.4);
-    margin-right: 1em;
+    margin-right: 1.5em;
 }
 
-/*#back-button {*/
-/*    margin-right: 1em;*/
-/*    background-color: rgba(154, 153, 153, 0.4);*/
-/*}*/
-
-/*#back-button:hover {*/
-/*    background-color: rgba(245, 245, 245, 0.6);*/
-/*}*/
+#logout-button {
+    margin-left: 0.5em;
+}
 
 footer {
     text-align: center;
     justify-content: var(--justifyContent);
 }
 
-.headerPlusMenu, .button {
+.header-plus-menu, .button-menu {
     flex-direction: var(--flexRow);
-    justify-content: space-between;
     align-items: var(--alignItems);
+    justify-content: space-between;
 }
 
-.headerPlusMenu, footer {
+.header-plus-menu, footer {
     display: var(--flex);
 }
 
-.button {
+.button-menu {
     border-radius: var(--borderRadius);
 }
