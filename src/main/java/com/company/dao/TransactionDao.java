@@ -4,9 +4,7 @@ import com.company.exceptions.ObjectNotFoundException;
 import com.company.model.*;
 import com.company.model.user.Student;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +19,7 @@ public class TransactionDao {
     private final String insertTransaction = "";
     private final String byStudentId = "WHERE student_id = ?;";
     private final String byArtifactId = "WHERE artifact_id = ?;";
+    private final String byBoughtArtifactId = "WHERE ba.id = ?;";
     private final Connector CONNECTOR;
     private ArtifactTypeDao artifactTypeDao;
     private UserDao userDao;
@@ -39,6 +38,10 @@ public class TransactionDao {
 
     public List<Transaction> getTransactionByArtifactId(int artifactId) throws ObjectNotFoundException {
         return getTransactionsById(selectTransactions + byArtifactId, artifactId);
+    }
+
+    public List<Transaction> getTransactionByBoughtArtifactId(int boughtArtifactId) throws ObjectNotFoundException {
+        return getTransactionsById(selectTransactions + byBoughtArtifactId, boughtArtifactId);
     }
 
     private List<Transaction> getTransactionsById(String query, int id) throws ObjectNotFoundException {
@@ -132,17 +135,17 @@ public class TransactionDao {
     }
 
     public void insertTransaction(Transaction transaction) throws ObjectNotFoundException {
-        insertIntoBoughtArtifacts(transaction);
+        int boughtArtifactId = insertIntoBoughtArtifacts(transaction);
         if (transaction instanceof GroupTransaction) {
-            insertIntoGroupBuying((GroupTransaction) transaction);
+            insertIntoGroupBuying((GroupTransaction) transaction, boughtArtifactId);
         }
     }
 
-    private void insertIntoBoughtArtifacts(Transaction transaction) throws ObjectNotFoundException {
+    private int insertIntoBoughtArtifacts(Transaction transaction) throws ObjectNotFoundException {
         String insertStatement = "INSERT INTO bought_artifacts (purchase_date, artifact_id, student_id) VALUES (?, ?, ?)";
         try {
             CONNECTOR.connect();
-            preparedStatement = CONNECTOR.connection.prepareStatement(insertStatement);
+            preparedStatement = CONNECTOR.connection.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, transaction.getPurchaseDate().toString());
             preparedStatement.setInt(2, transaction.getArtifact().getId());
             if (transaction instanceof SingleTransaction) {
@@ -152,9 +155,17 @@ public class TransactionDao {
             }
 
             preparedStatement.executeUpdate();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            int boughtArtifactId = 0;
+
+            while (generatedKeys.next()) {
+                boughtArtifactId = generatedKeys.getInt("id");
+            }
 
             preparedStatement.close();
             CONNECTOR.connection.close();
+
+            return boughtArtifactId;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -162,7 +173,7 @@ public class TransactionDao {
         }
     }
 
-    private void insertIntoGroupBuying(GroupTransaction transaction) throws ObjectNotFoundException {
+    public void insertIntoGroupBuying(GroupTransaction transaction, int boughtArtifactId) throws ObjectNotFoundException {
         String insertStatement = "INSERT INTO group_buying (student_payment, payment_date, bought_artifact_id, student_id) VALUES (?, ?, ?, ?)";
         try {
             List<Payment> paymentList = transaction.getPayments();
@@ -172,8 +183,8 @@ public class TransactionDao {
                 CONNECTOR.connect();
                 preparedStatement = CONNECTOR.connection.prepareStatement(insertStatement);
                 preparedStatement.setInt(1, singlePayment.getAmount());
-                preparedStatement.setString(2, singlePayment.getPaymentDate().toString());
-                preparedStatement.setInt(3, transaction.getId());
+                preparedStatement.setDate(2, Date.valueOf(singlePayment.getPaymentDate()));
+                preparedStatement.setInt(3, boughtArtifactId);
                 preparedStatement.setInt(4, singlePayment.getStudent().getId());
 
 
@@ -185,7 +196,25 @@ public class TransactionDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new ObjectNotFoundException("Can't insert transaction to database");
+            throw new ObjectNotFoundException("Can't insert group transaction to database");
+        }
+    }
+
+    public void updatePurchaseDate(LocalDate date, int boughtArtifactId) throws ObjectNotFoundException {
+        String updateStatement = "UPDATE bought_artifacts SET purchase_date = ? WHERE id = ?";
+        try {
+            CONNECTOR.connect();
+            preparedStatement = CONNECTOR.connection.prepareStatement(updateStatement);
+            preparedStatement.setString(1, date.toString());
+            preparedStatement.setInt(2, boughtArtifactId);
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            CONNECTOR.connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ObjectNotFoundException("Update can't be done to this object");
         }
     }
 }

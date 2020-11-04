@@ -12,6 +12,11 @@ public class GroupTransaction extends Transaction {
         this.payments = payments;
     }
 
+    public GroupTransaction(Artifact artifact, LocalDate purchaseDate, List<Payment> payments) {
+        super(artifact, purchaseDate);
+        this.payments = payments;
+    }
+
     public GroupTransaction() {
         super();
     }
