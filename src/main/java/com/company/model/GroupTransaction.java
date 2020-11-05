@@ -12,6 +12,11 @@ public class GroupTransaction extends Transaction {
         this.payments = payments;
     }
 
+    public GroupTransaction(Artifact artifact, LocalDate purchaseDate, List<Payment> payments) {
+        super(artifact, purchaseDate);
+        this.payments = payments;
+    }
+
     public GroupTransaction() {
         super();
     }
@@ -19,6 +24,10 @@ public class GroupTransaction extends Transaction {
     public GroupTransaction setPayments(List<Payment> payments) {
         this.payments = payments;
         return this;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
     }
 
     @Override

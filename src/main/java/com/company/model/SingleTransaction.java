@@ -11,12 +11,21 @@ public class SingleTransaction extends Transaction {
         this.payment = payment;
     }
 
+    public SingleTransaction(Artifact artifact, LocalDate purchaseDate, Payment payment) {
+        super(artifact, purchaseDate);
+        this.payment = payment;
+    }
+
     public SingleTransaction() {
     }
 
     public SingleTransaction setPayment(Payment payment) {
         this.payment = payment;
         return this;
+    }
+
+    public Payment getPayment() {
+        return payment;
     }
 
     @Override

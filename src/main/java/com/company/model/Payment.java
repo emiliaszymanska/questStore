@@ -34,6 +34,18 @@ public class Payment {
         return this;
     }
 
+    public LocalDate getPaymentDate() {
+        return paymentDate;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
     @Override
     public String toString() {
         return "Payment{" +
