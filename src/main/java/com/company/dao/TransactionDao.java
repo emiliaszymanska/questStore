@@ -55,7 +55,6 @@ public class TransactionDao {
 
             while (resultSet.next()) {
                 createTransaction(resultSet, transactions);
-                System.out.println(transactions);
             }
             resultSet.close();
             preparedStatement.close();
