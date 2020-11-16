@@ -8,9 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpCookie;
 import java.util.Map;
 import java.util.UUID;
@@ -22,18 +20,18 @@ public class LoginController implements HttpHandler {
     private SessionController sessionController;
     private LoginService loginService;
 
-    public LoginController(SessionController sessionController) {
-        this.mapper = new ObjectMapper();
-        this.parser = new Parser();
-        this.sessionController = sessionController;
-        this.loginService = new LoginService();
-    }
-
     public LoginController(ObjectMapper mapper, Parser parser, SessionController sessionController, LoginService loginService) {
         this.mapper = mapper;
         this.parser = parser;
         this.sessionController = sessionController;
         this.loginService = loginService;
+    }
+
+    public LoginController(SessionController sessionController) {
+        this.mapper = new ObjectMapper();
+        this.parser = new Parser();
+        this.sessionController = sessionController;
+        this.loginService = new LoginService();
     }
 
     @Override

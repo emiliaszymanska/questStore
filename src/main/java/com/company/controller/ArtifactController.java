@@ -24,13 +24,8 @@ public class ArtifactController implements HttpHandler {
         this.parser = new Parser();
     }
 
-    public ArtifactController(Parser parser, ArtifactService artifactService) {
-        this.actionParser = new ActionParser();
-        this.parser = new Parser();
-    }
-
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public void handle(HttpExchange exchange) {
         String method = exchange.getRequestMethod();
         String url = exchange.getRequestURI().getRawPath();
         Actions actions = actionParser.fromURL(url);
