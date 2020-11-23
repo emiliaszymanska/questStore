@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentQuestDao {
+public class StudentQuestDao extends QuestDao {
 
     private QuestTypeDao questTypeDao;
     private UserDao userDao;
