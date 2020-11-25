@@ -5,3 +5,28 @@
     right: 0;
     bottom: 0;
 }
+
+.card-set {
+    width: 14em;
+    height: 17em;
+}
+
+.buy-artifact-button {
+    display: flex;
+    align-self: center;
+    background-color: rgba(18, 23, 48, 0.5);
+    margin-top: 0.1em;
+    padding: 0.7em 1.2em 0.6em;
+    border-radius: 0.5em;
+    border: none;
+    color: rgba(245, 245, 245, 0.9);
+    font-size: 0.7em;
+    font-weight: var(--fontWeight);
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.buy-artifact-button:hover {
+    background-color: rgba(18, 23, 48, 0.6);
+    color: white;
+}
