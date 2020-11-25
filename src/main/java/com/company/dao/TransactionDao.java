@@ -77,7 +77,12 @@ public class TransactionDao {
                 .setType(artifactTypeDao.getTypeById(resultSet.getInt("artifact_type_id")))
                 .setGroup(resultSet.getBoolean("is_group"));
 
-        LocalDate purchaseDate = LocalDate.parse(resultSet.getString("purchase_date"));
+        LocalDate purchaseDate;
+        if (resultSet.getString("purchase_date") != null) {
+            purchaseDate = LocalDate.parse(resultSet.getString("purchase_date"));
+        } else {
+            purchaseDate = null;
+        }
 
         if (artifact.isGroup()) {
             List<Payment> paymentList = createPaymentList(resultSet.getInt("bought_artifact_id"));
@@ -131,6 +136,33 @@ public class TransactionDao {
         }
 
         return paymentList;
+    }
+
+    public List<Transaction> getGroupTransactions() throws ObjectNotFoundException {
+        List<Transaction> groupTransactions = new ArrayList<>();
+
+        try {
+            CONNECTOR.connect();
+            preparedStatement = CONNECTOR.connection.prepareStatement("SELECT ba.purchase_date, ba.id AS bought_artifact_id,"
+                    + " ba.artifact_id AS bought_artifact_artifact_id, ba.student_id AS student_id, a.id AS artifact_id, a.name,"
+                    + " a.description, a.price, a.artifact_type_id, a.is_group"
+                    + " FROM bought_artifacts AS ba"
+                    + " INNER JOIN artifacts AS a ON ba.artifact_id = a.id WHERE a.is_group = true");
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                createTransaction(resultSet, groupTransactions);
+            }
+            resultSet.close();
+            preparedStatement.close();
+            CONNECTOR.connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ObjectNotFoundException("Transaction not found");
+        }
+
+        return groupTransactions;
     }
 
     public void insertTransaction(Transaction transaction) throws ObjectNotFoundException {
