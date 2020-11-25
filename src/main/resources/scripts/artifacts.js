@@ -21,19 +21,19 @@ function displayMenu() {
         <div class="single-card types">
             <div class="dashboard-card">
                 <h4 class="dashboard-card-title">Related to students</h4>
-                <img src="../../images/dashboard-images/student-group.jpg" alt="Photo" class="dashboard-card-image">
+                <img src="../../images/dashboard-images/student-group.jpg" alt="Student group" class="dashboard-card-image">
             </div>
         </div>
         <div class="single-card types">
             <div class="dashboard-card">
                 <h4 class="dashboard-card-title">Related to mentors</h4>
-                <img src="../../images/dashboard-images/mentor.jpeg" alt="Photo" class="dashboard-card-image">
+                <img src="../../images/dashboard-images/mentor.jpeg" alt="Mentor" class="dashboard-card-image">
             </div>
         </div>
         <div class="single-card types">
             <div class="dashboard-card">
-                <h4 class="dashboard-card-title">Related to teaching</h4>
-                <img src="../../images/dashboard-images/study-process.jpeg" alt="Photo" class="dashboard-card-image">
+                <h4 class="dashboard-card-title">Related to the teaching</h4>
+                <img src="../../images/dashboard-images/study-process.jpeg" alt="Study process" class="dashboard-card-image">
             </div>
         </div>
         `;
@@ -51,7 +51,6 @@ function getArtifacts() {
         })
         .then(function (artifacts) {
             spinner.setAttribute('hidden', '');
-            // displayQuests(artifacts);
             object = artifacts;
             console.log(object);
             displayMenu();
@@ -69,8 +68,8 @@ function displayArtifacts(artifacts) {
                 <img src="https://static.pexels.com/photos/7096/people-woman-coffee-meeting.jpg" alt="Photo" class="card-set-image">
                 <h5 class="card-set-text-1">${artifact.description}</h5>
                 <h5 class="card-set-text-2">Price: ${artifact.price}</h5>
-                <h5 class="card-set-text-3">Is group: ${artifact.group ? "YES" : "NO"}</h5>
-                <h5 class="card-set-text-4">Type: ${artifact.type.split("_").join(" ")}</h5>
+                ${artifact.group ? `<button class="buy-artifact-button">Buy collectively</button>` : 
+                                   `<button class="buy-artifact-button">Buy</button>`}
             </div>
         </div>
         `;
