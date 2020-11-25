@@ -34,23 +34,23 @@ function getProfile() {
 function displayProfile(student) {
     editForm.innerHTML = "";
     let node = `
-                <img id="profileImage" src="../../images/users/natalie-portman.jpg" alt="profile-image">
+                <img id="profile-image" src="../../images/users/natalie-portman.jpg" alt="profile image">
                 <div id="form-data">
-                    <div id="firstName-group">
-                        <label for="input-firstName">First name:</label>
-                        <input type="text" id="input-firstName" name="firstName" value="${student.firstName}">
+                    <div id="first-name-group">
+                        <label for="input-first-name">First name:</label>
+                        <input type="text" id="input-first-name" name="firstName" value="${student.firstName}">
                     </div>
-                    <div id="lastName-group">
-                        <label for="input-lastName">Last name:</label>
-                        <input type="text" id="input-lastName" name="lastName" value="${student.lastName}">
+                    <div id="last-name-group">
+                        <label for="input-last-name">Last name:</label>
+                        <input type="text" id="input-last-name" name="lastName" value="${student.lastName}">
                     </div>
                     <div id="email-group">
                         <label for="input-email">Email:</label>
                         <input type="text" id="input-email" name="email" value="${student.email}">
                     </div>
-                    <div id="phoneNumber-group">
-                        <label for="input-phoneNumber">Phone number:</label>
-                        <input type="text" id="input-phoneNumber" name="phoneNumber" value="${student.phoneNumber}">
+                    <div id="phone-number-group">
+                        <label for="input-phone-number">Phone number:</label>
+                        <input type="text" id="input-phone-number" name="phoneNumber" value="${student.phoneNumber}">
                     </div>
                     <button id="profile-submit-button">Submit Changes</button>
                 </div>

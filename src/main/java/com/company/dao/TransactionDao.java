@@ -4,9 +4,7 @@ import com.company.exceptions.ObjectNotFoundException;
 import com.company.model.*;
 import com.company.model.user.Student;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +19,7 @@ public class TransactionDao {
     private final String insertTransaction = "";
     private final String byStudentId = "WHERE student_id = ?;";
     private final String byArtifactId = "WHERE artifact_id = ?;";
+    private final String byBoughtArtifactId = "WHERE ba.id = ?;";
     private final Connector CONNECTOR;
     private ArtifactTypeDao artifactTypeDao;
     private UserDao userDao;
@@ -37,8 +36,36 @@ public class TransactionDao {
         return getTransactionsById(selectTransactions + byStudentId, studentId);
     }
 
-    public List<Transaction> getTransactionByArtifactId(int artifactId) throws ObjectNotFoundException {
+    public List<Transaction> getTransactionsByArtifactId(int artifactId) throws ObjectNotFoundException {
         return getTransactionsById(selectTransactions + byArtifactId, artifactId);
+    }
+
+    public List<Transaction> getTransactionsByBoughtArtifactId(int boughtArtifactId) throws ObjectNotFoundException {
+        return getTransactionsById(selectTransactions + byBoughtArtifactId, boughtArtifactId);
+    }
+
+    private List<Transaction> getTransactionsById(String query, int id) throws ObjectNotFoundException {
+        List<Transaction> transactions = new ArrayList<>();
+
+        try {
+            CONNECTOR.connect();
+            preparedStatement = CONNECTOR.connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                createTransaction(resultSet, transactions);
+            }
+            resultSet.close();
+            preparedStatement.close();
+            CONNECTOR.connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ObjectNotFoundException("Object not found");
+        }
+
+        return transactions;
     }
 
     private void createTransaction(ResultSet resultSet, List<Transaction> transactions) throws SQLException {
@@ -106,38 +133,77 @@ public class TransactionDao {
         return paymentList;
     }
 
-    private List<Transaction> getTransactionsById(String query, int id) throws ObjectNotFoundException {
-        List<Transaction> transactions = new ArrayList<>();
+    public void insertTransaction(Transaction transaction) throws ObjectNotFoundException {
+        int boughtArtifactId = insertIntoBoughtArtifacts(transaction);
+        if (transaction instanceof GroupTransaction) {
+            insertIntoGroupBuying((GroupTransaction) transaction, boughtArtifactId);
+        }
+    }
 
+    private int insertIntoBoughtArtifacts(Transaction transaction) throws ObjectNotFoundException {
+        String insertStatement = "INSERT INTO bought_artifacts (purchase_date, artifact_id, student_id) VALUES (?, ?, ?)";
         try {
             CONNECTOR.connect();
-            preparedStatement = CONNECTOR.connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                createTransaction(resultSet, transactions);
-                System.out.println(transactions);
+            preparedStatement = CONNECTOR.connection.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, transaction.getPurchaseDate().toString());
+            preparedStatement.setInt(2, transaction.getArtifact().getId());
+            if (transaction instanceof SingleTransaction) {
+                preparedStatement.setInt(3, ((SingleTransaction) transaction).getPayment().getStudent().getId());
+            } else if (transaction instanceof GroupTransaction) {
+                preparedStatement.setInt(3, ((GroupTransaction) transaction).getPayments().get(0).getStudent().getId());
             }
-            resultSet.close();
+            preparedStatement.executeUpdate();
+
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            int boughtArtifactId = 0;
+
+            while (generatedKeys.next()) {
+                boughtArtifactId = generatedKeys.getInt("id");
+            }
+
             preparedStatement.close();
             CONNECTOR.connection.close();
 
+            return boughtArtifactId;
+
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new ObjectNotFoundException("Object not found");
+            throw new ObjectNotFoundException("Can't insert transaction to database");
         }
-
-        return transactions;
     }
 
-    public void addTransaction(Transaction transaction) throws ObjectNotFoundException {
+    public void insertIntoGroupBuying(GroupTransaction transaction, int boughtArtifactId) throws ObjectNotFoundException {
+        String insertStatement = "INSERT INTO group_buying (student_payment, payment_date, bought_artifact_id, student_id) " +
+                                 "VALUES (?, ?, ?, ?)";
+        try {
+            List<Payment> paymentList = transaction.getPayments();
+            for (int index = 0; index < paymentList.size(); index++) {
+                Payment singlePayment = paymentList.get(index);
+
+                CONNECTOR.connect();
+                preparedStatement = CONNECTOR.connection.prepareStatement(insertStatement);
+                preparedStatement.setInt(1, singlePayment.getAmount());
+                preparedStatement.setDate(2, Date.valueOf(singlePayment.getPaymentDate()));
+                preparedStatement.setInt(3, boughtArtifactId);
+                preparedStatement.setInt(4, singlePayment.getStudent().getId());
+                preparedStatement.executeUpdate();
+
+                preparedStatement.close();
+                CONNECTOR.connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ObjectNotFoundException("Can't insert group transaction to database");
+        }
+    }
+
+    public void updatePurchaseDate(LocalDate date, int boughtArtifactId) throws ObjectNotFoundException {
+        String updateStatement = "UPDATE bought_artifacts SET purchase_date = ? WHERE id = ?";
         try {
             CONNECTOR.connect();
-            preparedStatement = CONNECTOR.connection.prepareStatement(insertTransaction);
-
-            //insertTransactionToDatabase(transaction);
-
+            preparedStatement = CONNECTOR.connection.prepareStatement(updateStatement);
+            preparedStatement.setString(1, date.toString());
+            preparedStatement.setInt(2, boughtArtifactId);
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
@@ -145,8 +211,7 @@ public class TransactionDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new ObjectNotFoundException("Can't insert transaction to database");
+            throw new ObjectNotFoundException("Object can't be updated");
         }
-
     }
 }

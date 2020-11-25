@@ -1,15 +1,11 @@
 package com.company.controller;
 
-import com.company.dao.QuestDao;
 import com.company.exceptions.ObjectNotFoundException;
 import com.company.helpers.ActionParser;
 import com.company.helpers.Actions;
 import com.company.helpers.HttpHelper;
 import com.company.helpers.Parser;
-import com.company.service.ArtifactService;
 import com.company.service.QuestService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -29,7 +25,7 @@ public class QuestController implements HttpHandler {
     }
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public void handle(HttpExchange exchange) {
         String method = exchange.getRequestMethod();
         String url = exchange.getRequestURI().getRawPath();
         Actions actions = actionParser.fromURL(url);

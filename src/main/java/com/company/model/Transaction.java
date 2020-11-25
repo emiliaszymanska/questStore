@@ -14,6 +14,12 @@ public abstract class Transaction {
         this.purchaseDate = purchaseDate;
     }
 
+    public Transaction(Artifact artifact, LocalDate purchaseDate) {
+        this.id = 0;
+        this.artifact = artifact;
+        this.purchaseDate = purchaseDate;
+    }
+
     public Transaction() {
     }
 
