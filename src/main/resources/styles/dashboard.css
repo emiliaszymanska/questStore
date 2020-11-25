@@ -82,10 +82,11 @@ body {
 }
 
 .card-set-title {
+    text-shadow: 0.1em 0 0.1em rgba(18, 23, 48, 0.1);
     text-transform: uppercase;
     text-align: center;
     font-size: 15px;
-    color: #2d343c;
+    color: var(--fontColor);
 }
 
 .dashboard-card-title {
@@ -102,13 +103,18 @@ body {
 }
 
 .card-set-image {
-    height: 6em;
-    width: 6em;
+    height: 5em;
+    width: 5em;
 }
 
 [class^="card-set-text"] {
     text-align: center;
-    color: #454f5a;
+    color: var(--fontColor);
+}
+
+.card-set-text-2 {
+    color: #ffffff;
+    text-shadow: 0 0 0.3em #373737;
 }
 
 .dashboard-card:hover, .card-set:hover {
@@ -116,7 +122,7 @@ body {
     box-shadow: 10px 10px 15px rgba(0,0,0,0.3);
 }
 
-.dashboard-card::before, .dashboard-card::after, .card-set::before, .card-set::after {
+.dashboard-card::before, .dashboard-card::after {
     position: absolute;
     top: 0;
     right: 0;
@@ -129,16 +135,15 @@ body {
     pointer-events: none;
 }
 
-.dashboard-card::before, .card-set::before {
+.dashboard-card::before {
     transform-origin: left top;
 }
 
-.dashboard-card::after, .card-set::after {
+.dashboard-card::after {
     transform-origin: right bottom;
 }
 
-.dashboard-card:hover::before, .dashboard-card:hover::after, .dashboard-card:focus::before, .dashboard-card:focus::after,
-.card-set:hover::before, .card-set:hover::after, .card-set:focus::before, .card-set:focus::after {
+.dashboard-card:hover::before, .dashboard-card:hover::after, .dashboard-card:focus::before, .dashboard-card:focus::after {
     transform: scale3d(1, 1, 1);
 }
 
