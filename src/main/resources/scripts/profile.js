@@ -82,7 +82,7 @@ function update(data) {
             return response.json();
         })
         .then(function(student) {
-            alert("updated");
+            alert("Updated");
             displayProfile(student);
         });
 }
