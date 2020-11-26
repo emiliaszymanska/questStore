@@ -32,6 +32,7 @@ function getTransactions() {
             });
         });
 }
+
 function getStudentData() {
     const sessionId = getCookie("sessionId");
 
