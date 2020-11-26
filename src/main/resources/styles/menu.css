@@ -31,10 +31,10 @@
 }
 
 .button-menu {
-    box-shadow: 0 1.5em 1.5em rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.3);
     background-color: rgba(245, 245, 245, 0.4);
     justify-content: right;
-    padding: 1em 2em;
+    padding: 1.05em 2em 1em;
     border: none;
     text-transform: uppercase;
     font-weight: var(--fontWeight);

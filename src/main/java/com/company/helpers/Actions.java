@@ -33,4 +33,7 @@ public class Actions {
     public int getThirdComponent() {
         return Integer.parseInt(URLComponents[2]);
     }
+    public int getFourthComponent() {
+        return Integer.parseInt(URLComponents[3]);
+    }
 }

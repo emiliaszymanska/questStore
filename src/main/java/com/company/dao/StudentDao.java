@@ -95,7 +95,7 @@ public class StudentDao extends UserDao {
     }
 
     public void updateAdditionalStudentData(Student student) throws ObjectNotFoundException {
-        String statement = "UPDATE students SET module_id = ?, experience_level = ? balance = ? WHERE user_id = ?";
+        String statement = "UPDATE students SET module_id = ?, experience_level = ?, balance = ? WHERE user_id = ?";
 
         try {
             CONNECTOR.connect();
