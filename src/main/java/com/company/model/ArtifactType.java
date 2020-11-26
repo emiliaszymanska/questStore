@@ -7,7 +7,7 @@ public enum ArtifactType {
 
     RELATED_TO_STUDENTS(1),
     RELATED_TO_MENTORS(2),
-    RELATED_TO_TEACHING_PROCESS(3);
+    RELATED_TO_THE_TEACHING(3);
 
     private int id;
 

@@ -5,3 +5,109 @@
     right: 0;
     bottom: 0;
 }
+
+.card-set {
+    width: 14em;
+    height: 17em;
+}
+
+.buy-artifact-button, .buy-artifact-collectively-button, #popup-button {
+    align-self: center;
+    background-color: rgba(18, 23, 48, 0.5);
+    margin-top: 0.1em;
+    padding: 0.7em 1.2em 0.6em;
+    border-radius: 0.5em;
+    border: none;
+    color: rgba(245, 245, 245, 0.9);
+    font-size: 0.7em;
+    font-weight: var(--fontWeight);
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.buy-artifact-button:hover, .buy-artifact-collectively-button:hover, #popup-button:hover {
+    background-color: rgba(18, 23, 48, 0.6);
+    color: white;
+}
+
+#popup-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    position: fixed;
+    overflow: auto;
+    z-index: 99;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 16px;
+}
+
+#popup {
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+#close {
+    align-self: flex-end;
+    align-items: center;
+    justify-content: center;
+    margin: 0.3em 0.4em 0 0;
+    padding: 0.8em 0.84em;
+    background-color: rgba(117, 117, 117, 0.3);
+    border-radius: 0.3em;
+    cursor: pointer;
+    width: 1.6em;
+    height: 1.6em;
+}
+
+#popup-form {
+    background-color: rgb(255, 255, 255);
+    padding: 0.5em 0.5em;
+    border-radius: 1em;
+}
+
+#popup-elements {
+    padding: 2em 1.5em;
+}
+
+#popup-header {
+    width: 11em;
+    margin-bottom: 2em;
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+#amount-input {
+    box-shadow: 0.5em 0.5em 1em rgba(0, 0, 0, 0.2);
+    background-color: #efefef;
+    padding: 0.65em 0.7em;
+    margin-bottom: 3em;
+    border-radius: 0.4em;
+    font-size: 1em;
+    color: var(--fontColor);
+    outline: none;
+    border: none;
+}
+
+input::placeholder {
+    color: rgba(117, 117, 117, 0.7);
+}
+
+#popup-button {
+    padding: 0.9em 1.3em 0.9em;
+    font-size: 1em;
+}
+
+.buy-artifact-button, .buy-artifact-collectively-button, #popup-button, #popup, #close, #popup-form, #popup-elements {
+    display: flex;
+}
+
+#popup-form, #popup-elements {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
