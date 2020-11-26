@@ -78,10 +78,11 @@ public class TransactionDao {
                 .setGroup(resultSet.getBoolean("is_group"));
 
         LocalDate purchaseDate;
-        if (resultSet.getString("purchase_date").equals("")) {
-            purchaseDate = null;
-        } else {
+        String dateFromDatabase = resultSet.getString("purchase_date");
+        if (!dateFromDatabase.equals("")) {
             purchaseDate = LocalDate.parse(resultSet.getString("purchase_date"));
+        } else {
+            purchaseDate = null;
         }
 
         if (artifact.isGroup()) {
@@ -177,7 +178,11 @@ public class TransactionDao {
         try {
             CONNECTOR.connect();
             preparedStatement = CONNECTOR.connection.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, transaction.getPurchaseDate().toString());
+            if (transaction.getPurchaseDate() == null) {
+                preparedStatement.setString(1, "");
+            } else {
+                preparedStatement.setString(1, transaction.getPurchaseDate().toString());
+            }
             preparedStatement.setInt(2, transaction.getArtifact().getId());
             if (transaction instanceof SingleTransaction) {
                 preparedStatement.setInt(3, ((SingleTransaction) transaction).getPayment().getStudent().getId());

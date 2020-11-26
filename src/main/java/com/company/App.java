@@ -1,8 +1,6 @@
 package com.company;
 
 import com.company.controller.*;
-import com.company.exceptions.ObjectNotFoundException;
-import com.company.service.TransactionService;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -10,7 +8,7 @@ import java.net.InetSocketAddress;
 
 public class App {
 
-    public static void main(String[] args) throws IOException, ObjectNotFoundException {
+    public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(8001), 0);
 
         server.createContext("/register", new RegisterController());
@@ -28,7 +26,5 @@ public class App {
         server.start();
 
         System.out.println("Server started at " + server.getAddress().getPort());
-        TransactionService transactionService = new TransactionService();
-        transactionService.getNotFinishedGroupTransactions();
     }
 }

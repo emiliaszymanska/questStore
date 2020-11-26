@@ -58,16 +58,16 @@ public class TransactionService {
         return notFinishedGroupTransactions;
     }
 
-    public void insertTransaction(Map<String, String> formData) throws ObjectNotFoundException {
-        Transaction transaction = createTransaction(formData);
+    public void insertTransaction(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException {
+        Transaction transaction = createTransaction(formData, uuid);
         transactionDao.insertTransaction(transaction);
     }
 
     public void insertPaymentToGroupBuying(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException {
         User user = userDao.getBySessionId(uuid);
-        Transaction transaction = createTransaction(formData);
-        int groupTransactionId = Integer.parseInt(formData.get("group_transaction_id"));
-        int amount = Integer.parseInt(formData.get("price"));
+        Transaction transaction = createTransaction(formData, uuid);
+        int groupTransactionId = Integer.parseInt(formData.get("bought_artifact_id"));
+        int amount = Integer.parseInt(formData.get("amount"));
         ((Student) user).setBalance(((Student) user).getBalance() - amount);
         userDao.update(user);
         transactionDao.insertIntoGroupBuying((GroupTransaction) transaction, groupTransactionId);
@@ -81,8 +81,8 @@ public class TransactionService {
         if (artifact.isGroup()) {
             transaction = new GroupTransaction(artifact, null,
                                                 List.of(new Payment(LocalDate.now(),
-                                                        Integer.parseInt(formData.get("price")), (Student) user)));
-            ((Student) user).setBalance(((Student) user).getBalance() - Integer.parseInt(formData.get("price")));
+                                                        Integer.parseInt(formData.get("amount")), (Student) user)));
+            ((Student) user).setBalance(((Student) user).getBalance() - Integer.parseInt(formData.get("amount")));
             userDao.update(user);
         } else {
             transaction = new SingleTransaction(artifact, LocalDate.now(), new Payment(LocalDate.now(),
@@ -111,20 +111,20 @@ public class TransactionService {
         }
     }
 
-    private Transaction createTransaction(Map<String, String> formData) throws ObjectNotFoundException {
-        Artifact artifact = new Artifact();
-        artifact.setId(Integer.parseInt(formData.get("artifact_id")))
-                .setName(formData.get("name"))
-                .setDescription(formData.get("description"))
-                .setPrice(Integer.parseInt(formData.get("price")))
-                .setType(artifactTypeDao.getTypeById(Integer.parseInt(formData.get("artifact_type_id"))))
-                .setGroup(Boolean.parseBoolean(formData.get("is_group")));
+    private Transaction createTransaction(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException {
+//        Artifact artifact = new Artifact();
+//        artifact.setId(Integer.parseInt(formData.get("artifact_id")))
+//                .setName(formData.get("name"))
+//                .setDescription(formData.get("description"))
+//                .setPrice(Integer.parseInt(formData.get("price")))
+//                .setType(artifactTypeDao.getTypeById(Integer.parseInt(formData.get("artifact_type_id"))))
+//                .setGroup(Boolean.parseBoolean(formData.get("is_group")));
+        Artifact artifact = artifactDao.getById(Integer.parseInt(formData.get("artifact_id")));
 
-        LocalDate purchaseDate = LocalDate.parse(formData.get("purchase_date"));
+        LocalDate purchaseDate = LocalDate.now();
 
         if (artifact.isGroup()) {
-            List<Payment> paymentList = List.of(new Payment(LocalDate.now(), Integer.parseInt(formData.get("price")),
-                                            (Student) userDao.getById(Integer.parseInt(formData.get("student_id")))));
+            List<Payment> paymentList = createPayments(formData, uuid);
             Transaction groupTransaction = new GroupTransaction(Integer.parseInt(formData.get("bought_artifact_id")),
                     artifact,
                     purchaseDate,
@@ -135,7 +135,7 @@ public class TransactionService {
         } else {
             Payment payment = new Payment(purchaseDate,
                     Integer.parseInt(formData.get("price")),
-                    (Student) userDao.getById(Integer.parseInt(formData.get("student_id"))));
+                    (Student) userDao.getBySessionId(uuid));
 
             Transaction singleTransaction = new SingleTransaction(Integer.parseInt(formData.get("bought_artifact_id")),
                     artifact,
@@ -144,5 +144,11 @@ public class TransactionService {
 
             return singleTransaction;
         }
+    }
+
+    private List<Payment> createPayments(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException {
+        Payment payment = new Payment(LocalDate.now(), Integer.parseInt(formData.get("amount")),
+                                    (Student) userDao.getBySessionId(uuid));
+        return List.of(payment);
     }
 }
