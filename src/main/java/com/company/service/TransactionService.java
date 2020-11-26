@@ -1,9 +1,6 @@
 package com.company.service;
 
-import com.company.dao.ArtifactDao;
-import com.company.dao.ArtifactTypeDao;
-import com.company.dao.TransactionDao;
-import com.company.dao.UserDao;
+import com.company.dao.*;
 import com.company.exceptions.ObjectNotFoundException;
 import com.company.model.*;
 import com.company.model.user.Student;
@@ -20,15 +17,15 @@ import java.util.UUID;
 public class TransactionService {
     private final TransactionDao transactionDao;
     private final ArtifactDao artifactDao;
-    private ArtifactTypeDao artifactTypeDao;
     private final UserDao userDao;
+    private final StudentDao studentDao;
     private final ObjectMapper mapper;
 
     public TransactionService() {
         this.transactionDao = new TransactionDao();
         this.artifactDao = new ArtifactDao();
-        this.artifactTypeDao = new ArtifactTypeDao();
         this.userDao = new UserDao();
+        this.studentDao = new StudentDao();
         this.mapper = new ObjectMapper();
     }
 
@@ -62,12 +59,15 @@ public class TransactionService {
     }
 
     public String insertPaymentToGroupBuying(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
-        User user = userDao.getBySessionId(uuid);
+        Student user = (Student) studentDao.getBySessionId(uuid);
+        Student student = studentDao.getStudentByIdWithAdditionalData(user.getId());
+        if (!calculateStudentBalance(student, Integer.parseInt(formData.get("amount")))) {
+            return "You haven't got enough money";
+        }
+        studentDao.updateAdditionalStudentData(student);
+
         Transaction transaction = createTransaction(formData, uuid);
         int groupTransactionId = Integer.parseInt(formData.get("bought_artifact_id"));
-        int amount = Integer.parseInt(formData.get("amount"));
-        ((Student) user).setBalance(((Student) user).getBalance() - amount);
-        userDao.update(user);
         transactionDao.insertIntoGroupBuying((GroupTransaction) transaction, groupTransactionId);
         checkIfTransactionFinished(groupTransactionId);
         return mapper.writeValueAsString(transaction);
@@ -75,22 +75,36 @@ public class TransactionService {
 
     public String buyArtifact(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
         Artifact artifact = artifactDao.getById(Integer.parseInt(formData.get("artifact_id")));
-        User user = userDao.getBySessionId(uuid);
+        Student user = (Student) studentDao.getBySessionId(uuid);
+        Student student = studentDao.getStudentByIdWithAdditionalData(user.getId());
         Transaction transaction;
         if (artifact.isGroup()) {
             transaction = new GroupTransaction(artifact, null,
                                                 List.of(new Payment(LocalDate.now(),
-                                                        Integer.parseInt(formData.get("amount")), (Student) user)));
-            ((Student) user).setBalance(((Student) user).getBalance() - Integer.parseInt(formData.get("amount")));
-            userDao.update(user);
+                                                        Integer.parseInt(formData.get("amount")), student)));
+            if (!calculateStudentBalance(student, Integer.parseInt(formData.get("amount")))) {
+                return "You haven't got enough money";
+            }
+            studentDao.updateAdditionalStudentData(student);
         } else {
             transaction = new SingleTransaction(artifact, LocalDate.now(), new Payment(LocalDate.now(),
-                                                artifact.getPrice(), (Student) user));
-            ((Student) user).setBalance(((Student) user).getBalance() - artifact.getPrice());
-            userDao.update(user);
+                                                artifact.getPrice(), student));
+            if (!calculateStudentBalance(student, artifact.getPrice())) {
+                return "You haven't got enough money";
+            }
+            studentDao.updateAdditionalStudentData(student);
         }
         transactionDao.insertTransaction(transaction);
         return mapper.writeValueAsString(transaction);
+    }
+
+    private boolean calculateStudentBalance(Student student, int amountToSubtract) {
+        int studentBalance = student.getBalance();
+        if (studentBalance >= amountToSubtract) {
+            student.setBalance(studentBalance - amountToSubtract);
+            return true;
+        }
+        return false;
     }
 
     private void checkIfTransactionFinished(int groupTransactionId) throws ObjectNotFoundException {
@@ -117,9 +131,9 @@ public class TransactionService {
 
         if (artifact.isGroup()) {
             List<Payment> paymentList = createPayments(formData, uuid);
-            Transaction groupTransaction = new GroupTransaction(Integer.parseInt(formData.get("bought_artifact_id")),
+            Transaction groupTransaction = new GroupTransaction(
                     artifact,
-                    purchaseDate,
+                    null,
                     paymentList);
 
             return groupTransaction;
