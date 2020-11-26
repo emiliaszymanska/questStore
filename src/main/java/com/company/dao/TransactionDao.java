@@ -78,10 +78,10 @@ public class TransactionDao {
                 .setGroup(resultSet.getBoolean("is_group"));
 
         LocalDate purchaseDate;
-        if (resultSet.getString("purchase_date") != null) {
-            purchaseDate = LocalDate.parse(resultSet.getString("purchase_date"));
-        } else {
+        if (resultSet.getString("purchase_date").equals("")) {
             purchaseDate = null;
+        } else {
+            purchaseDate = LocalDate.parse(resultSet.getString("purchase_date"));
         }
 
         if (artifact.isGroup()) {
