@@ -61,7 +61,7 @@ public class TransactionService {
         transactionDao.insertTransaction(transaction);
     }
 
-    public void insertPaymentToGroupBuying(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException {
+    public String insertPaymentToGroupBuying(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
         User user = userDao.getBySessionId(uuid);
         Transaction transaction = createTransaction(formData, uuid);
         int groupTransactionId = Integer.parseInt(formData.get("bought_artifact_id"));
@@ -70,6 +70,7 @@ public class TransactionService {
         userDao.update(user);
         transactionDao.insertIntoGroupBuying((GroupTransaction) transaction, groupTransactionId);
         checkIfTransactionFinished(groupTransactionId);
+        return mapper.writeValueAsString(transaction);
     }
 
     public String buyArtifact(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
@@ -125,10 +126,10 @@ public class TransactionService {
 
         } else {
             Payment payment = new Payment(purchaseDate,
-                    Integer.parseInt(formData.get("price")),
+                    artifact.getPrice(),
                     (Student) userDao.getBySessionId(uuid));
 
-            Transaction singleTransaction = new SingleTransaction(Integer.parseInt(formData.get("bought_artifact_id")),
+            Transaction singleTransaction = new SingleTransaction(
                     artifact,
                     purchaseDate,
                     payment);

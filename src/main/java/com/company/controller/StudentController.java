@@ -91,12 +91,11 @@ public class StudentController implements HttpHandler {
                 response = studentService.updateStudent(formData, actions.getUUID().get());
                 break;
             case "buy": // /student/buy
-                // lub rozdzielić /buy_single /buy_group
                 response = transactionService.buyArtifact(formData, actions.getUUID().get());
                 break;
-//            case "add_payment": // /student/add_payment
-//                response = transactionService.buyArtifact(formData, actions.getUUID().get());
-//                break;
+            case "add-payment": // /student/add-payment
+                response = transactionService.insertPaymentToGroupBuying(formData, actions.getUUID().get());
+                break;
             default:
                 HttpHelper.sendResponse(exchange, "Invalid URL", 404);
                 return;
