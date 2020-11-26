@@ -6,6 +6,7 @@ import com.company.helpers.Actions;
 import com.company.helpers.Parser;
 import com.company.helpers.HttpHelper;
 import com.company.service.StudentService;
+import com.company.service.TransactionService;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -16,12 +17,14 @@ import java.util.UUID;
 
 public class StudentController implements HttpHandler {
 
-    private StudentService studentService;
+    private final StudentService studentService;
+    private final TransactionService transactionService;
     private final ActionParser actionParser;
     private final Parser parser;
 
     public StudentController() {
         this.studentService = new StudentService();
+        this.transactionService = new TransactionService();
         this.actionParser = new ActionParser();
         this.parser = new Parser();
     }
@@ -86,6 +89,12 @@ public class StudentController implements HttpHandler {
         switch (actions.getOperation()) {
             case "update": // /student/update
                 response = studentService.updateStudent(formData, actions.getUUID().get());
+                break;
+            case "buy": // /student/buy
+                response = transactionService.buyArtifact(formData, actions.getUUID().get());
+                break;
+            case "add-payment": // /student/add-payment
+                response = transactionService.insertPaymentToGroupBuying(formData, actions.getUUID().get());
                 break;
             default:
                 HttpHelper.sendResponse(exchange, "Invalid URL", 404);
