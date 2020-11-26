@@ -63,7 +63,7 @@ public class StudentQuestDao {
             preparedStatement.setDate(1, Date.valueOf(studentQuests.getDate()));
             preparedStatement.setInt(2, studentQuests.getQuest().getId());
             preparedStatement.setInt(3, studentQuests.getStudent().getId());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
 
             preparedStatement.close();
             CONNECTOR.connection.close();

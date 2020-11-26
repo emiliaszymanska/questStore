@@ -30,20 +30,23 @@ public class StudentsQuestsService {
     }
 
     public String startQuest(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException, JsonProcessingException {
-        StudentQuests studentQuests = createStartedQuest(formData, uuid);
-        studentQuestDao.insertQuestToList(studentQuests);
+        StudentQuests studentQuest = createStartedQuest(formData, uuid);
+        studentQuestDao.insertQuestToList(studentQuest);
 
-        return mapper.writeValueAsString(studentQuestDao);
+        return mapper.writeValueAsString(studentQuest);
     }
 
     public StudentQuests createStartedQuest(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException {
         User student = studentDao.getBySessionId(uuid);
+        Student studentWithAdditionalData = studentDao.getStudentByIdWithAdditionalData(student.getId());
         Quest quest = questDao.getById(Integer.parseInt(formData.get("quest_id")));
 
         StudentQuests studentQuests = new StudentQuests(
                                             LocalDate.now(),
                                             quest,
-                                            (Student) student);
+                                            studentWithAdditionalData);
+        studentWithAdditionalData.setBalance(studentWithAdditionalData.getBalance() + quest.getReward());
+        studentDao.updateAdditionalStudentData(studentWithAdditionalData);
         return studentQuests;
     }
 }
