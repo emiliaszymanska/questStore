@@ -11,8 +11,6 @@ import com.company.model.user.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,13 +110,6 @@ public class TransactionService {
     }
 
     private Transaction createTransaction(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException {
-//        Artifact artifact = new Artifact();
-//        artifact.setId(Integer.parseInt(formData.get("artifact_id")))
-//                .setName(formData.get("name"))
-//                .setDescription(formData.get("description"))
-//                .setPrice(Integer.parseInt(formData.get("price")))
-//                .setType(artifactTypeDao.getTypeById(Integer.parseInt(formData.get("artifact_type_id"))))
-//                .setGroup(Boolean.parseBoolean(formData.get("is_group")));
         Artifact artifact = artifactDao.getById(Integer.parseInt(formData.get("artifact_id")));
 
         LocalDate purchaseDate = LocalDate.now();
