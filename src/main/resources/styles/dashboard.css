@@ -39,7 +39,7 @@ body {
 
 .row {
     min-height: 100%;
-    margin: 4em 18.5em 2em;
+    margin: 4em auto 2em;
     /*margin: 3em 0 1em;*/
     flex-direction: var(--flexRow);
     flex-wrap: wrap;
