@@ -3,7 +3,9 @@ import {getCookie} from "./cookies.js";
 const dashboardRow = document.querySelector(".dashboard-row");
 const container = document.querySelector(".row");
 const spinner = document.getElementById("spinner");
+const addQuest = document.querySelector("#addQuest");
 let object;
+
 
 function getStudentQuests() {
     spinner.removeAttribute('hidden');
@@ -38,6 +40,12 @@ function displayQuests(quests) {
         `;
         container.innerHTML += node;
     });
+}
+
+function startQuest(quest) {
+    addQuest.addEventListener('click', function () {
+
+    })
 }
 
 getStudentQuests();

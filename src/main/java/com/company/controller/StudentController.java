@@ -1,11 +1,13 @@
 package com.company.controller;
 
+import com.company.dao.StudentQuestDao;
 import com.company.exceptions.ObjectNotFoundException;
 import com.company.helpers.ActionParser;
 import com.company.helpers.Actions;
-import com.company.helpers.Parser;
 import com.company.helpers.HttpHelper;
+import com.company.helpers.Parser;
 import com.company.service.StudentService;
+import com.company.service.StudentsQuestsService;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -17,11 +19,13 @@ import java.util.UUID;
 public class StudentController implements HttpHandler {
 
     private StudentService studentService;
+    private StudentsQuestsService studentsQuestsService;
     private final ActionParser actionParser;
     private final Parser parser;
 
     public StudentController() {
         this.studentService = new StudentService();
+        this.studentsQuestsService = new StudentsQuestsService();
         this.actionParser = new ActionParser();
         this.parser = new Parser();
     }
@@ -83,9 +87,15 @@ public class StudentController implements HttpHandler {
         Map<String, String> formData = parser.parseFormData(exchange);
         String response;
 
+        StudentQuestDao studentQuestDao = new StudentQuestDao();
+
         switch (actions.getOperation()) {
             case "update": // /student/update
                 response = studentService.updateStudent(formData, actions.getUUID().get());
+                break;
+            case "start": // /student/start
+                System.out.println(actions.getUUID().get());
+                response = studentsQuestsService.startQuest(formData, actions.getUUID().get());
                 break;
             default:
                 HttpHelper.sendResponse(exchange, "Invalid URL", 404);

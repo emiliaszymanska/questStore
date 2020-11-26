@@ -4,7 +4,6 @@ const spinner = document.getElementById("spinner");
 let object;
 
 
-
 function enableEventListeners() {
     const types = document.querySelectorAll(".types");
     types.forEach(type => {

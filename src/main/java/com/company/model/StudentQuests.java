@@ -1,45 +1,51 @@
 package com.company.model;
 
-import java.util.Date;
+import com.company.model.user.Student;
+
+import java.time.LocalDate;
 
 public class StudentQuests {
 
-    private Date date;
-    private int questId;
-    private int studentId;
+    private LocalDate date;
+    private Quest quest;
+    private Student student;
 
-    public StudentQuests(Date date, int questId, int studentId) {
+    public StudentQuests(LocalDate date, Quest quest, Student student) {
         this.date = date;
-        this.questId = questId;
-        this.studentId = studentId;
+        this.quest = quest;
+        this.student = student;
     }
 
     public StudentQuests() { }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return this.date;
     }
 
-    public StudentQuests setDate(Date date) {
+    public StudentQuests setDate(LocalDate date) {
         this.date = date;
         return this;
     }
 
-    public int getQuestId() {
-        return this.questId;
+    public Quest getQuest() {
+        return this.quest;
     }
 
-    public StudentQuests setQuestId(int questId) {
-        this.questId = questId;
-        return this;
+    public void setQuest(Quest quest) {
+        this.quest = quest;
     }
 
-    public int getStudentId() {
-        return this.studentId;
+    public Student getStudent() {
+        return this.student;
     }
 
-    public StudentQuests setStudentId(int studentId) {
-        this.studentId = studentId;
-        return this;
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public String toString() {
+        String quest = getDate() + " " + getQuest() + " " + getStudent();
+        System.out.println(quest);
+        return quest;
     }
 }

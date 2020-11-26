@@ -3,35 +3,30 @@ package com.company.dao;
 import com.company.model.Quest;
 import com.company.model.StudentQuests;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentQuestDao extends QuestDao {
+public class StudentQuestDao {
 
-    private QuestTypeDao questTypeDao;
-    private UserDao userDao;
-    private QuestDao questDao;
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
-
-    String selectAllStatement = "SELECT * FROM quests INNER JOIN student_quests sq on quests.id = sq.quest_id ";
-    String insertStatement = "INSERT INTO student_quests (achievement_date, quest_id, student_id) VALUES (?, ?, ?)";
+    private QuestDao questDao;
 
     private final Connector CONNECTOR;
-    private final String insertTransaction = "";
     private final String byStudentId = " WHERE student_id = ?";
 
+    String selectAllStatement = "SELECT * FROM quests INNER JOIN student_quests sq on quests.id = sq.quest_id ";
+
     public StudentQuestDao() {
-        this.userDao = new UserDao();
-        this.questTypeDao = new QuestTypeDao();
-        this.questDao = new QuestDao();
         CONNECTOR = new Connector();
+        questDao = new QuestDao();
     }
 
-    public List<Quest> getQuestById(String query, int id) {
+    public List<Quest> getQuestsByStudentId(String query, int id) {
         List<Quest> questList = new ArrayList<>();
 
         try {
@@ -56,11 +51,25 @@ public class StudentQuestDao extends QuestDao {
     }
 
     public List<Quest> getByUserId(int studentId) {
-        return getQuestById(selectAllStatement + byStudentId, studentId);
+        return getQuestsByStudentId(selectAllStatement + byStudentId, studentId);
+    }
+
+    public void insertQuestToList(StudentQuests studentQuests) {
+        String insertStatement = "INSERT INTO student_quests (achievement_date, quest_id, student_id) VALUES (?, ?, ?)";
+
+        try {
+            CONNECTOR.connect();
+            preparedStatement = CONNECTOR.connection.prepareStatement(insertStatement);
+            preparedStatement.setDate(1, Date.valueOf(studentQuests.getDate()));
+            preparedStatement.setInt(2, studentQuests.getQuest().getId());
+            preparedStatement.setInt(3, studentQuests.getStudent().getId());
+            preparedStatement.executeQuery();
+
+            preparedStatement.close();
+            CONNECTOR.connection.close();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
-
-/*
-trzeba dorobic insert -> jak student kliknie to "zaczyna" questa i on wtedy pojawia sie jako "in progress"
-teraz wszystkie qusty ktore sie pobieraja sa jako "in progress" - to tez do zmiany, powinna byc data zakonczenia go
- */

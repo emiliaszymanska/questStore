@@ -3,6 +3,7 @@ import {getCookie} from "./cookies.js";
 const container = document.querySelector(".row");
 const spinner = document.getElementById("spinner");
 
+
 function getTransactions() {
     const sessionId = getCookie("sessionId");
     spinner.removeAttribute('hidden');
