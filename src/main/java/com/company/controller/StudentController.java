@@ -75,6 +75,9 @@ public class StudentController implements HttpHandler {
             case "data":
                 response = studentService.getStudentBalanceAndExperience(uuid);
                 break;
+            case "transactions":
+                response = transactionService.getNotFinishedGroupTransactions();
+                break;
             default:
                 HttpHelper.sendResponse(exchange, "Invalid URL", 404);
                 return;

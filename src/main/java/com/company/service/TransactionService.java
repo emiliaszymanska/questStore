@@ -41,7 +41,7 @@ public class TransactionService {
         return transactionDao.getTransactionsByBoughtArtifactId(boughtArtifactId);
     }
 
-    public List<Transaction> getNotFinishedGroupTransactions() throws ObjectNotFoundException {
+    public String getNotFinishedGroupTransactions() throws ObjectNotFoundException, JsonProcessingException {
         List<Transaction> groupTransactions = transactionDao.getGroupTransactions();
         List<Transaction> notFinishedGroupTransactions = new ArrayList<>();
         for (Transaction transaction : groupTransactions) {
@@ -50,7 +50,7 @@ public class TransactionService {
             }
         }
         System.out.println(notFinishedGroupTransactions.toString());
-        return notFinishedGroupTransactions;
+        return mapper.writeValueAsString(notFinishedGroupTransactions);
     }
 
     public void insertTransaction(Map<String, String> formData, UUID uuid) throws ObjectNotFoundException {

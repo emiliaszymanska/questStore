@@ -1,0 +1,36 @@
+table {
+    margin-top: 1em;
+    font-size: 1.1em;
+}
+
+tr {
+    margin-top: 3em;
+}
+
+th {
+    width: 7em;
+    height: fit-content;
+    border-top-style: solid;
+    border-left-style: solid;
+    border-bottom-style: solid;
+    border-width: 0.2em;
+}
+
+td {
+    margin-left: 0;
+    margin-right: 0;
+    width: 14em;
+    height: fit-content;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-width: 0.2em;
+}
+
+.column3 {
+    border-right-style: solid;
+    border-width: 0.2em;
+}
+
+.column4 {
+    border-style: none;
+}
