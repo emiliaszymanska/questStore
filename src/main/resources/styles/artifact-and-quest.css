@@ -1,9 +1,9 @@
-#spinner:not([hidden]) {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.main-content-quests, .main-content-artifacts  {
+    width: 48em;
+}
+
+h1 {
+    margin-top: 1.65em;
 }
 
 .card-set {
