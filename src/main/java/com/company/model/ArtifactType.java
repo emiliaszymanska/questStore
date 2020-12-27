@@ -22,8 +22,8 @@ public enum ArtifactType {
     private static final Map<Integer, ArtifactType> lookup = new HashMap<>();
 
     static {
-        for (ArtifactType env : ArtifactType.values()) {
-            lookup.put(env.getId(), env);
+        for (ArtifactType artifactType : ArtifactType.values()) {
+            lookup.put(artifactType.getId(), artifactType);
         }
     }
 
