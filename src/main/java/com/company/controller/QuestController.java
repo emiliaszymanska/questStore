@@ -1,71 +1,84 @@
 package com.company.controller;
 
-import com.company.dao.QuestDao;
 import com.company.exceptions.ObjectNotFoundException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.company.helpers.ActionParser;
+import com.company.helpers.Actions;
+import com.company.helpers.HttpHelper;
+import com.company.helpers.Parser;
+import com.company.service.QuestService;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Map;
 
 public class QuestController implements HttpHandler {
 
-    private QuestDao questDao;
+    private QuestService questService;
+    private final ActionParser actionParser;
+    private final Parser parser;
 
     public QuestController() {
-        this.questDao = new QuestDao();
+        this.questService = new QuestService();
+        this.actionParser = new ActionParser();
+        this.parser = new Parser();
     }
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public void handle(HttpExchange exchange) {
         String method = exchange.getRequestMethod();
-        String response = "";
+        String url = exchange.getRequestURI().getRawPath();
+        Actions actions = actionParser.fromURL(url);
 
         try {
-            switch (method){
+            switch (method) {
                 case "GET":
-                    response = get(exchange);
-//                    System.out.println(response);
-                    sendResponse(exchange, response, 200);
+                    get(exchange, actions);
                     break;
                 case "POST":
+                    post(exchange, actions);
                     break;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response = e.getMessage();
-            sendResponse(exchange, response, 404);
         }
     }
 
-    private String get(HttpExchange exchange) throws ObjectNotFoundException, JsonProcessingException {
-        String url = exchange.getRequestURI().getRawPath();
-        String[] actions = url.split("/");
-//        System.out.println("URL: " + url + " | actions: " + Arrays.toString(actions));
-        ObjectMapper mapper = new ObjectMapper();
+    public void get(HttpExchange exchange, Actions actions) throws ObjectNotFoundException, IOException {
+        String response;
 
-        if (actions.length == 3) {
-            int id = Integer.parseInt(actions[2]);
-            System.out.println(id);
-            return mapper.writeValueAsString(questDao.getById(id));
+        switch (actions.getActionsSize()) {
+            case 2:
+                response = questService.getAll();
+                break;
+            case 3:
+                response = questService.getById(actions.getThirdComponent());
+                break;
+            default:
+                response = "Invalid URL";
+                break;
         }
-
-        return mapper.writeValueAsString(questDao.getAll());
+        HttpHelper.sendResponse(exchange, response, 200);
     }
 
-    private void sendResponse(HttpExchange exchange, String response, int status) throws IOException {
-        if (status == 200) {
-            exchange.getResponseHeaders().put("Content-type", Collections.singletonList("application/json"));
-            exchange.getResponseHeaders().put("Access-Control-Allow-Origin", Collections.singletonList("*"));
-        }
-        exchange.sendResponseHeaders(status, response.getBytes().length);
+    public void post(HttpExchange exchange, Actions actions) throws IOException, ObjectNotFoundException {
+        Map<String, String> formData = parser.parseFormData(exchange);
+        String response;
 
-        OutputStream os = exchange.getResponseBody();
-        os.write(response.getBytes());
-        os.close();
+        switch (actions.getOperation()) {
+            case "add":
+                response = questService.addQuest(formData);
+                break;
+            case "update":
+                response = questService.updateQuest(formData);
+                break;
+            case "delete":
+                response = questService.deleteQuest(formData);
+                break;
+            default:
+                HttpHelper.sendResponse(exchange, "Invalid URL", 404);
+                return;
+        }
+        HttpHelper.sendResponse(exchange, response, 200);
     }
 }

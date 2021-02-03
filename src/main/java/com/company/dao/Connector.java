@@ -9,10 +9,9 @@ import java.util.Map;
 
 public class Connector {
 
+    private Map<String, String> dbData = JSONReader.read();
     protected Connection connection;
     protected Statement statement;
-
-    Map<String, String> dbData = JSONReader.read();
 
     public void connect() {
         try {
@@ -21,7 +20,6 @@ public class Connector {
                     dbData.get("user"),
                     dbData.get("password")
             );
-
             statement = connection.createStatement();
 
         } catch (Exception e) {

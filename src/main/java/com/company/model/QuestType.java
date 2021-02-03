@@ -22,8 +22,8 @@ public enum QuestType {
     private static final Map<Integer, QuestType> lookup = new HashMap<>();
 
     static {
-        for (QuestType env : QuestType.values()) {
-            lookup.put(env.getId(), env);
+        for (QuestType questType : QuestType.values()) {
+            lookup.put(questType.getId(), questType);
         }
     }
     public static QuestType get(int id) {

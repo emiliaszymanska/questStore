@@ -1,18 +1,20 @@
 package com.company.dao;
 
 import com.company.exceptions.ObjectNotFoundException;
-import com.company.model.user.Mentor;
-import com.company.model.user.Student;
 import com.company.model.user.User;
+import com.company.model.user.UserFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class UserDao extends Dao<User> {
 
     private String loginStatement = "SELECT * FROM users WHERE email = ? and password = ?";
+    private String selectSessionIdStatement = "SELECT * FROM users WHERE session_id = ?";
+    private String updateSessionIdStatement = "UPDATE users SET session_id = ? WHERE email = ? AND password = ?";
 
     public UserDao() {
         super("users");
@@ -32,11 +34,15 @@ public class UserDao extends Dao<User> {
     }
 
     private User getUser(ResultSet resultSet) throws SQLException {
-        int type = resultSet.getInt("user_type_id");
-        //TODO factory pattern
-        User user = type == 2 ? new Mentor.Builder().build() : new Student.Builder().build();
+        UserFactory userFactory = new UserFactory();
+        int typeId = resultSet.getInt("user_type_id");
+        User user = userFactory.create(typeId);
 
-        return user.setId(resultSet.getInt("id"))
+        return createUserData(user, resultSet);
+    }
+
+    private User createUserData(User user, ResultSet resultSet) throws SQLException {
+        user.setId(resultSet.getInt("id"))
                 .setFirstName(resultSet.getString("first_name"))
                 .setLastName(resultSet.getString("last_name"))
                 .setTypeId(resultSet.getInt("user_type_id"))
@@ -44,6 +50,8 @@ public class UserDao extends Dao<User> {
                 .setEmail(resultSet.getString("email"))
                 .setPassword(resultSet.getString("password"))
                 .setActive(resultSet.getBoolean("is_active"));
+
+        return user;
     }
 
     @Override
@@ -92,6 +100,47 @@ public class UserDao extends Dao<User> {
             CONNECTOR.connection.close();
 
             return user;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ObjectNotFoundException("Object not found in users");
+        }
+    }
+
+    public User getBySessionId(UUID uuid) throws ObjectNotFoundException {
+        try {
+            CONNECTOR.connect();
+            preparedStatement = CONNECTOR.connection.prepareStatement(selectSessionIdStatement);
+            preparedStatement.setObject(1, uuid);
+
+            resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            User user = getUser(resultSet);
+
+            resultSet.close();
+            preparedStatement.close();
+            CONNECTOR.connection.close();
+
+            return user;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ObjectNotFoundException("Object not found in users");
+        }
+    }
+
+    public void updateSessionId(UUID uuid, String email, String password) throws ObjectNotFoundException {
+        try {
+            CONNECTOR.connect();
+            preparedStatement = CONNECTOR.connection.prepareStatement(updateSessionIdStatement);
+            preparedStatement.setObject(1, uuid);
+            preparedStatement.setString(2, email);
+            preparedStatement.setString(3, password);
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            CONNECTOR.connection.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

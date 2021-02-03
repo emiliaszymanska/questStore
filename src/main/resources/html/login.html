@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login page</title>
 
-    <script src="../scripts/login-user.js" defer></script>
+    <script src="../scripts/login.js" defer></script>
 
     <link rel="stylesheet" href="../styles/login.css">
 </head>
@@ -17,8 +17,12 @@
         <div id="inner-container">
             <form id="login-form">
                 <p>Sign in</p>
-                <label for="login"></label><input id="login" placeholder="email" name="email">
-                <label for="password"></label><input id="password" placeholder="password" name="password">
+                <label for="login">
+                    <input id="login" type="email" placeholder="email" name="email">
+                </label>
+                <label for="password">
+                    <input id="password" type="password" placeholder="password" name="password">
+                </label>
                 <button id="login-button">Sign in</button>
             </form>
         </div>

@@ -74,7 +74,7 @@ public class StudentDao extends UserDao {
     }
 
     public void insertAdditionalStudentData(Student student) throws ObjectNotFoundException {
-        String statement = "INSERT INTO students (user_id, module_id, experience_level) VALUES (?, ?, ?)";
+        String statement = "INSERT INTO students (user_id, module_id, experience_level, balance) VALUES (?, ?, ?, ?)";
 
         try {
             CONNECTOR.connect();
@@ -82,6 +82,7 @@ public class StudentDao extends UserDao {
             preparedStatement.setInt(1, student.getId());
             preparedStatement.setInt(2, student.getModuleType().getId());
             preparedStatement.setInt(3, student.getExperienceLevel());
+            preparedStatement.setInt(4, student.getBalance());
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
@@ -94,14 +95,15 @@ public class StudentDao extends UserDao {
     }
 
     public void updateAdditionalStudentData(Student student) throws ObjectNotFoundException {
-        String statement = "UPDATE students SET module_id = ?, experience_level = ? WHERE user_id = ?";
+        String statement = "UPDATE students SET module_id = ?, experience_level = ?, balance = ? WHERE user_id = ?";
 
         try {
             CONNECTOR.connect();
             preparedStatement = CONNECTOR.connection.prepareStatement(statement);
             preparedStatement.setInt(1, student.getModuleType().getId());
             preparedStatement.setInt(2, student.getExperienceLevel());
-            preparedStatement.setInt(3, student.getId());
+            preparedStatement.setInt(3, student.getBalance());
+            preparedStatement.setInt(4, student.getId());
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
@@ -143,6 +145,7 @@ public class StudentDao extends UserDao {
                 .withIsActive(resultSet.getBoolean("is_active"))
                 .withModuleType(moduleTypeDao.getTypeById(resultSet.getInt("module_id")))
                 .withExperienceLevel(resultSet.getInt("experience_level"))
+                .withBalance(resultSet.getInt("balance"))
                 .build();
     }
 }

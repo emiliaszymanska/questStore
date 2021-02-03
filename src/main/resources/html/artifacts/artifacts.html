@@ -11,60 +11,55 @@
 
     <link rel="stylesheet" href="../../styles/dashboard.css">
     <link rel="stylesheet" href="../../styles/menu.css">
+    <link rel="stylesheet" href="../../styles/artifact-and-quest.css">
+    <link rel="stylesheet" href="../../styles/spinner.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
-    <div class="headerPlusMenu">
-        <div id="header">
-            <img src="../../images/logoTransparent.png" alt="logo">
-        </div>
-        <div id="menu">
-            <button onclick="location.href='../student/student.html'" type="submit" class="button" id="back-button">
-                <i class="fas fa-arrow-left"></i>
-                Back
-            </button>
-            <button onclick="location.href='../student/student.html'" type="submit" class="button">
-                <i class='fas fa-list'></i>
-                Dashboard
-            </button>
-            <button onclick="location.href='../profile.html'" type="submit" class="button">
-                <i class='fas fa-address-card'></i>
-                Profile
-            </button>
-            <button onclick="location.href='../login.html'" type="submit" class="button">
-                <i class='fa fa-sign-out'></i>
-                Sign out
-            </button>
+<div class="header-plus-menu">
+    <div id="header">
+        <img src="../../images/logoTransparent.png" alt="logo">
+    </div>
+    <div id="menu">
+        <button onclick="location.href='../student/student.html'" type="submit" class="button-menu" id="dashboard-button">
+            <i class='fas fa-arrow-left'></i>
+            Dashboard
+        </button>
+        <button onclick="location.href='../student/student-profile.html'" type="submit" class="button-menu" id="profile-button">
+            <i class='fas fa-address-card'></i>
+            Profile
+        </button>
+        <button onclick="location.href='../login.html'" type="submit" class="button-menu" id="logout-button">
+            <i class="fas fa-sign-out-alt"></i>
+            Sign out
+        </button>
+    </div>
+</div>
+
+<div class="main-content-artifacts">
+    <h1>Artifacts</h1>
+  
+    <div class="dashboard-row"></div>
+    <div class="row"><div hidden id="spinner"></div></div>
+
+    <div id="popup-container" style="overflow:hidden;">
+        <div id="popup">
+            <form id="popup-form" name="form">
+                <div id="close" onclick ="hidePopup()">x</div>
+                <div id="popup-elements">
+                    <h2 id="popup-header">Initiate a group buying process</h2>
+                    <input id="amount-input" name="amount" placeholder="Your own contribution" type="text">
+                    <button id="popup-button">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
-    <div class="dashboard-row">
-        <div class="single-card"><a href="artifacts-students.html">
-            <div class="dashboard-card card-block">
-                <h4 class="dashboard-card-title">Related to students</h4>
-                <img src="../../images/dashboard-images/student-group.jpg" alt="Photo" class="dashboard-card-image">
-            </div>
-        </a>
-        </div>
-        <div class="single-card"><a href="artifacts-mentors.html">
-            <div class="dashboard-card card-block">
-                <h4 class="dashboard-card-title">Related to mentors</h4>
-                <img src="../../images/dashboard-images/mentor.jpeg" alt="Photo" class="dashboard-card-image">
-            </div>
-        </a>
-        </div>
-        <div class="single-card"><a href="artifacts-learning.html">
-            <div class="dashboard-card card-block">
-                <h4 class="dashboard-card-title">Related to teaching</h4>
-                <img src="../../images/dashboard-images/study-process.jpeg" alt="Photo" class="dashboard-card-image">
-            </div>
-        </a>
-        </div>
-    </div>
-
-    <footer>
-        <p>Copyright &#169 Dominika Jarek, Emilia Szymańska, Mateusz Przystał 2020</p>
-    </footer>
+<footer>
+    <p>Copyright &#169 Dominika Jarek, Emilia Szymańska, Mateusz Przystał 2020</p>
+</footer>
 </body>
+
 </html>

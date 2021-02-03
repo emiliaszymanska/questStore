@@ -23,8 +23,8 @@ public enum ModuleType {
     private static final Map<Integer, ModuleType> lookup = new HashMap<>();
 
     static {
-        for(ModuleType env : ModuleType.values()) {
-            lookup.put(env.getId(), env);
+        for(ModuleType moduleType : ModuleType.values()) {
+            lookup.put(moduleType.getId(), moduleType);
         }
     }
 

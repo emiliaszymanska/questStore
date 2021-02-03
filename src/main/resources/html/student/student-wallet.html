@@ -7,77 +7,48 @@
     <title>Student page - Wallet</title>
 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="../../scripts/wallet.js" defer></script>
 
     <link rel="stylesheet" href="../../styles/dashboard.css">
     <link rel="stylesheet" href="../../styles/menu.css">
-    <link rel="stylesheet" href="../../styles/student-wallet.css">
+    <link rel="stylesheet" href="../../styles/wallet.css">
+    <link rel="stylesheet" href="../../styles/spinner.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
-    <div class="headerPlusMenu">
+    <div class="header-plus-menu">
         <div id="header">
             <img src="../../images/logoTransparent.png" alt="logo">
         </div>
         <div id="menu">
-            <button onclick="location.href='student.html'" type="submit" class="button" id="back-button">
-                <i class="fas fa-arrow-left"></i>
-                Back
-            </button>
-            <button onclick="location.href='student.html'" type="submit" class="button">
-                <i class='fas fa-list'></i>
+            <button onclick="location.href='student.html'" type="submit" class="button-menu" id="dashboard-button">
+                <i class='fas fa-arrow-left'></i>
                 Dashboard
             </button>
-            <button onclick="location.href='../profile.html'" type="submit" class="button">
+            <button onclick="location.href='student-profile.html'" type="submit" class="button-menu" id="profile-button">
                 <i class='fas fa-address-card'></i>
                 Profile
             </button>
-            <button onclick="location.href='../login.html'" type="submit" class="button">
-                <i class='fa fa-sign-out'></i>
+            <button onclick="location.href='../login.html'" type="submit" class="button-menu" id="logout-button">
+                <i class="fas fa-sign-out-alt"></i>
                 Sign out
             </button>
         </div>
     </div>
 
-    <div class="walletMain">
-        <h3 class="balanceField">Your coolcoins: 120 cc</h3>
-        <div class="boughtArtifactsField">
-            <h3 class="boughtArtifactsHeader">Your artifacts:</h3>
-            <div class="artifactList">
-                <div class="row">
-                    <div class="single-card">
-                        <div class="card card-block">
-                            <h4 class="card-title-1">Artifact nr 1</h4>
-                            <img src="../../images/dashboard-images/money-pig.jpg" alt="Photo" class="dashboard-card-image">
-                            <h5 class="card-title-2"></h5>
-                            <p class="card-text"></p>
-                        </div>
-                    </div>
-                    <div class="single-card">
-                        <div class="card card-block">
-                            <h4 class="card-title-1">Artifact nr 2</h4>
-                            <img src="../../images/dashboard-images/money-pig.jpg" alt="Photo" class="dashboard-card-image">
-                            <h5 class="card-title-2"></h5>
-                            <p class="card-text"></p>
-                        </div>
-                    </div>
-                    <div class="single-card">
-                        <div class="card card-block">
-                            <h4 class="card-title-1">Artifact nr 3</h4>
-                            <img src="../../images/dashboard-images/money-pig.jpg" alt="Photo" class="dashboard-card-image">
-                            <h5 class="card-title-2"></h5>
-                            <p class="card-text"></p>
-                        </div>
-                    </div>
-                    <div class="single-card">
-                        <div class="card card-block">
-                            <h4 class="card-title-1">Artifact nr 4</h4>
-                            <img src="../../images/dashboard-images/money-pig.jpg" alt="Photo" class="dashboard-card-image">
-                            <h5 class="card-title-2"></h5>
-                            <p class="card-text"></p>
-                        </div>
-                    </div>
-                </div>
+    <div class="main-content-wallet">
+        <h1>Wallet</h1>
+        <div class="wallet-headers">
+            <p id="balance">Balance <i class="fas fa-coins icon"></i></p>
+            <p id="level">Level of experience <i class="fas fa-trophy icon"></i></p>
+        </div>
+
+        <div class="bought-artifacts">
+            <h3>Your artifacts</h3>
+            <div class="artifact-list">
+                <div hidden id="spinner"></div>
+                <div class="row"></div>
             </div>
         </div>
     </div>

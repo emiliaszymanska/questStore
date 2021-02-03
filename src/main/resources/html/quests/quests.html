@@ -7,59 +7,41 @@
     <title>Quests</title>
 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="../../scripts/quests.js" defer></script>
 
     <link rel="stylesheet" href="../../styles/dashboard.css">
     <link rel="stylesheet" href="../../styles/menu.css">
+    <link rel="stylesheet" href="../../styles/artifact-and-quest.css">
+    <link rel="stylesheet" href="../../styles/spinner.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
-    <div class="headerPlusMenu">
+    <div class="header-plus-menu">
         <div id="header">
             <img src="../../images/logoTransparent.png" alt="logo">
         </div>
         <div id="menu">
-            <button onclick="location.href='../student/student.html'" type="submit" class="button" id="back-button">
-                <i class="fas fa-arrow-left"></i>
-                Back
-            </button>
-            <button onclick="location.href='../../student.html'" type="submit" class="button">
-                <i class='fas fa-list'></i>
+            <button onclick="location.href='../student/student.html'" type="submit" class="button-menu" id="dashboard-button">
+                <i class='fas fa-arrow-left'></i>
                 Dashboard
             </button>
-            <button onclick="location.href='../../profile.html'" type="submit" class="button">
+            <button onclick="location.href='../student/student-profile.html'" type="submit" class="button-menu" id="profile-button">
                 <i class='fas fa-address-card'></i>
                 Profile
             </button>
-            <button onclick="location.href='../login.html'" type="submit" class="button">
-                <i class='fa fa-sign-out'></i>
+            <button onclick="location.href='../login.html'" type="submit" class="button-menu" id="logout-button">
+                <i class="fas fa-sign-out-alt"></i>
                 Sign out
             </button>
         </div>
     </div>
 
-    <div class="dashboard-row">
-        <div class="single-card"><a href="quests-easy.html">
-            <div class="dashboard-card card-block">
-                <h4 class="dashboard-card-title">Easy</h4>
-                <img src="../../images/dashboard-images/money-pig.jpg" alt="Photo" class="dashboard-card-image">
-            </div>
-        </a>
-        </div>
-        <div class="single-card"><a href="quests-moderate.html">
-            <div class="dashboard-card card-block">
-                <h4 class="dashboard-card-title">Moderate</h4>
-                <img src="../../images/dashboard-images/money-pig.jpg" alt="Photo" class="dashboard-card-image">
-            </div>
-        </a>
-        </div>
-        <div class="single-card"><a href="quests-difficult.html">
-            <div class="dashboard-card card-block">
-                <h4 class="dashboard-card-title">Difficult</h4>
-                <img src="../../images/dashboard-images/money-pig.jpg" alt="Photo" class="dashboard-card-image">
-            </div>
-        </a>
-        </div>
+    <div class="main-content-quests">
+        <h1>Quests</h1>
+
+        <div class="dashboard-row"></div>
+        <div class="row"><div hidden id="spinner"></div></div>
     </div>
 
     <footer>

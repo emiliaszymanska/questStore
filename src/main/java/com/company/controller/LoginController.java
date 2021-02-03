@@ -1,71 +1,64 @@
 package com.company.controller;
 
-import com.company.dao.StudentDao;
-import com.company.dao.UserDao;
+import com.company.helpers.HttpHelper;
 import com.company.helpers.Parser;
-import com.company.model.user.Student;
 import com.company.model.user.User;
+import com.company.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpCookie;
-import java.util.Collections;
 import java.util.Map;
+import java.util.UUID;
 
 public class LoginController implements HttpHandler {
 
     private ObjectMapper mapper;
+    private Parser parser;
+    private SessionController sessionController;
+    private LoginService loginService;
 
-    public LoginController() {
+    public LoginController(ObjectMapper mapper, Parser parser, SessionController sessionController, LoginService loginService) {
+        this.mapper = mapper;
+        this.parser = parser;
+        this.sessionController = sessionController;
+        this.loginService = loginService;
+    }
+
+    public LoginController(SessionController sessionController) {
         this.mapper = new ObjectMapper();
+        this.parser = new Parser();
+        this.sessionController = sessionController;
+        this.loginService = new LoginService();
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
-            InputStreamReader isr = new InputStreamReader(exchange.getRequestBody(), "UTF-8");
-            BufferedReader br = new BufferedReader(isr);
-
-            Map<String, String> data = Parser.parseFormData(br.readLine());
+            Map<String, String> data = parser.parseFormData(exchange);
             String email = data.get("email");
             String password = data.get("password");
 
-            UserDao userDao = new UserDao();
-            User user = userDao.getByEmailPassword(email, password);
+            User user = loginService.getUserByEmailAndPassword(email, password);
+            UUID uuid = UUID.randomUUID();
+            sessionController.sessions.put(uuid, user);
+            System.out.println(uuid + ": " + user);
 
-            if (user instanceof Student) {
-                StudentDao studentDao = new StudentDao();
-                user = studentDao.getStudentByIdWithAdditionalData(user.getId());
-//                ((Student) user).setModuleType();
-            }
+            loginService.updateSessionIdByEmailAndPassword(uuid, email, password);
+
             String response = mapper.writeValueAsString(user);
 
             //  In cookie we should set json with user token and role instead of email
-            HttpCookie cookie = new HttpCookie("user", response);
+            HttpCookie cookie = new HttpCookie("sessionId", uuid.toString());
             exchange.getResponseHeaders().add("Set-Cookie", cookie.toString());
-            exchange.getResponseHeaders().put("Access-Control-Allow-Credentials", Collections.singletonList("true"));
+            exchange.getResponseHeaders().add("Access-Control-Allow-Credentials", "true");
 
-            sendResponse(response, exchange, 200);
+            HttpHelper.sendResponse(exchange, response, 200);
         } catch (Exception e) {
             e.printStackTrace();
-            sendResponse(e.getMessage(), exchange, 500);
+            HttpHelper.sendResponse(exchange, e.getMessage(), 500);
         }
-    }
-
-    private void sendResponse(String response, HttpExchange exchange, int status) throws IOException {
-        if (status == 200) {
-            exchange.getResponseHeaders().put("Content-type", Collections.singletonList("application/json"));
-        }
-        exchange.getResponseHeaders().put("Access-Control-Allow-Origin", Collections.singletonList("*"));
-        exchange.sendResponseHeaders(status, response.length());
-
-        OutputStream os = exchange.getResponseBody();
-        os.write(response.getBytes());
-        os.close();
     }
 }
