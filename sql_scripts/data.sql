@@ -222,12 +222,12 @@ create unique index artifacts_artifact_id_uindex
     on artifacts (id);
 
 INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (1, 'Doom Inscriptions', 'All the students will focus on your coding problem until it''s solved', 1000, 1, false);
-INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (5, 'Fortune''s Talisman', 'You can take your pet to Codecool', 400, 1, false);
+INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (5, 'Fortune''s Talisman', 'You can take your pet to school', 400, 1, false);
 INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (9, 'Urn of Sleep', 'You can miss one day of the course and sleep longer', 1200, 1, false);
 INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (3, 'Box of Eternal Patience', 'You can work from home for one day', 500, 3, false);
 INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (6, 'Flame Book', 'Flame Book deletes one day of your absence', 800, 3, false);
 INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (10, 'Energy Drink', 'One of the mentors will make a cup of coffee for you', 600, 2, false);
-INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (7, 'Fountain of Relief', 'Codecool''s psychologist will create a webinar on a topic that you choose', 1500, 2, false);
+INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (7, 'Fountain of Relief', 'Psychologist will create a webinar on a topic that you choose', 1500, 2, false);
 INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (2, 'Key of Chaos', 'Mentor will help your group for at least 2 hours', 2000, 2, true);
 INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (8, 'Judgment Key', 'Your group will create a special coding exercise for the other groups in your module', 1700, 1, true);
 INSERT INTO artifacts (id, name, description, price, artifact_type_id, is_group) VALUES (4, 'Vengeance Runes', 'Mentor will create a UML diagram for you', 3000, 2, true);
