@@ -12,6 +12,7 @@ form.addEventListener('submit', function(event) {
 function login(data) {
     fetch("http://localhost:8001/login",
         {
+            mode: 'cors',
             credentials: 'include',
             method: "POST",
             body: data
